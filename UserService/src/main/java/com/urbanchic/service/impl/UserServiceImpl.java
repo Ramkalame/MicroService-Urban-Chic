@@ -66,6 +66,11 @@ public class UserServiceImpl implements UserService {
         return List.of();
     }
 
+    /**
+     * 
+     * @param userId
+     * @return
+     */
     @Override
     public User getUserById(String userId) {
         return null;
