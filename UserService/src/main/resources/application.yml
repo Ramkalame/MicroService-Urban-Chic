@@ -1,0 +1,16 @@
+#Server Port
+server:
+  port: 8082
+
+#Application Name
+spring:
+  application:
+    name: UserService
+
+#MongoDb
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: ms_userservice_db
+
