@@ -56,6 +56,11 @@ public class UserServiceImpl implements UserService {
         return "User with email " + savedUser.getEmail() + " created successfully";
     }
 
+    /**
+     *
+     * @return a message that return all list of customer
+     */
+
     @Override
     public List<User> getAllUsers() {
         return List.of();
