@@ -1,14 +1,11 @@
 package com.urbanchic.controller;
 
-import com.urbanchic.dto.CreateUserDto;
-import com.urbanchic.entity.User;
-import com.urbanchic.service.UserService;
-import com.urbanchic.service.impl.UserServiceImpl;
+import com.urbanchic.entity.Address;
+import com.urbanchic.service.AddressService;
 import com.urbanchic.util.ApiResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,17 +14,17 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/users")
-public class UserController {
+@RequestMapping("/address")
+public class AddressController {
 
-    private final UserService userService;
+    private  final AddressService addressService;
 
     @PostMapping("/create")
-    public ResponseEntity<?> createUser(@RequestBody @Valid CreateUserDto createUserDto) {
-        CreateUserDto responseData = userService.createUser(createUserDto);
+    public ResponseEntity<?> addAddress(@RequestBody @Valid Address address){
+        Address responseData = addressService.createAddress(address);
         ApiResponse<Object> apiResponse = ApiResponse.builder()
                 .data(responseData)
-                .message("User with email  "+ responseData.getEmail() +"  created successfully")
+                .message("Address Created")
                 .timestamp(LocalDateTime.now())
                 .statusCode(HttpStatus.CREATED.value())
                 .success(true)
@@ -36,26 +33,12 @@ public class UserController {
         return ResponseEntity.ok(apiResponse);
     }
 
-    @GetMapping
-    public  ResponseEntity<?> getAllUsers(){
-        List<User> responseData = userService.getAllUsers();
-        ApiResponse<Object> apiResponse = ApiResponse.builder()
-                .data(responseData)
-                .message("List of registered users")
-                .timestamp(LocalDateTime.now())
-                .statusCode(HttpStatus.OK.value())
-                .success(true)
-                .build();
-
-        return ResponseEntity.ok(apiResponse);
-    }
-
     @GetMapping("/{userId}")
-    public  ResponseEntity<?> getUserById(@PathVariable("userId") String userId){
-        User responseData = userService.getUserById(userId);
+    public ResponseEntity<?> getAllAddressByUserId(@PathVariable String userId){
+       List<Address> responseData =  addressService.getAllAddressByUserId(userId);
         ApiResponse<Object> apiResponse = ApiResponse.builder()
                 .data(responseData)
-                .message("Requested user found")
+                .message("Address Created")
                 .timestamp(LocalDateTime.now())
                 .statusCode(HttpStatus.OK.value())
                 .success(true)
@@ -64,18 +47,34 @@ public class UserController {
         return ResponseEntity.ok(apiResponse);
     }
 
-    @PutMapping("/update/{userId}")
-    public ResponseEntity<?> updateUser(@RequestBody @Valid CreateUserDto updateUser,@PathVariable String userId){
-        User responseData = userService.updateUserById(updateUser,userId);
+    @PutMapping("/update")
+    public  ResponseEntity<?> updateAddress(@RequestBody @Valid Address address){
+        Address responseData = addressService.updateAddress(address);
         ApiResponse<Object> apiResponse = ApiResponse.builder()
                 .data(responseData)
-                .message("Updated user")
+                .message("Address Updated")
                 .timestamp(LocalDateTime.now())
                 .statusCode(HttpStatus.OK.value())
                 .success(true)
                 .build();
 
         return ResponseEntity.ok(apiResponse);
+    }
+
+
+    @DeleteMapping("/delete/{addressId}")
+    public  ResponseEntity<?> deleteAddress(@PathVariable String addressId){
+        String responseData = addressService.deleteAddress(addressId);
+        ApiResponse<Object> apiResponse = ApiResponse.builder()
+                .data(responseData)
+                .message("Address Deleted")
+                .timestamp(LocalDateTime.now())
+                .statusCode(HttpStatus.OK.value())
+                .success(true)
+                .build();
+
+        return ResponseEntity.ok(apiResponse);
+
     }
 
 

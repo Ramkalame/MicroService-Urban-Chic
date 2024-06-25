@@ -12,5 +12,5 @@ public interface AddressService {
 
     Address updateAddress(Address address);
 
-    String deleteAddress(String userId, String addressId);
+    String deleteAddress(String addressId);
 }
