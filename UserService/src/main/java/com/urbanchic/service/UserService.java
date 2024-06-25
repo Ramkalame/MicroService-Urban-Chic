@@ -8,13 +8,13 @@ import java.util.Objects;
 
 public interface UserService {
 
-    String createUser(CreateUserDto createUserDto);
+    CreateUserDto createUser(CreateUserDto createUserDto);
 
     List<User> getAllUsers();
 
     User getUserById(String userId);
 
-    User updateUserById(CreateUserDto updateUser);
+    User updateUserById(CreateUserDto updateUser,String userId);
 
 
 }
