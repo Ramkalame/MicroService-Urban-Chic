@@ -62,7 +62,7 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
-     * 
+     *
      * @param userId
      * @return
      */
