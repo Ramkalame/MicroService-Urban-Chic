@@ -1,0 +1,22 @@
+.custom-actions{
+    display: flex;
+    justify-content: space-between;
+}
+
+input{
+    border: 2px solid rgb(63, 19, 63);
+    border-radius: 10px;
+    height:35px;
+    padding-left: 5px;
+}
+input:focus{
+    outline:none;
+}
+
+.custom-actions button{
+    height: 30px;
+    border :1px solid rgb(63, 19, 63);
+    color: black;
+    border-radius: 15px;
+    padding: 5px;
+}

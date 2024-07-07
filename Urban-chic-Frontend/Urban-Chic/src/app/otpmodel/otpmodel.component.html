@@ -1,0 +1,8 @@
+<h2 mat-dialog-title>Verify OTP</h2>
+<div mat-dialog-content>
+  <input matInput placeholder="Enter OTP" [(ngModel)]="otp" />
+</div>
+<div mat-dialog-actions class="custom-actions">
+  <button mat-button (click)="onCancel()">Cancel</button>
+  <button mat-button (click)="onVerify()">Verify OTP</button>
+</div>

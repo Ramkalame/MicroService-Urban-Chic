@@ -1,0 +1,25 @@
+<div class="container">
+    <form class="form-registration" (ngSubmit)="onSubmit(registrationForm)" #registrationForm="ngForm">
+      <h1>Sign Up</h1>
+      
+      <div class="form-group">
+        <input type="text" name="fullName" id="fullName" placeholder="Enter your name" required ngModel />
+      </div>
+      
+      <div class="form-group">
+        <input type="email" name="email" id="email" placeholder="Enter your email" required ngModel />
+      </div>
+  
+      <div class="form-group mobile-verification">
+        <input type="text" name="mobileNo" id="mobileNo" placeholder="Enter your mobile number" required [(ngModel)]="mobileNo" minlength="10"/>
+        <button type="button" (click)="openVerifyPopup()">Verify</button>
+      </div>
+  
+      <div class="form-group submit-button">
+        <button type="submit">Register</button>
+      </div>
+      
+      <p>Already have an account? <a routerLink="/login">Login</a></p>
+    </form>
+  </div>
+  
