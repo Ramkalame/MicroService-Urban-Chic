@@ -1,0 +1,23 @@
+#Server Port
+server:
+  port: 8085
+
+spring:
+  application:
+    name: ProductService
+
+  #MongoDb
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: ms_productservice_db
+
+
+#Eureka
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+    register-with-eureka: true
+    fetch-registry: true
