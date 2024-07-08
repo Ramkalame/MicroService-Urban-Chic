@@ -14,3 +14,10 @@ spring:
       port: 27017
       database: ms_userservice_db
 
+#Eureka
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+    register-with-eureka: true
+    fetch-registry: true

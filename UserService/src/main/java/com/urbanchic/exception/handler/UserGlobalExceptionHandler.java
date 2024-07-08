@@ -29,10 +29,15 @@ public class UserGlobalExceptionHandler {
             String messageString = error.getDefaultMessage();
             responseMap.put(fieldName, messageString);
         }
-        responseMap.put("timestamp", LocalDateTime.now());
-        responseMap.put("statusCode", HttpStatus.BAD_REQUEST.value());
-        responseMap.put("success", false);
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseMap);
+
+        ApiResponse<?> apiResponse = ApiResponse.builder()
+                .data(responseMap)
+                .message("Provide valid details")
+                .timestamp(LocalDateTime.now())
+                .statusCode(HttpStatus.BAD_REQUEST.value())
+                .success(false)
+                .build();
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(apiResponse);
     }
 
     @ExceptionHandler(UserAlreadyExistsException.class)

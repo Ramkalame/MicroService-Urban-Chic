@@ -1,0 +1,55 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: ServiceGateway
+  cloud:
+    gateway:
+      default-filters:
+        - DedupeResponseHeader=Access-Control-Allow-Credentials Access-Control-Allow-Origin
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOrigins: "http://localhost:4200"
+            allowedHeaders: "*"
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - PATCH
+              - DELETE
+      #Routes Configuration
+      routes:
+        #Auth-Service
+        - id: auth-service
+          uri: lb://AUTHSERVICE
+          predicates:
+            - Path=/auth/**
+
+        #User-Service
+        - id: user-service
+          uri: lb://USERSERVICE
+          predicates:
+            - Path=/users/**
+          filters:
+            - AuthFilterWebClient
+
+
+
+        #Notification-Service
+        - id: notification-service-sms
+          uri: lb://NOTIFICATIONSERVICE
+          predicates:
+            - Path=/sms/**
+
+
+  main:
+      allow-circular-references: true
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+    register-with-eureka: true
+    fetch-registry: true

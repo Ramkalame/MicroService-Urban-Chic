@@ -1,0 +1,38 @@
+#Server Port
+server:
+  port: 8083
+
+spring:
+  application:
+      name: AuthService
+
+  #MongoDb
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: ms_userservice_db
+
+#  #Oauth2.0
+#  security:
+#    oauth2:
+#      client:
+#        registration:
+#          google:
+#            client-name: google
+#            client-id: 1009379021388-4c5djjbiljf05aiavruc0h1tv68f48hh.apps.googleusercontent.com
+#            client-secret: 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
+#            scope: email,profile
+
+
+
+#Eureka
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+    register-with-eureka: true
+    fetch-registry: true
+
+
+
