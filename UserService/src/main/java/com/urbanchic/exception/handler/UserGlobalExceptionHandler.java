@@ -1,5 +1,7 @@
 package com.urbanchic.exception.handler;
 
+import com.urbanchic.exception.CartItemNotFoundException;
+import com.urbanchic.exception.EmptyCartException;
 import com.urbanchic.exception.UserAlreadyExistsException;
 import com.urbanchic.exception.UserNotFoundException;
 import com.urbanchic.util.ApiResponse;
@@ -66,6 +68,30 @@ public class UserGlobalExceptionHandler {
 
     @ExceptionHandler(NoSuchElementException.class)
     public ResponseEntity<?> handleNoSuchElementException(NoSuchElementException exception) {
+        ApiResponse<?> apiResponse = ApiResponse.builder()
+                .data(null)
+                .message(exception.getMessage())
+                .timestamp(LocalDateTime.now())
+                .statusCode(HttpStatus.NOT_FOUND.value())
+                .success(false)
+                .build();
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(apiResponse);
+    }
+
+    @ExceptionHandler(EmptyCartException.class)
+    public ResponseEntity<?> handleEmptyCartException(EmptyCartException exception) {
+        ApiResponse<?> apiResponse = ApiResponse.builder()
+                .data(null)
+                .message(exception.getMessage())
+                .timestamp(LocalDateTime.now())
+                .statusCode(HttpStatus.NOT_FOUND.value())
+                .success(false)
+                .build();
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(apiResponse);
+    }
+
+    @ExceptionHandler(CartItemNotFoundException.class)
+    public ResponseEntity<?> handleCartItemNotFoundException(CartItemNotFoundException exception) {
         ApiResponse<?> apiResponse = ApiResponse.builder()
                 .data(null)
                 .message(exception.getMessage())
