@@ -1,5 +1,6 @@
 package com.urbanchic.entity;
 
+import com.urbanchic.entity.role.Role;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -7,6 +8,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
+import org.springframework.data.mongodb.core.mapping.FieldType;
+
 
 @Data
 @Builder
@@ -20,19 +24,18 @@ public class User {
     private String userId;
 
     @NotBlank(message = "full name can not be null")
-    private  String fullName;
+    private String fullName;
 
     @NotBlank(message = "email can not be null")
     @Email(message = "enter valid email")
     private String email;
 
-    @NotBlank(message = "password can not be null")
-    @Size(min = 6,max = 15, message = "password should must be between 6 and 15 characters")
-    private  String password;
-
     @NotBlank(message = "mobile no. can not be null")
-    private  String mobileNo;
+    private String mobileNo;
 
-    private  String profileImageUrl;
+    private String profileImageUrl;
+
+    @Field(targetType = FieldType.STRING )
+    private Role role;
 
 }

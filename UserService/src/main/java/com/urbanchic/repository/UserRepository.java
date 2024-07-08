@@ -12,4 +12,5 @@ import java.util.List;
 public interface UserRepository extends MongoRepository<User,String> {
 
    Optional<User> findUserByEmail(String email);
+   Optional<User> findByMobileNo(String mobileNo);
 }

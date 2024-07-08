@@ -1,12 +1,11 @@
 package com.urbanchic.service.impl;
 
+import com.urbanchic.dto.CreateSocialUserDto;
 import com.urbanchic.dto.CreateUserDto;
-import com.urbanchic.entity.Address;
 import com.urbanchic.entity.User;
-import com.urbanchic.exception.AddressNotFoundException;
+import com.urbanchic.entity.role.Role;
 import com.urbanchic.exception.UserAlreadyExistsException;
 import com.urbanchic.exception.UserNotFoundException;
-import com.urbanchic.repository.AddressRepository;
 import com.urbanchic.repository.UserRepository;
 import com.urbanchic.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -21,9 +20,6 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
 
-    private final AddressRepository addressRepository;
-
-
     /**
      * Creates a new user with the given details.
      *
@@ -33,39 +29,43 @@ public class UserServiceImpl implements UserService {
      * - "User with email {email} created successfully" if the user was created successfully
      */
     @Override
-    public CreateUserDto createUser(CreateUserDto createUserDto) {
-        User existingUser = userRepository.findUserByEmail(createUserDto.getEmail()).orElse(null);
-        if (existingUser != null) {
-            throw new UserAlreadyExistsException("User with email " + createUserDto.getEmail() + " is already exists.");
+    public User createUser(CreateUserDto createUserDto) {
+        User existingUserWithEmail = userRepository.findUserByEmail(createUserDto.getEmail()).orElse(null);
+        if (existingUserWithEmail != null) {
+            throw new UserAlreadyExistsException("Email " + createUserDto.getEmail() + " is already registered.");
+        }
+        User existingUserWithMobileNo = userRepository.findByMobileNo(createUserDto.getMobileNo()).orElse(null);
+        if (existingUserWithMobileNo != null) {
+            throw new UserAlreadyExistsException("Mobile Number " + createUserDto.getMobileNo() + " is already registered.");
         }
         User newUser = User.builder()
                 .fullName(createUserDto.getFullName())
                 .email(createUserDto.getEmail())
-                .password(createUserDto.getPassword())
                 .mobileNo(createUserDto.getMobileNo())
-                .profileImageUrl(createUserDto.getProfileImageUrl())
+                .profileImageUrl(null)
+                .role(Role.BUYER)
                 .build();
         User savedUser = userRepository.save(newUser);
 
-        Address newAddress = Address.builder()
-                .street(createUserDto.getAddress().getStreet())
-                .city(createUserDto.getAddress().getCity())
-                .state(createUserDto.getAddress().getState())
-                .zipCode(createUserDto.getAddress().getZipCode())
-                .userId(savedUser.getUserId())
-                .build();
-        Address savedAddress = addressRepository.save(newAddress);
+        return savedUser;
+    }
 
-        CreateUserDto createUserDtoResponse = CreateUserDto.builder()
-                .fullName(savedUser.getFullName())
-                .email(savedUser.getEmail())
-                .password(savedUser.getPassword())
-                .mobileNo(savedUser.getMobileNo())
-                .profileImageUrl(savedUser.getProfileImageUrl())
-                .address(savedAddress)
+    @Override
+    public User createSocailUser(CreateSocialUserDto createSocialUserDto) {
+        User existingUser = userRepository.findUserByEmail(createSocialUserDto.getEmail()).orElse(null);
+        if (existingUser != null) {
+            throw new UserAlreadyExistsException("User with email " + createSocialUserDto.getEmail() + " is already exists.");
+        }
+        User newUser = User.builder()
+                .fullName(createSocialUserDto.getFullName())
+                .email(createSocialUserDto.getEmail())
+                .mobileNo(createSocialUserDto.getMobileNo())
+                .profileImageUrl(createSocialUserDto.getProfileImageUrl())
+                .role(Role.BUYER)
                 .build();
+        User savedUser = userRepository.save(newUser);
 
-        return createUserDtoResponse;
+        return savedUser;
     }
 
     /**
@@ -93,7 +93,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User getUserById(String userId) {
         User existingUser = userRepository.findById(userId).orElseThrow(() ->
-                new UserNotFoundException("Requested user does not exist."));
+                new UserNotFoundException("Requested user does not exist ."));
         return existingUser;
     }
 
@@ -103,10 +103,22 @@ public class UserServiceImpl implements UserService {
                 new UserNotFoundException("Requested user does not exist."));
         existingUser.setFullName(updateUser.getFullName());
         existingUser.setEmail(updateUser.getEmail());
-        existingUser.setPassword(updateUser.getPassword());
         existingUser.setMobileNo(updateUser.getMobileNo());
-        existingUser.setProfileImageUrl(updateUser.getProfileImageUrl());
 
         return userRepository.save(existingUser);
+    }
+
+    @Override
+    public User getUserByEmail(String email) {
+        User existingUser = userRepository.findUserByEmail(email).orElseThrow(() ->
+                new UserNotFoundException("Incorrect email"));
+        return existingUser;
+    }
+
+    @Override
+    public User getUserByMobileNo(String mobileNo) {
+        User existingUser = userRepository.findByMobileNo(mobileNo).orElseThrow(() ->
+                new UserNotFoundException("Incorrect number"));
+        return existingUser;
     }
 }

@@ -22,16 +22,7 @@ public class CreateUserDto {
     @Email(message = "enter valid email")
     private String email;
 
-    @NotBlank(message = "password can not be null")
-    @Size(min = 6,max = 15, message = "password should must be between 6 and 15 characters")
-    private String password;
-
     @NotBlank(message = "mobile no. can not be null")
     private String mobileNo;
-
-    private String profileImageUrl;
-
-    private Address address;
-
 
 }
