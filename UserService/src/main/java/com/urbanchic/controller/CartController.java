@@ -30,10 +30,10 @@ public class CartController {
                 .message("Product is added to cart")
                 .timestamp(LocalDateTime.now())
                 .success(true)
-                .statusCode(HttpStatus.OK.value())
+                .statusCode(HttpStatus.CREATED.value())
                 .build();
 
-        return  ResponseEntity.status(HttpStatus.OK).body(apiResponse);
+        return  ResponseEntity.status(HttpStatus.CREATED).body(apiResponse);
     }
 
 

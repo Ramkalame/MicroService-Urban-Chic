@@ -1,9 +1,6 @@
 package com.urbanchic.exception.handler;
 
-import com.urbanchic.exception.CartItemNotFoundException;
-import com.urbanchic.exception.EmptyCartException;
-import com.urbanchic.exception.UserAlreadyExistsException;
-import com.urbanchic.exception.UserNotFoundException;
+import com.urbanchic.exception.*;
 import com.urbanchic.util.ApiResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -78,8 +75,8 @@ public class UserGlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(apiResponse);
     }
 
-    @ExceptionHandler(EmptyCartException.class)
-    public ResponseEntity<?> handleEmptyCartException(EmptyCartException exception) {
+    @ExceptionHandler(EmptyException.class)
+    public ResponseEntity<?> handleEmptyException(EmptyException exception) {
         ApiResponse<?> apiResponse = ApiResponse.builder()
                 .data(null)
                 .message(exception.getMessage())
@@ -90,8 +87,8 @@ public class UserGlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(apiResponse);
     }
 
-    @ExceptionHandler(CartItemNotFoundException.class)
-    public ResponseEntity<?> handleCartItemNotFoundException(CartItemNotFoundException exception) {
+    @ExceptionHandler(ProductNotFoundException.class)
+    public ResponseEntity<?> handleProductNotFoundException(ProductNotFoundException exception) {
         ApiResponse<?> apiResponse = ApiResponse.builder()
                 .data(null)
                 .message(exception.getMessage())
@@ -100,6 +97,18 @@ public class UserGlobalExceptionHandler {
                 .success(false)
                 .build();
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(apiResponse);
+    }
+
+    @ExceptionHandler(ProductAlreadyExistsException.class)
+    public ResponseEntity<?> handleProductAlreadyExistsException(ProductAlreadyExistsException exception) {
+        ApiResponse<?> apiResponse = ApiResponse.builder()
+                .data(null)
+                .message(exception.getMessage())
+                .timestamp(LocalDateTime.now())
+                .statusCode(HttpStatus.BAD_REQUEST.value())
+                .success(false)
+                .build();
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(apiResponse);
     }
 
 
