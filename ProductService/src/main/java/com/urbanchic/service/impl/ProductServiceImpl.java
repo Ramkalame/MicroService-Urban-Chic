@@ -4,13 +4,12 @@ import com.urbanchic.dto.ProductDto;
 import com.urbanchic.entity.Product;
 import com.urbanchic.entity.productenum.ProductColor;
 import com.urbanchic.entity.productenum.ProductSize;
-import com.urbanchic.exception.ProductNotExistException;
+import com.urbanchic.exception.EntityNotFoundException;
 import com.urbanchic.repository.ProductRepository;
 import com.urbanchic.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -51,7 +50,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public String deleteProduct(String productId) {
             Product existingProduct = productRepository.findById(productId).orElseThrow( () ->
-                    new ProductNotExistException("Product Does Not Exist"));
+                    new EntityNotFoundException("Product Does Not Exist"));
         productRepository.deleteById(productId);
         return  "Product ID :"+productId;
     }
@@ -60,7 +59,7 @@ public class ProductServiceImpl implements ProductService {
     public List<Product> getAllProductsBySeller(String sellerId) {
         List<Product> productList = productRepository.findProductBySellerId(sellerId);
         if (productList.isEmpty()){
-            throw  new ProductNotExistException("Product Does Not Exist");
+            throw  new EntityNotFoundException("Product Does Not Exist");
         }
         return  productList;
     }
@@ -74,7 +73,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Product updateProductById(String productId, ProductDto updateProductDto) {
         Product existingProduct = productRepository.findById(productId).orElseThrow(() ->
-                new ProductNotExistException("Product Does Not Exists"));
+                new EntityNotFoundException("Product Does Not Exists"));
 
         existingProduct.setProductName(updateProductDto.getProductName());
         existingProduct.setProductPrice(updateProductDto.getProductPrice());
@@ -103,7 +102,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Product getProductByProductId(String productId) {
         Product existingProduct = productRepository.findById(productId).orElseThrow(()->
-                new ProductNotExistException("Product Does Not Exists"));
+                new EntityNotFoundException("Product Does Not Exists"));
         return existingProduct;
     }
 }
