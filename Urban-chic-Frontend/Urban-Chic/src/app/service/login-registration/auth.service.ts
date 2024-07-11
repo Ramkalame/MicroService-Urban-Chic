@@ -28,4 +28,9 @@ export class AuthService {
     const body = { mobileNumber };
     return this.http.post(environment.baseUrl + AppConstants.SEND_OTP_URL, body);
   }
+
+  googleSignUp(user: any){
+    return this.http.post(environment.baseUrl + AppConstants.GOOGLE_SIGNIN_API_URL, user);
+  }
+  
 }
