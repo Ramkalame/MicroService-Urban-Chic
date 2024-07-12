@@ -1,14 +1,13 @@
-
-![Screenshot 2024-07-12 124658](https://github.com/user-attachments/assets/8fb55eb4-4b96-4867-bbb7-01ea420fb945)
-
-
-readme_content = """
 # Urban Chic - E-commerce Website for Clothing and Beauty Products
 This is a e commerce microservice project
 
 ## Project Overview
 
 Urban Chic is a premier e-commerce platform offering an extensive collection of clothing and beauty products for men, women, and children. Our mission is to deliver an exceptional online shopping experience by providing high-quality products, personalized recommendations, and seamless transactions. The platform includes a seller section where they can add and sell their products, and an admin section to manage the web app.
+
+
+![Screenshot 2024-07-12 124658](https://github.com/user-attachments/assets/8fb55eb4-4b96-4867-bbb7-01ea420fb945)
+
 
 ## Products
 
@@ -166,8 +165,3 @@ Urban Chic is a premier e-commerce platform offering an extensive collection of 
 - Spring Cloud Gateway
 """
 
-# Writing to a README.md file
-with open("/mnt/data/README.md", "w") as readme_file:
-    readme_file.write(readme_content)
-    
-"/mnt/data/README.md"
