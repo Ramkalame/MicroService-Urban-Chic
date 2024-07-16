@@ -1,27 +1,24 @@
 package com.urbanchic.entity;
 
-import com.urbanchic.entity.statusenum.OrderStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Entity
 @Data
 @Builder
+@Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "purchase_order_table")
-public class Order {
+@Table(name = "ordered_product_table")
+public class OrderedProduct {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer indexId;
+    private Integer id;
+    private String productId;
+    private Integer productQuantity;
     private String orderId;
-    private String buyerId;
-    private String sellerId;
-    private Integer paymentId;
-    private OrderStatus orderStatus;
 
 }
