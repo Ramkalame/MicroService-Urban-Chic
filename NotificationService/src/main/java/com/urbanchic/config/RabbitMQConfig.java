@@ -29,6 +29,7 @@ public class RabbitMQConfig {
     }
 
     //To establish a connection ot RabbitMQ Server
+    //RabbitTemplate makes thing easier to work with rabbit mq server
     @Bean
     public RabbitTemplate rabbitTemplate(final ConnectionFactory connectionFactory){
         RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory);
