@@ -20,12 +20,20 @@ public class RabbitMQConfig {
     private String orderExchangeName;
 
     //Queue Name for purchase order mail
-    @Value("${producer.purchase-order.queue-name}")
+    @Value("${producer.purchase-order-mail.queue-name}")
     private String purchaseOrderMailQueue;
 
     //Routing key for purchase order mail queue
-    @Value("${producer.purchase-order.routing-key}")
+    @Value("${producer.purchase-order-mail.routing-key}")
     private String purchaseOrderMailQueueRoutingKey;
+
+    //Queue Name for purchase order sms
+    @Value("${producer.purchase-order-sms.queue-name}")
+    private String purchaseOrderSmsQueue;
+
+    //Routing key for purchase order sms queue
+    @Value("${producer.purchase-order-sms.routing-key}")
+    private String purchaseOrderSmsQueueRoutingKey;
 
     //Exchange to route messages to respective queues
     @Bean
@@ -46,6 +54,19 @@ public class RabbitMQConfig {
                 .bind(purchaseOrderMailQueue())
                 .to(orderExchange())
                 .with(purchaseOrderMailQueueRoutingKey);
+    }
+
+    @Bean
+    public Queue purchaseOrderSmsQueue(){
+        return new Queue(purchaseOrderSmsQueue);
+    }
+
+    @Bean
+    public Binding purchaseOrderSmsQueueBinding(){
+        return BindingBuilder
+                .bind(purchaseOrderSmsQueue())
+                .to(orderExchange())
+                .with(purchaseOrderSmsQueueRoutingKey);
     }
 
     @Bean

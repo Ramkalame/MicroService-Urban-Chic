@@ -9,6 +9,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Map;
+
 @Data
 @Builder
 @AllArgsConstructor
@@ -18,14 +20,8 @@ public class ProductDto {
     @NotBlank(message = "Product name is mandatory")
     private String productName;
 
-    @NotBlank(message = "Product color is mandatory")
-    private String productColor;
-
     @NotNull(message = "Product price is mandatory")
     private Double productPrice;
-
-    @NotBlank(message = "Product size is mandatory")
-    private String productSize;
 
     @NotBlank(message = "Product description is mandatory")
     private String productDescription;
@@ -50,4 +46,8 @@ public class ProductDto {
 
     @NotBlank(message = "Seller ID is mandatory")
     private String sellerId;
+
+    private Map<String, Object> attributes;
+
+    private Map<String, Object>[] variants;
 }

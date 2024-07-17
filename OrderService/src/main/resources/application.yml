@@ -4,9 +4,12 @@ server:
 #RabbitMQ Properties
 producer:
   exchange-name: order_exchange
-  purchase-order:
+  purchase-order-mail:
     queue-name: purchaseOrderMailQueue
-    routing-key: purchase.order.created
+    routing-key: purchase.order.mail.created
+  purchase-order-sms:
+    queue-name: purchaseOrderSmsQueue
+    routing-key: purchase.order.sms.created
 
 spring:
   application:

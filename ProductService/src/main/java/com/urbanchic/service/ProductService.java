@@ -14,7 +14,6 @@ public interface ProductService {
     List<Product> getAllProducts();
     Product updateProductById(String productId,ProductDto updateProductDto);
     Product getProductByProductId(String productId);
-
-
-
+    List<Product> getProductByColor(String color, String productType);
+    List<Product> getProductBySize(String size);
 }

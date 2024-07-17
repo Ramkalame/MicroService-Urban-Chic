@@ -5,7 +5,7 @@ import com.urbanchic.client.UserServiceClient;
 import com.urbanchic.dto.OrderDto;
 import com.urbanchic.dto.OrderedProductDto;
 import com.urbanchic.dto.UpdateOrderStatusDto;
-import com.urbanchic.emailandsmsdto.PurchasedOrderEmailDto;
+import com.urbanchic.messageDto.PurchasedOrderDto;
 import com.urbanchic.entity.Order;
 import com.urbanchic.entity.OrderedProduct;
 import com.urbanchic.entity.statusenum.OrderStatus;
@@ -58,7 +58,7 @@ public class OrderServiceImpl implements OrderService {
         }
 
         List<OrderedProduct> savedOrderedProductList = orderedProductRepository.saveAll(orderedProductList);
-        createPurchasedOrderEmailDetails(savedOrder,savedOrderedProductList);
+        createPurchasedOrderMessageDetails(savedOrder,savedOrderedProductList);
         return savedOrder;
     }
 
@@ -93,7 +93,7 @@ public class OrderServiceImpl implements OrderService {
         return orderList;
     }
 
-    public void createPurchasedOrderEmailDetails(Order savedOrder, List<OrderedProduct> savedOrderedProductList) {
+    public void createPurchasedOrderMessageDetails(Order savedOrder, List<OrderedProduct> savedOrderedProductList) {
         List<Product> productList = new ArrayList<>();
         for (OrderedProduct orderedProduct : savedOrderedProductList){
             Product product = productServiceClient.getProductById(orderedProduct.getProductId())
@@ -106,15 +106,17 @@ public class OrderServiceImpl implements OrderService {
                 .getBody()
                 .getData();
 
-        PurchasedOrderEmailDto purchasedOrderEmailDto = PurchasedOrderEmailDto.builder()
+        PurchasedOrderDto purchasedOrderDto = PurchasedOrderDto.builder()
                 .orderId(savedOrder.getOrderId())
                 .buyerName(user.getFullName())
                 .email(user.getEmail())
+                .mobileNumber(user.getMobileNo())
                 .orderedProductList(productList)
                 .beforeTaxAmount(512)
                 .estimatedTax(92.15)
                 .build();
-        messageProducer.sendPurchaseOrderMail(purchasedOrderEmailDto);
+        messageProducer.sendPurchaseOrderMail(purchasedOrderDto);
+        messageProducer.sendPurchaseOrderSms(purchasedOrderDto);
     }
 
 

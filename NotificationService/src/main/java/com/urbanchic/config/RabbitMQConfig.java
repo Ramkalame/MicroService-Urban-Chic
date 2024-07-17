@@ -13,7 +13,7 @@ import org.springframework.context.annotation.Configuration;
 public class RabbitMQConfig {
 
     //Queue Name for purchase order mail
-    @Value("${consumer.purchase-order.queue-name}")
+    @Value("${consumer.purchase-order-mail.queue-name}")
     private String purchaseOrderMailQueue;
 
     //Queue for listening
