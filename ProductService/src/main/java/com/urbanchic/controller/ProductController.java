@@ -111,4 +111,36 @@ public class ProductController {
         return ResponseEntity.status(HttpStatus.OK).body(apiResponse);
     }
 
+    @GetMapping("/color/{color}/{productType}")
+    public ResponseEntity<?> getAllProductsByColor(@PathVariable("color") String color, @PathVariable("productType") String productType) {
+        List<Product> responseData = productService.getProductByColor(color,productType);
+
+        ApiResponse<List<Product>> apiResponse = ApiResponse.<List<Product>>builder()
+                .data(responseData)
+                .message("All Products with requested color")
+                .timestamp(LocalDateTime.now())
+                .success(true)
+                .statusCode(HttpStatus.OK.value())
+                .build();
+
+        return ResponseEntity.status(HttpStatus.OK).body(apiResponse);
+
+    }
+
+    @GetMapping("/size/{size}")
+    public ResponseEntity<?> getAllProductsBySize(@PathVariable("size") String size) {
+        List<Product> responseData = productService.getProductBySize(size);
+
+        ApiResponse<List<Product>> apiResponse = ApiResponse.<List<Product>>builder()
+                .data(responseData)
+                .message("All Products with requested size")
+                .timestamp(LocalDateTime.now())
+                .success(true)
+                .statusCode(HttpStatus.OK.value())
+                .build();
+
+        return ResponseEntity.status(HttpStatus.OK).body(apiResponse);
+
+    }
+
 }

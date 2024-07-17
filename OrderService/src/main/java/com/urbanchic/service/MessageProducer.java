@@ -1,8 +1,9 @@
 package com.urbanchic.service;
 
-import com.urbanchic.emailandsmsdto.PurchasedOrderEmailDto;
+import com.urbanchic.messageDto.PurchasedOrderDto;
 
 public interface MessageProducer {
 
-    void sendPurchaseOrderMail(PurchasedOrderEmailDto purchasedOrderEmailDto);
+    void sendPurchaseOrderMail(PurchasedOrderDto purchasedOrderDto);
+    void sendPurchaseOrderSms(PurchasedOrderDto purchasedOrderDto);
 }

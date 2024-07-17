@@ -1,7 +1,7 @@
 package com.urbanchic.service.impl;
 
 import com.urbanchic.external.Product;
-import com.urbanchic.external.PurchasedOrderEmailDto;
+import com.urbanchic.external.PurchasedOrderDto;
 import com.urbanchic.service.MailService;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +16,7 @@ public class MailServiceImpl implements MailService {
     private final JavaMailSender javaMailSender;
 
     @Override
-    public void sendPurchaseOrderMail(PurchasedOrderEmailDto purchasedOrderEmailDto) {
+    public void sendPurchaseOrderMail(PurchasedOrderDto purchasedOrderEmailDto) {
         try {
             MimeMessage mimeMailMessage = javaMailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(mimeMailMessage,true);
@@ -30,7 +30,7 @@ public class MailServiceImpl implements MailService {
         }
     }
 
-    private String getPurchaseOrderMailBody(PurchasedOrderEmailDto purchasedOrderEmailDto){
+    private String getPurchaseOrderMailBody(PurchasedOrderDto purchasedOrderDto){
         // Initialize a StringBuilder to accumulate HTML content
         StringBuilder htmlContent = new StringBuilder();
 
@@ -56,11 +56,11 @@ public class MailServiceImpl implements MailService {
                 .append("<body>")
                 .append("<div class=\"container\">")
                 .append("<div class=\"header\">")
-                .append("<img src=\"https://i.ibb.co/HhtJ4T6/urbanchic-logo.png\" alt=\"urbanchic-logo\" />")
+                .append("<img src=\"https://i.ibb.co/jTvWfL1/urbanchic-logo.png\" alt=\"urbanchic-logo\" />")
                 .append("</div>")
                 .append("<div class=\"body\">")
                 .append("<div class=\"main-heading\">")
-                .append("<p>!! Hello ").append(purchasedOrderEmailDto.getBuyerName()).append("</p>")
+                .append("<p>!! Hello ").append(purchasedOrderDto.getBuyerName()).append("</p>")
                 .append("<p>Thank you for shopping</p>")
                 .append("<p>at Urban-Chic!</p>")
                 .append("</div>")
@@ -70,7 +70,7 @@ public class MailServiceImpl implements MailService {
                 .append("<tr><th>Item</th><th>Quantity</th><th>Price</th></tr>");
 
         // Iterate through the list of products to populate the table rows
-        for (Product product : purchasedOrderEmailDto.getOrderedProductList()) {
+        for (Product product : purchasedOrderDto.getOrderedProductList()) {
             htmlContent.append("<tr>")
                     .append("<td>").append(product.getProductName()).append("</td>") // Product Name
                     .append("<td>").append(product.getProductQuantity()).append("</td>") // Quantity
@@ -79,7 +79,7 @@ public class MailServiceImpl implements MailService {
         }
 
         // Calculate total price
-        double productPrice = purchasedOrderEmailDto
+        double productPrice = purchasedOrderDto
                 .getOrderedProductList()
                 .stream()
                 .mapToDouble(product -> product.getProductPrice().doubleValue() * product.getProductQuantity())

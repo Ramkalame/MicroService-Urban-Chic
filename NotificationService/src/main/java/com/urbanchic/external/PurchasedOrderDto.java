@@ -9,11 +9,12 @@ import java.util.List;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class PurchasedOrderEmailDto {
+public class PurchasedOrderDto {
 
     private String orderId;
     private String buyerName;
     private String email;
+    private String mobileNumber;
     private List<Product> orderedProductList;
     private Integer beforeTaxAmount;
     private Double estimatedTax;

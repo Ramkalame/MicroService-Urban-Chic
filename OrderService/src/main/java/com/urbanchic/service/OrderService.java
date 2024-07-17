@@ -13,5 +13,5 @@ public interface OrderService {
     Order updateOrderStatus(UpdateOrderStatusDto updateOrderStatusDto);
     List<Order> getAllOrdersOfSeller(String sellerId);
     List<Order> getAllOrdersOfBuyer(String buyerId);
-    void createPurchasedOrderEmailDetails(Order savedOrder, List<OrderedProduct> savedOrderedProductList);
+    void createPurchasedOrderMessageDetails(Order savedOrder, List<OrderedProduct> savedOrderedProductList);
 }

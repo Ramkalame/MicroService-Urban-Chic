@@ -3,8 +3,10 @@ server:
 
 #RabbitMQ Properties
 consumer:
-  purchase-order:
+  purchase-order-mail:
     queue-name: purchaseOrderMailQueue
+  purchase-order-sms:
+    queue-name: purchaseOrderSmsQueue
 
 spring:
   application:
