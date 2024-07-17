@@ -9,9 +9,9 @@ import org.springframework.stereotype.Component;
 @Data
 public class TwillioConfig {
 
-    private String accountSid = TwilioConfigProperties.ACCOUNT_SID;
-    private String authToken = TwilioConfigProperties.AUTH_TOKEN;
-    private String phoneNumber = TwilioConfigProperties.PHONE_NUMBER;
+    private String accountSid = TwilioProperties.ACCOUNT_SID;
+    private String authToken = TwilioProperties.AUTH_TOKEN;
+    private String phoneNumber = TwilioProperties.PHONE_NUMBER;
 
     @PostConstruct
     public void setup() {
