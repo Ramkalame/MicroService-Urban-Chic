@@ -35,13 +35,17 @@ spring:
           filters:
             - AuthFilterWebClient
 
-
-
         #Notification-Service
         - id: notification-service-sms
           uri: lb://NOTIFICATIONSERVICE
           predicates:
             - Path=/sms/**
+
+        #Order-Service
+        - id: order-service
+          uri: lb://ORDERSERVICE
+          predicates:
+            - Path=/orders/**
 
 
   main:

@@ -1,0 +1,35 @@
+services:
+  postgres: #Service Name
+    container_name: urbanchic_postgres_container #Container Name
+    image: postgres
+    environment:
+      POSTGRES_USER : user
+      POSTGRES_PASSWORD : password
+    ports:
+      - "5432:5432"
+    networks:
+      - urbanchic_network
+  
+  pgadmin:
+    container_name: urbanchic_pgadmin_container
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: urbanchic@admin.com
+      PGADMIN_DEFAULT_PASSWORD: urbanchic
+    ports:
+      - "5030:80"
+    networks:
+      - urbanchic_network
+
+  rabbitmq:
+    container_name: urbanchic_rabbitmq_container
+    image: rabbitmq:3-management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    networks:
+      - urbanchic_network
+
+networks:
+  urbanchic_network:
+    driver: bridge

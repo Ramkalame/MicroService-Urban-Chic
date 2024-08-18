@@ -1,9 +1,41 @@
 server:
   port: 8084
 
+#RabbitMQ Properties
+consumer:
+  purchase-order-mail:
+    queue-name: purchaseOrderMailQueue
+  purchase-order-sms:
+    queue-name: purchaseOrderSmsQueue
+
 spring:
   application:
     name: NotificationService
+
+  #RabbitMQ
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+    template:
+      retry:
+        enabled: true
+        initial-interval: 2s
+
+  #Mail Configuration Properties
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: testmail8293@gmail.com
+    password: ghcu rety jzia ybzu
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
 #Eureka
 eureka:
   client:
@@ -11,3 +43,4 @@ eureka:
       defaultZone: http://localhost:8761/eureka/
     register-with-eureka: true
     fetch-registry: true
+

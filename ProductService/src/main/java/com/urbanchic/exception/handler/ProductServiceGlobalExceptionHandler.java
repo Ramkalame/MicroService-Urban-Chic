@@ -1,6 +1,6 @@
 package com.urbanchic.exception.handler;
 
-import com.urbanchic.exception.ProductNotExistException;
+import com.urbanchic.exception.EntityNotFoundException;
 import com.urbanchic.util.ApiResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -37,8 +37,8 @@ public class ProductServiceGlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(apiResponse);
     }
 
-    @ExceptionHandler(ProductNotExistException.class )
-    public ResponseEntity<?> handleProductNotExistException(ProductNotExistException exception) {
+    @ExceptionHandler(EntityNotFoundException.class )
+    public ResponseEntity<?> handleEntityNotFoundException(EntityNotFoundException exception) {
 
         ApiResponse<?> apiResponse = ApiResponse.builder()
                 .data(null)

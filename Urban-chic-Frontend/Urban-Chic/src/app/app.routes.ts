@@ -26,5 +26,12 @@ export const routes: Routes = [
     {
         path:'register',
         component:RegisterComponent
-    }
+    },
+    {
+        path:'seller',
+        loadChildren:()=>import('./seller/seller.module').then(m=>m.SellerModule)
+    },
+   
+   
+    
 ];
