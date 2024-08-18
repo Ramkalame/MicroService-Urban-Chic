@@ -1,0 +1,44 @@
+server:
+  port: 8087
+
+#RabbitMQ Properties
+producer:
+  exchange-name: order_exchange
+  purchase-order-mail:
+    queue-name: purchaseOrderMailQueue
+    routing-key: purchase.order.mail.created
+  purchase-order-sms:
+    queue-name: purchaseOrderSmsQueue
+    routing-key: purchase.order.sms.created
+
+spring:
+  application:
+    name: OrderService
+
+    #Database Details
+  datasource:
+    url: jdbc:postgresql://localhost:5432/orderservice
+    username: user
+    password: password
+  #JPA Configuration
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+        ddl-auto: update
+    show-sql: true
+    database: POSTGRESQL
+
+  #RabbitMQ
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+
+#Eureka
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+    register-with-eureka: true
+    fetch-registry: true

@@ -30,5 +30,15 @@ public class Product {
     private String productSubCategory;
     private String productType;
     private String sellerId;
+<<<<<<< Updated upstream
+=======
+    private Map<String,Object> attributes;
+    private Map<String,Object> [] variants;
+    private int oneStarCount;
+    private int twoStarCount;
+    private int threeStarCount;
+    private int fourStarCount;
+    private int fiveStarCount;
+>>>>>>> Stashed changes
 
 }
