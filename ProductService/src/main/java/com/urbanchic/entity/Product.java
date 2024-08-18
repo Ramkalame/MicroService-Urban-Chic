@@ -30,5 +30,10 @@ public class Product {
     private String sellerId;
     private Map<String,Object> attributes;
     private Map<String,Object> [] variants;
+    private int oneStarCount;
+    private int twoStarCount;
+    private int threeStarCount;
+    private int fourStarCount;
+    private int fiveStarCount;
 
 }

@@ -17,7 +17,7 @@ public class ReviewDto {
     @NotBlank(message = "Review Description is mandatory")
     private String reviewDescription;
     @NotNull(message = "Rating is Mandatory")
-    private Double rating;
+    private int rating;
     @NotBlank(message = "Product Id is mandatory")
     private String productId;
     @NotBlank(message = "User Id is mandatory")
