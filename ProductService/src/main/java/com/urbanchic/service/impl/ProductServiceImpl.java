@@ -51,6 +51,7 @@ public class ProductServiceImpl implements ProductService {
 
         //reviewService.deleteAllReviewByProductId(productId); Instead of this
         eventPublisher.publishEvent(new DeleteAllReviewsOfProductEvent(this,productId));
+
         return "Product Deleted ID :" + productId;
     }
 

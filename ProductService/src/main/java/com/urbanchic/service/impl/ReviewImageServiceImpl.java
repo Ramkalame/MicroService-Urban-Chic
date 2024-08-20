@@ -2,10 +2,13 @@ package com.urbanchic.service.impl;
 
 import com.urbanchic.dto.ReviewImageDto;
 import com.urbanchic.entity.ReviewImage;
+import com.urbanchic.event.DeleteAllReviewImagesOfReviewEvent;
 import com.urbanchic.exception.EntityNotFoundException;
 import com.urbanchic.repository.ReviewImageRepository;
 import com.urbanchic.service.ReviewImageService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.event.EventListener;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -29,7 +32,7 @@ public class ReviewImageServiceImpl implements ReviewImageService {
 
     @Override
     public String removeReviewImage(String reviewImageId) {
-        ReviewImage existingReviewImage = reviewImageRepository.findById(reviewImageId).orElseThrow(()->
+        ReviewImage existingReviewImage = reviewImageRepository.findById(reviewImageId).orElseThrow(() ->
                 new EntityNotFoundException("Review Image Does Not Exists."));
         reviewImageRepository.delete(existingReviewImage);
         return "Image is removed";
@@ -38,9 +41,20 @@ public class ReviewImageServiceImpl implements ReviewImageService {
     @Override
     public List<ReviewImage> getAllReviewImageOfReview(String reviewId) {
         List<ReviewImage> reviewImageList = reviewImageRepository.findAllByReviewId(reviewId);
-        if (reviewImageList.isEmpty()){
+        if (reviewImageList.isEmpty()) {
             throw new EntityNotFoundException("No Images for the Requested Review");
         }
         return reviewImageList;
+    }
+
+    @Override
+    @Async
+    @EventListener
+    public void deleteAllReviewImagesOfReview(DeleteAllReviewImagesOfReviewEvent deleteAllReviewImagesOfReviewEvent) {
+        List<ReviewImage> reviewImageList = reviewImageRepository
+                .findAllByReviewId(deleteAllReviewImagesOfReviewEvent.getReviewId());
+        if (!reviewImageList.isEmpty()) {
+            reviewImageRepository.deleteAll(reviewImageList);
+        }
     }
 }
