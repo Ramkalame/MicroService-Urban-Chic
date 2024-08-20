@@ -4,6 +4,7 @@ import com.urbanchic.dto.ProductDto;
 import com.urbanchic.dto.ReviewDto;
 import com.urbanchic.entity.Product;
 import com.urbanchic.entity.Review;
+import com.urbanchic.event.DeleteAllReviewImagesOfReviewEvent;
 import com.urbanchic.event.DeleteAllReviewsOfProductEvent;
 import com.urbanchic.exception.EntityNotFoundException;
 import com.urbanchic.repository.ProductRepository;
@@ -11,6 +12,7 @@ import com.urbanchic.repository.ReviewRepository;
 import com.urbanchic.service.ProductService;
 import com.urbanchic.service.ReviewService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
@@ -21,6 +23,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ReviewServiceImpl implements ReviewService {
 
+    private final ApplicationEventPublisher eventPublisher;
     private final ReviewRepository reviewRepository;
     private final ProductService productService;
 
@@ -141,6 +144,10 @@ public class ReviewServiceImpl implements ReviewService {
     public void deleteAllReviewByProductId(DeleteAllReviewsOfProductEvent deleteAllReviewsOfProductEvent) {
         List<Review> reviewList = reviewRepository.findAllByProductId(deleteAllReviewsOfProductEvent.getProductId());
         if (!reviewList.isEmpty()){
+            for (Review review:reviewList){
+                eventPublisher.publishEvent(new DeleteAllReviewImagesOfReviewEvent(this,review
+                        .getReviewId()));
+            }
             reviewRepository.deleteAll(reviewList);
         }
     }
