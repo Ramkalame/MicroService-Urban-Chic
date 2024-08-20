@@ -1,13 +1,18 @@
 package com.urbanchic.service.impl;
 
+import com.urbanchic.dto.ProductDto;
 import com.urbanchic.dto.ReviewDto;
 import com.urbanchic.entity.Product;
 import com.urbanchic.entity.Review;
+import com.urbanchic.event.DeleteAllReviewsOfProductEvent;
 import com.urbanchic.exception.EntityNotFoundException;
 import com.urbanchic.repository.ProductRepository;
 import com.urbanchic.repository.ReviewRepository;
+import com.urbanchic.service.ProductService;
 import com.urbanchic.service.ReviewService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.event.EventListener;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,7 +22,7 @@ import java.util.List;
 public class ReviewServiceImpl implements ReviewService {
 
     private final ReviewRepository reviewRepository;
-    private final ProductRepository productRepository;
+    private final ProductService productService;
 
 
     @Override
@@ -29,18 +34,33 @@ public class ReviewServiceImpl implements ReviewService {
                 .userId(addReviewDto.getUserId())
                 .build();
         Review savedReview = reviewRepository.save(newReview);
-
-        Product existingProduct = productRepository.findById(addReviewDto.getProductId()).orElseThrow( () ->
-                new EntityNotFoundException("Product Does Not Exist.")
-        );
-        switch (addReviewDto.getRating()){
+        Product existingProduct = productService.getProductByProductId(addReviewDto.getProductId());
+        switch (savedReview.getRating()){
             case 1:existingProduct.setOneStarCount(existingProduct.getOneStarCount()+1); break;
             case 2:existingProduct.setTwoStarCount(existingProduct.getTwoStarCount()+1); break;
             case 3:existingProduct.setThreeStarCount(existingProduct.getThreeStarCount()+1); break;
             case 4:existingProduct.setFourStarCount(existingProduct.getFourStarCount()+1); break;
             case 5:existingProduct.setFiveStarCount(existingProduct.getFiveStarCount()+1); break;
         }
-        productRepository.save(existingProduct);
+        ProductDto updatedProductDto = ProductDto.builder()
+                .productName(existingProduct.getProductName())
+                .productPrice(existingProduct.getProductPrice())
+                .productDescription(existingProduct.getProductDescription())
+                .productImageUrl(existingProduct.getProductImageUrl())
+                .productQuantity(existingProduct.getProductQuantity())
+                .productBrand(existingProduct.getProductBrand())
+                .productCategory(existingProduct.getProductCategory())
+                .productSubCategory(existingProduct.getProductSubCategory())
+                .productType(existingProduct.getProductType())
+                .attributes(existingProduct.getAttributes())
+                .variants(existingProduct.getVariants())
+                .oneStarCount(existingProduct.getOneStarCount())
+                .twoStarCount(existingProduct.getTwoStarCount())
+                .threeStarCount(existingProduct.getThreeStarCount())
+                .fourStarCount(existingProduct.getFourStarCount())
+                .fiveStarCount(existingProduct.getFiveStarCount())
+                .build();
+        productService.updateProductById(savedReview.getProductId(),updatedProductDto);
         return  savedReview;
     }
 
@@ -48,15 +68,7 @@ public class ReviewServiceImpl implements ReviewService {
     public Review updateReview(ReviewDto updateReviewDto,String reviewId) {
         Review existingReview = reviewRepository.findById(reviewId).orElseThrow(()->
                 new EntityNotFoundException("Review Does Not Exists."));
-        existingReview.setReviewDescription(updateReviewDto.getReviewDescription());
-        existingReview.setRating(updateReviewDto.getRating());
-        existingReview.setProductId(updateReviewDto.getProductId());
-        existingReview.setUserId(updateReviewDto.getUserId());
-        Review updatedReview = reviewRepository.save(existingReview);
-
-        Product existingProduct = productRepository.findById(updateReviewDto.getProductId()).orElseThrow( () ->
-                new EntityNotFoundException("Product Does Not Exist.")
-        );
+        Product existingProduct = productService.getProductByProductId(updateReviewDto.getProductId());
         switch (existingReview.getRating()){
             case 1:existingProduct.setOneStarCount(existingProduct.getOneStarCount()-1); break;
             case 2:existingProduct.setTwoStarCount(existingProduct.getTwoStarCount()-1); break;
@@ -64,6 +76,12 @@ public class ReviewServiceImpl implements ReviewService {
             case 4:existingProduct.setFourStarCount(existingProduct.getFourStarCount()-1); break;
             case 5:existingProduct.setFiveStarCount(existingProduct.getFiveStarCount()-1); break;
         }
+        existingReview.setReviewDescription(updateReviewDto.getReviewDescription());
+        existingReview.setRating(updateReviewDto.getRating());
+        existingReview.setProductId(updateReviewDto.getProductId());
+        existingReview.setUserId(updateReviewDto.getUserId());
+        Review updatedReview = reviewRepository.save(existingReview);
+
         switch (updateReviewDto.getRating()){
             case 1:existingProduct.setOneStarCount(existingProduct.getOneStarCount()+1); break;
             case 2:existingProduct.setTwoStarCount(existingProduct.getTwoStarCount()+1); break;
@@ -71,7 +89,25 @@ public class ReviewServiceImpl implements ReviewService {
             case 4:existingProduct.setFourStarCount(existingProduct.getFourStarCount()+1); break;
             case 5:existingProduct.setFiveStarCount(existingProduct.getFiveStarCount()+1); break;
         }
-        productRepository.save(existingProduct);
+        ProductDto updatedProductDto = ProductDto.builder()
+                .productName(existingProduct.getProductName())
+                .productPrice(existingProduct.getProductPrice())
+                .productDescription(existingProduct.getProductDescription())
+                .productImageUrl(existingProduct.getProductImageUrl())
+                .productQuantity(existingProduct.getProductQuantity())
+                .productBrand(existingProduct.getProductBrand())
+                .productCategory(existingProduct.getProductCategory())
+                .productSubCategory(existingProduct.getProductSubCategory())
+                .productType(existingProduct.getProductType())
+                .attributes(existingProduct.getAttributes())
+                .variants(existingProduct.getVariants())
+                .oneStarCount(existingProduct.getOneStarCount())
+                .twoStarCount(existingProduct.getTwoStarCount())
+                .threeStarCount(existingProduct.getThreeStarCount())
+                .fourStarCount(existingProduct.getFourStarCount())
+                .fiveStarCount(existingProduct.getFiveStarCount())
+                .build();
+        productService.updateProductById(updateReviewDto.getProductId(),updatedProductDto);
         return updatedReview;
     }
 
@@ -89,5 +125,23 @@ public class ReviewServiceImpl implements ReviewService {
         Review existingReview = reviewRepository.findByProductIdAndUserId(productId,userId).orElseThrow(()->
                 new EntityNotFoundException("Please Add Review"));
         return  existingReview;
+    }
+
+    @Override
+    public String deleteReviewById(String reviewId) {
+        Review existingReview = reviewRepository.findById(reviewId).orElseThrow(() ->
+                new EntityNotFoundException("Review Not Found"));
+        reviewRepository.delete(existingReview);
+        return "Review Deleted";
+    }
+
+    @Override
+    @EventListener
+    @Async
+    public void deleteAllReviewByProductId(DeleteAllReviewsOfProductEvent deleteAllReviewsOfProductEvent) {
+        List<Review> reviewList = reviewRepository.findAllByProductId(deleteAllReviewsOfProductEvent.getProductId());
+        if (!reviewList.isEmpty()){
+            reviewRepository.deleteAll(reviewList);
+        }
     }
 }
