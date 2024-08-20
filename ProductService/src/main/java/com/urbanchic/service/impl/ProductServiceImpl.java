@@ -4,10 +4,13 @@ import com.urbanchic.dto.ProductDto;
 import com.urbanchic.entity.Product;
 import com.urbanchic.entity.productenum.ProductColor;
 import com.urbanchic.entity.productenum.ProductSize;
+import com.urbanchic.event.DeleteAllReviewsOfProductEvent;
 import com.urbanchic.exception.EntityNotFoundException;
 import com.urbanchic.repository.ProductRepository;
 import com.urbanchic.service.ProductService;
+import com.urbanchic.service.ReviewService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,6 +19,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ProductServiceImpl implements ProductService {
 
+    private final ApplicationEventPublisher eventPublisher;
     private final ProductRepository productRepository;
 
 
@@ -44,7 +48,10 @@ public class ProductServiceImpl implements ProductService {
         Product existingProduct = productRepository.findById(productId).orElseThrow(() ->
                 new EntityNotFoundException("Product Does Not Exist"));
         productRepository.deleteById(productId);
-        return "Product ID :" + productId;
+
+        //reviewService.deleteAllReviewByProductId(productId); Instead of this
+        eventPublisher.publishEvent(new DeleteAllReviewsOfProductEvent(this,productId));
+        return "Product Deleted ID :" + productId;
     }
 
     @Override
@@ -78,7 +85,11 @@ public class ProductServiceImpl implements ProductService {
         existingProduct.setProductType(updateProductDto.getProductType());
         existingProduct.setAttributes(updateProductDto.getAttributes());
         existingProduct.setVariants(updateProductDto.getVariants());
-
+        existingProduct.setOneStarCount(updateProductDto.getOneStarCount());
+        existingProduct.setTwoStarCount(updateProductDto.getTwoStarCount());
+        existingProduct.setThreeStarCount(updateProductDto.getThreeStarCount());
+        existingProduct.setFourStarCount(updateProductDto.getFourStarCount());
+        existingProduct.setFiveStarCount(updateProductDto.getFiveStarCount());
         return productRepository.save(existingProduct);
     }
 

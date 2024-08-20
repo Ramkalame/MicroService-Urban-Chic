@@ -16,4 +16,5 @@ public interface ProductService {
     Product getProductByProductId(String productId);
     List<Product> getProductByColor(String color, String productType);
     List<Product> getProductBySize(String size);
+
 }

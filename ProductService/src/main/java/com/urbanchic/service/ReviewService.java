@@ -2,6 +2,7 @@ package com.urbanchic.service;
 
 import com.urbanchic.dto.ReviewDto;
 import com.urbanchic.entity.Review;
+import com.urbanchic.event.DeleteAllReviewsOfProductEvent;
 
 import java.util.List;
 
@@ -13,4 +14,8 @@ public interface ReviewService {
     List<Review> getAllReviewOfProduct(String productId);
 
     Review getReviewOfProductByUser(String userId, String productId);
+
+    String deleteReviewById(String reviewId);
+
+    void deleteAllReviewByProductId(DeleteAllReviewsOfProductEvent deleteAllReviewsOfProductEvent);
 }
