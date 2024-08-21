@@ -6,6 +6,7 @@ import com.urbanchic.entity.productenum.ProductColor;
 import com.urbanchic.entity.productenum.ProductSize;
 import com.urbanchic.event.DeleteAllReviewsOfProductEvent;
 import com.urbanchic.exception.EntityNotFoundException;
+import com.urbanchic.repository.CustomProductRepository;
 import com.urbanchic.repository.ProductRepository;
 import com.urbanchic.service.ProductService;
 import com.urbanchic.service.ReviewService;
@@ -21,6 +22,7 @@ public class ProductServiceImpl implements ProductService {
 
     private final ApplicationEventPublisher eventPublisher;
     private final ProductRepository productRepository;
+    private final CustomProductRepository customProductRepository;
 
 
     @Override
@@ -56,7 +58,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<Product> getAllProductsBySeller(String sellerId) {
+    public List<Product> getAllProductsBySellerId(String sellerId) {
         List<Product> productList = productRepository.findProductBySellerId(sellerId);
         if (productList.isEmpty()) {
             throw new EntityNotFoundException("Product Does Not Exist");
@@ -71,7 +73,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Product updateProductById(String productId, ProductDto updateProductDto) {
+    public Product updateProductByProductId(String productId, ProductDto updateProductDto) {
         Product existingProduct = productRepository.findById(productId).orElseThrow(() ->
                 new EntityNotFoundException("Product Does Not Exists"));
 
@@ -102,8 +104,8 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<Product> getProductByColor(String color, String productType) {
-        List<Product> productList = productRepository.findByProductColor(color,productType);
+    public List<Product> getAllProductByAttribute(String attributeName, String attributeValue) {
+        List<Product> productList = customProductRepository.findAllProductsByAttributes(attributeName,attributeValue);
         if (productList.isEmpty()) {
             throw new EntityNotFoundException("Product Does Not Exist");
         }
@@ -111,8 +113,35 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<Product> getProductBySize(String size) {
-        List<Product> productList = productRepository.findByProductSize(size);
+    public List<Product> getProductByVariants(String variantName,String value) {
+        List<Product> productList = customProductRepository.findAllProductsByVariants(variantName, value);
+        if (productList.isEmpty()) {
+            throw new EntityNotFoundException("Product Does Not Exist");
+        }
+        return productList;
+    }
+
+    @Override
+    public List<Product> getAllProductsByProductCategory(String productCategory) {
+        List<Product> productList = productRepository.findProductsByProductCategory(productCategory);
+        if (productList.isEmpty()) {
+            throw new EntityNotFoundException("Product Does Not Exist");
+        }
+        return productList;
+    }
+
+    @Override
+    public List<Product> getAllProductsByProductSubCategory(String productSubCategory) {
+        List<Product> productList = productRepository.findProductsByProductSubCategory(productSubCategory);
+        if (productList.isEmpty()) {
+            throw new EntityNotFoundException("Product Does Not Exist");
+        }
+        return productList;
+    }
+
+    @Override
+    public List<Product> getAllProductsByProductType(String productType) {
+        List<Product> productList = productRepository.findProductsByProductType(productType);
         if (productList.isEmpty()) {
             throw new EntityNotFoundException("Product Does Not Exist");
         }

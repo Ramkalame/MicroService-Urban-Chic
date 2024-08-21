@@ -52,7 +52,7 @@ public class ProductController {
 
     @GetMapping("/seller/{sellerId}")
     public ResponseEntity<?> getAllProductsBySeller(@PathVariable("sellerId") String sellerId) {
-        List<Product> responseData = productService.getAllProductsBySeller(sellerId);
+        List<Product> responseData = productService.getAllProductsBySellerId(sellerId);
 
         ApiResponse<List<Product>> apiResponse = ApiResponse.<List<Product>>builder()
                 .data(responseData)
@@ -84,7 +84,7 @@ public class ProductController {
 
     @PutMapping("/update/{productId}")
     public ResponseEntity<?> updateProduct(@PathVariable("productId") String productId, @RequestBody @Valid ProductDto updateProductDto) {
-        Product responseData = productService.updateProductById(productId, updateProductDto);
+        Product responseData = productService.updateProductByProductId(productId, updateProductDto);
 
         ApiResponse<Product> apiResponse = ApiResponse.<Product>builder()
                 .data(responseData)
@@ -111,9 +111,9 @@ public class ProductController {
         return ResponseEntity.status(HttpStatus.OK).body(apiResponse);
     }
 
-    @GetMapping("/color/{color}/{productType}")
-    public ResponseEntity<?> getAllProductsByColor(@PathVariable("color") String color, @PathVariable("productType") String productType) {
-        List<Product> responseData = productService.getProductByColor(color,productType);
+    @GetMapping("/attribute/{attributeName}/{attributeValue}")
+    public ResponseEntity<?> getAllProductsByAttributes(@PathVariable("attributeName") String attributeName, @PathVariable("attributeValue") String attributeValue) {
+        List<Product> responseData = productService.getAllProductByAttribute(attributeName,attributeValue);
 
         ApiResponse<List<Product>> apiResponse = ApiResponse.<List<Product>>builder()
                 .data(responseData)
@@ -127,13 +127,61 @@ public class ProductController {
 
     }
 
-    @GetMapping("/size/{size}")
-    public ResponseEntity<?> getAllProductsBySize(@PathVariable("size") String size) {
-        List<Product> responseData = productService.getProductBySize(size);
+    @GetMapping("/variant/{variantName}/{variantValue}")
+    public ResponseEntity<?> getAllProductsBySize(@PathVariable("variantName") String variantName,@PathVariable("variantValue") String variantValue) {
+        List<Product> responseData = productService.getProductByVariants(variantName,variantValue);
 
         ApiResponse<List<Product>> apiResponse = ApiResponse.<List<Product>>builder()
                 .data(responseData)
                 .message("All Products with requested size")
+                .timestamp(LocalDateTime.now())
+                .success(true)
+                .statusCode(HttpStatus.OK.value())
+                .build();
+
+        return ResponseEntity.status(HttpStatus.OK).body(apiResponse);
+
+    }
+
+    @GetMapping("/category/{productCategory}")
+    public ResponseEntity<?> getAllProductsByProductCategory(@PathVariable("productCategory") String productCategory) {
+        List<Product> responseData = productService.getAllProductsByProductCategory(productCategory);
+
+        ApiResponse<List<Product>> apiResponse = ApiResponse.<List<Product>>builder()
+                .data(responseData)
+                .message("All Products of Category : " + productCategory)
+                .timestamp(LocalDateTime.now())
+                .success(true)
+                .statusCode(HttpStatus.OK.value())
+                .build();
+
+        return ResponseEntity.status(HttpStatus.OK).body(apiResponse);
+
+    }
+
+    @GetMapping("/subcategory/{productSubCategory}")
+    public ResponseEntity<?> getAllProductsByProductSubCategory(@PathVariable("productSubCategory") String productSubCategory) {
+        List<Product> responseData = productService.getAllProductsByProductSubCategory(productSubCategory);
+
+        ApiResponse<List<Product>> apiResponse = ApiResponse.<List<Product>>builder()
+                .data(responseData)
+                .message("All Products of Sub Category : " + productSubCategory)
+                .timestamp(LocalDateTime.now())
+                .success(true)
+                .statusCode(HttpStatus.OK.value())
+                .build();
+
+        return ResponseEntity.status(HttpStatus.OK).body(apiResponse);
+
+    }
+
+    @GetMapping("/type/{productType}")
+    public ResponseEntity<?> getAllProductsByProductType(@PathVariable("productType") String productType) {
+        List<Product> responseData = productService.getAllProductsByProductType(productType);
+
+        ApiResponse<List<Product>> apiResponse = ApiResponse.<List<Product>>builder()
+                .data(responseData)
+                .message("All Products of Type : " + productType)
                 .timestamp(LocalDateTime.now())
                 .success(true)
                 .statusCode(HttpStatus.OK.value())
