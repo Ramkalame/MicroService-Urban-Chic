@@ -63,7 +63,7 @@ public class ReviewServiceImpl implements ReviewService {
                 .fourStarCount(existingProduct.getFourStarCount())
                 .fiveStarCount(existingProduct.getFiveStarCount())
                 .build();
-        productService.updateProductById(savedReview.getProductId(),updatedProductDto);
+        productService.updateProductByProductId(savedReview.getProductId(),updatedProductDto);
         return  savedReview;
     }
 
@@ -110,7 +110,7 @@ public class ReviewServiceImpl implements ReviewService {
                 .fourStarCount(existingProduct.getFourStarCount())
                 .fiveStarCount(existingProduct.getFiveStarCount())
                 .build();
-        productService.updateProductById(updateReviewDto.getProductId(),updatedProductDto);
+        productService.updateProductByProductId(updateReviewDto.getProductId(),updatedProductDto);
         return updatedReview;
     }
 
