@@ -2,20 +2,19 @@ package com.urbanchic.service.impl;
 
 import com.urbanchic.dto.ProductDto;
 import com.urbanchic.entity.Product;
-import com.urbanchic.entity.productenum.ProductColor;
-import com.urbanchic.entity.productenum.ProductSize;
 import com.urbanchic.event.DeleteAllReviewsOfProductEvent;
 import com.urbanchic.exception.EntityNotFoundException;
 import com.urbanchic.repository.CustomProductRepository;
 import com.urbanchic.repository.ProductRepository;
 import com.urbanchic.service.ProductService;
-import com.urbanchic.service.ReviewService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class ProductServiceImpl implements ProductService {
@@ -98,8 +97,11 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Product getProductByProductId(String productId) {
-        Product existingProduct = productRepository.findById(productId).orElseThrow(() ->
-                new EntityNotFoundException("Product Does Not Exists"));
+        Product existingProduct = productRepository.findById(productId).orElseThrow(() -> {
+                log.error("Product with ID: {} not found",productId);
+            return new EntityNotFoundException("Product Does Not Exists");
+        });
+
         return existingProduct;
     }
 
