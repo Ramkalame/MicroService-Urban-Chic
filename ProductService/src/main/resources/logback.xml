@@ -1,0 +1,47 @@
+<configuration>
+
+    <!--Console Appender:- To write the logs to the console-->
+    <appender name="consoleAppender" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>
+<!--                %-d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %-36logger{36} %-5L : %msg%n-->
+                %d{yyyy-MM-dd HH:mm:ss.SSS Z} [%thread] %-5level %logger{36} - %msg%n%ex
+            </pattern>
+        </encoder>
+    </appender>
+
+    <!--Simple File Appender:- to write logs in local file -->
+<!--    <appender name="fileAppender" class="ch.qos.logback.core.FileAppender">-->
+<!--        <file>D:/MicroService-Urban-Chic/product-service.log</file>-->
+<!--        <encoder>-->
+<!--            <pattern>-->
+<!--                %d{yyyy-MM-dd HH:mm:ss.SSS Z} [%thread] %-5level %logger{36} - %msg%n%ex-->
+<!--            </pattern>-->
+<!--        </encoder>-->
+<!--    </appender>-->
+
+
+    <!--Rolling File Appender:- local log files with customization-->
+    <appender name="rollingFileAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>
+            D:/MicroService-Urban-Chic/Logs/product-service-logs/product-service.log
+        </file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>D:/MicroService-Urban-Chic/Logs/product-service-logs/product-service-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <maxFileSize>10MB</maxFileSize>
+            <maxHistory>10</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>
+                %d{yyyy-MM-dd HH:mm:ss.SSS Z} [%thread] %-5level %logger{36} - %msg%n%ex
+            </pattern>
+        </encoder>
+    </appender>
+
+    <root level="info">
+        <appender-ref ref="consoleAppender" />
+<!--        <appender-ref ref="fileAppender" />-->
+        <appender-ref ref="rollingFileAppender" />
+    </root>
+
+</configuration>
