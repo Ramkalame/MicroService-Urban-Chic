@@ -81,4 +81,18 @@ public class ReviewController {
         return ResponseEntity.status(HttpStatus.OK).body(apiResponse);
     }
 
+    @DeleteMapping("/delete/{reviewId}")
+    public ResponseEntity<?> deleteReview(@PathVariable("reviewId") String reviewId){
+        String responseData = reviewService.deleteReviewById(reviewId);
+
+        ApiResponse<String> apiResponse= ApiResponse.<String>builder()
+                .data(responseData)
+                .message("requested review is deleted")
+                .timestamp(LocalDateTime.now())
+                .success(true)
+                .statusCode(HttpStatus.OK.value())
+                .build();
+        return  ResponseEntity.status(HttpStatus.OK).body(apiResponse);
+    }
+
 }
