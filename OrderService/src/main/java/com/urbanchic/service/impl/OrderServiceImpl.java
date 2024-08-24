@@ -1,19 +1,13 @@
 package com.urbanchic.service.impl;
 
-import com.urbanchic.client.ProductServiceClient;
-import com.urbanchic.client.UserServiceClient;
 import com.urbanchic.dto.OrderDto;
-import com.urbanchic.dto.OrderedProductDto;
 import com.urbanchic.dto.UpdateOrderStatusDto;
-import com.urbanchic.messageDto.PurchasedOrderDto;
+import com.urbanchic.entity.Address;
 import com.urbanchic.entity.Order;
 import com.urbanchic.entity.OrderedProduct;
 import com.urbanchic.entity.statusenum.OrderStatus;
 import com.urbanchic.exception.EntityNotFoundException;
-import com.urbanchic.external.Product;
-import com.urbanchic.external.User;
 import com.urbanchic.repository.OrderRepository;
-import com.urbanchic.repository.OrderedProductRepository;
 import com.urbanchic.service.MessageProducer;
 import com.urbanchic.service.OrderService;
 import lombok.RequiredArgsConstructor;
@@ -28,14 +22,12 @@ import java.util.UUID;
 public class OrderServiceImpl implements OrderService {
 
     private final OrderRepository orderRepository;
-    private final OrderedProductRepository orderedProductRepository;
-    private final UserServiceClient userServiceClient;
-    private final ProductServiceClient productServiceClient;
     private final MessageProducer messageProducer;
 
     @Override
     public Order addOrder(OrderDto orderDto) {
         String orderId = UUID.randomUUID().toString().replace("-","");
+
         Order newOrder = Order.builder()
                 .orderId(orderId)
                 .buyerId(orderDto.getBuyerId())
@@ -43,22 +35,18 @@ public class OrderServiceImpl implements OrderService {
                 .paymentId(orderDto.getPaymentId())
                 .orderStatus(OrderStatus.PACKAGING)
                 .build();
-        Order savedOrder = orderRepository.save(newOrder);
 
-        List<OrderedProduct> orderedProductList = new ArrayList<>();
-
-        //Get all the product id from the OrderDto and iterate
-        for (OrderedProductDto orderedProductDto:orderDto.getProductIdList()){
-            OrderedProduct orderedProduct = OrderedProduct.builder()
-                    .productId(orderedProductDto.getProductId())
-                    .productQuantity(orderedProductDto.getProductQuantity())
-                    .orderId(savedOrder.getOrderId())
-                    .build();
-            orderedProductList.add(orderedProduct);
+        Address address = orderDto.getAddress();
+        address.setOrder(newOrder);
+        List<OrderedProduct> orderedProducts = new ArrayList<>();
+        for (OrderedProduct orderedProduct:orderDto.getOrderedProducts()){
+            orderedProduct.setOrder(newOrder);
+            orderedProducts.add(orderedProduct);
         }
-
-        List<OrderedProduct> savedOrderedProductList = orderedProductRepository.saveAll(orderedProductList);
-        createPurchasedOrderMessageDetails(savedOrder,savedOrderedProductList);
+        newOrder.setOrderedProducts(orderedProducts);
+        newOrder.setAddress(address);
+        Order savedOrder = orderRepository.save(newOrder);
+        messageProducer.sendPurchaseOrderId(savedOrder.getOrderId());
         return savedOrder;
     }
 
@@ -93,32 +81,30 @@ public class OrderServiceImpl implements OrderService {
         return orderList;
     }
 
-    public void createPurchasedOrderMessageDetails(Order savedOrder, List<OrderedProduct> savedOrderedProductList) {
-        List<Product> productList = new ArrayList<>();
-        for (OrderedProduct orderedProduct : savedOrderedProductList){
-            Product product = productServiceClient.getProductById(orderedProduct.getProductId())
-                    .getBody()
-                    .getData();
-            product.setProductQuantity(orderedProduct.getProductQuantity());
-            productList.add(product);
-        }
-        User user = userServiceClient.getUserById(savedOrder.getBuyerId())
-                .getBody()
-                .getData();
-
-        PurchasedOrderDto purchasedOrderDto = PurchasedOrderDto.builder()
-                .orderId(savedOrder.getOrderId())
-                .buyerName(user.getFullName())
-                .email(user.getEmail())
-                .mobileNumber(user.getMobileNo())
-                .orderedProductList(productList)
-                .beforeTaxAmount(512)
-                .estimatedTax(92.15)
-                .build();
-        messageProducer.sendPurchaseOrderMail(purchasedOrderDto);
-        messageProducer.sendPurchaseOrderSms(purchasedOrderDto);
+    @Override
+    public Order getOrderByOrderId(String orderId) {
+        Order existingOrder = orderRepository.findByOrderId(orderId).orElseThrow(() ->
+                 new EntityNotFoundException("Order Not Found."));
+        return  existingOrder;
     }
 
+    @Override
+    public List<Order> getAllOrders() {
+        List<Order> orderList = orderRepository.findAll();
+        if(orderList.isEmpty()){
+            throw new EntityNotFoundException("No Orders");
+        }
+        return orderList;
+    }
+
+    @Override
+    public List<Order> getAllOrdersByStatus(OrderStatus orderStatus) {
+        List<Order> orderList = orderRepository.findAllByOrderStatus(orderStatus);
+        if(orderList.isEmpty()){
+            throw new EntityNotFoundException("No Orders");
+        }
+        return orderList;
+    }
 
 
 }

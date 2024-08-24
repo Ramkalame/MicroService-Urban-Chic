@@ -4,12 +4,9 @@ server:
 #RabbitMQ Properties
 producer:
   exchange-name: order_exchange
-  purchase-order-mail:
-    queue-name: purchaseOrderMailQueue
-    routing-key: purchase.order.mail.created
-  purchase-order-sms:
-    queue-name: purchaseOrderSmsQueue
-    routing-key: purchase.order.sms.created
+  purchase-order:
+    queue-name: purchaseOrderQueue
+    routing-key: purchase.order.created
 
 spring:
   application:
@@ -17,7 +14,7 @@ spring:
 
     #Database Details
   datasource:
-    url: jdbc:postgresql://localhost:5432/orderservice
+    url: jdbc:postgresql://localhost:5432/order_service_db
     username: user
     password: password
   #JPA Configuration

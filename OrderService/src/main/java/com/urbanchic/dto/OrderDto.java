@@ -1,5 +1,7 @@
 package com.urbanchic.dto;
 
+import com.urbanchic.entity.Address;
+import com.urbanchic.entity.OrderedProduct;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -20,9 +22,11 @@ public class OrderDto {
     @NotBlank(message = "buyer id is mandatory")
     private String sellerId;
     @NotNull(message = "payment id is mandatory")
-    private Integer paymentId;
+    private String paymentId;
     @NotNull(message = "product id is mandatory")
-    private List<OrderedProductDto> productIdList;
+    private List<OrderedProduct> orderedProducts;
+    @NotNull(message = "address is mandatory")
+    private Address address;
 
 
 }
