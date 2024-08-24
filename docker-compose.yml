@@ -14,7 +14,7 @@ services:
     container_name: urbanchic_pgadmin_container
     image: dpage/pgadmin4
     environment:
-      PGADMIN_DEFAULT_EMAIL: urbanchic@admin.com
+      PGADMIN_DEFAULT_EMAIL: postdb@admin.com
       PGADMIN_DEFAULT_PASSWORD: urbanchic
     ports:
       - "5030:80"

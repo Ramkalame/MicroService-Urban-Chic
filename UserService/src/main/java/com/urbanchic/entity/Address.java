@@ -17,20 +17,10 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Address {
 
     @Id
-    @NotBlank(message = "address id can not be null")
     private  String addressId;
-
-    @NotBlank(message = "street can not be null")
     private  String street;
-
-    @NotBlank(message = "city can not be null")
     private  String city;
-
-    @NotBlank(message = "state can not be null")
     private  String state;
-
-    @NotBlank(message = "zip code can not be null")
     private  String zipCode;
-
     private  String userId;
 }

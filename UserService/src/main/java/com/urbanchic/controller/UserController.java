@@ -16,7 +16,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/users")
+@RequestMapping("/api/v1/users")
 @CrossOrigin(origins = "http://localhost:4200")
 public class UserController {
 
@@ -64,7 +64,7 @@ public class UserController {
         return ResponseEntity.ok(apiResponse);
     }
 
-    @GetMapping("/userid/{userId}")
+    @GetMapping("/{userId}")
     public ResponseEntity<?> getUserById(@PathVariable("userId") String userId) {
         User responseData = userService.getUserById(userId);
         ApiResponse<Object> apiResponse = ApiResponse.builder()
