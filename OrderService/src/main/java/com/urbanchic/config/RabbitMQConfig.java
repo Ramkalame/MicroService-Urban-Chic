@@ -19,21 +19,14 @@ public class RabbitMQConfig {
     @Value("${producer.exchange-name}")
     private String orderExchangeName;
 
-    //Queue Name for purchase order mail
-    @Value("${producer.purchase-order-mail.queue-name}")
-    private String purchaseOrderMailQueue;
+    //Queue Name for purchase order
+    @Value("${producer.purchase-order.queue-name}")
+    private String purchaseOrderQueue;
 
-    //Routing key for purchase order mail queue
-    @Value("${producer.purchase-order-mail.routing-key}")
-    private String purchaseOrderMailQueueRoutingKey;
+    //Routing key for purchase order  queue
+    @Value("${producer.purchase-order.routing-key}")
+    private String purchaseOrderQueueRoutingKey;
 
-    //Queue Name for purchase order sms
-    @Value("${producer.purchase-order-sms.queue-name}")
-    private String purchaseOrderSmsQueue;
-
-    //Routing key for purchase order sms queue
-    @Value("${producer.purchase-order-sms.routing-key}")
-    private String purchaseOrderSmsQueueRoutingKey;
 
     //Exchange to route messages to respective queues
     @Bean
@@ -41,33 +34,21 @@ public class RabbitMQConfig {
         return  new TopicExchange(orderExchangeName);
     }
 
-    //Queue for purchasing order mail
+    //Queue for purchasing order
     @Bean
-    public Queue purchaseOrderMailQueue(){
-        return new Queue(purchaseOrderMailQueue);
+    public Queue purchaseOrderQueue(){
+        return new Queue(purchaseOrderQueue);
     }
 
-    //Binding of purchase order mail queue and its routing key to the exchange
+    //Binding of purchase order queue and its routing key to the exchange
     @Bean
-    public Binding purchaseOrderMailQueueBinding(){
+    public Binding purchaseOrderQueueBinding(){
         return BindingBuilder
-                .bind(purchaseOrderMailQueue())
+                .bind(purchaseOrderQueue())
                 .to(orderExchange())
-                .with(purchaseOrderMailQueueRoutingKey);
+                .with(purchaseOrderQueueRoutingKey);
     }
 
-    @Bean
-    public Queue purchaseOrderSmsQueue(){
-        return new Queue(purchaseOrderSmsQueue);
-    }
-
-    @Bean
-    public Binding purchaseOrderSmsQueueBinding(){
-        return BindingBuilder
-                .bind(purchaseOrderSmsQueue())
-                .to(orderExchange())
-                .with(purchaseOrderSmsQueueRoutingKey);
-    }
 
     @Bean
     public MessageConverter jsonMessageConverter(){
