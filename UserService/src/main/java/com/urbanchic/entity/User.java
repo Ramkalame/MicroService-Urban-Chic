@@ -1,7 +1,6 @@
 package com.urbanchic.entity;
 
 import com.urbanchic.entity.role.Role;
-import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -20,17 +19,12 @@ import org.springframework.data.mongodb.core.mapping.FieldType;
 public class User {
 
     @Id
-    @NotBlank(message = "user id can not be null")
     private String userId;
 
-    @NotBlank(message = "full name can not be null")
     private String fullName;
 
-    @NotBlank(message = "email can not be null")
-    @Email(message = "enter valid email")
     private String email;
 
-    @NotBlank(message = "mobile no. can not be null")
     private String mobileNo;
 
     private String profileImageUrl;

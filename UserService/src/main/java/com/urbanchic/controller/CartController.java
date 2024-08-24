@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
-@RequestMapping("/carts")
+@RequestMapping("/api/v1/carts")
 @RequiredArgsConstructor
 public class CartController {
 
@@ -52,7 +52,7 @@ public class CartController {
         return  ResponseEntity.status(HttpStatus.OK).body(apiResponse);
     }
 
-    @PutMapping("/change/Quantity/{cartItemId}/{productQuantity}")
+    @PutMapping("/change-quantity/{cartItemId}/{productQuantity}")
     public ResponseEntity<?> changeQuantity(@PathVariable("cartItemId") String cartItemId,
                                             @PathVariable("productQuantity") Integer productQuantity){
         String responseData = cartService.changeQuantity(cartItemId,productQuantity);

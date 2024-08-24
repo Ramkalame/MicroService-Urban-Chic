@@ -14,12 +14,12 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/address")
+@RequestMapping("/api/v1/addresses")
 public class AddressController {
 
     private  final AddressService addressService;
 
-    @PostMapping("/create")
+    @PostMapping("/add")
     public ResponseEntity<?> addAddress(@RequestBody @Valid Address address){
         Address responseData = addressService.createAddress(address);
         ApiResponse<Object> apiResponse = ApiResponse.builder()
