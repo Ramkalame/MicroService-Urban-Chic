@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
-@RequestMapping("/products")
+@RequestMapping("/api/v1/products")
 @RequiredArgsConstructor
 public class ProductController {
 
@@ -35,7 +35,7 @@ public class ProductController {
         return ResponseEntity.status(HttpStatus.CREATED).body(apiResponse);
     }
 
-    @DeleteMapping("/delete/{productId}")
+    @DeleteMapping("/{productId}")
     public ResponseEntity<?> deleteProductById(@PathVariable("productId") String productId) {
         String responseData = productService.deleteProduct(productId);
 
@@ -50,7 +50,7 @@ public class ProductController {
         return ResponseEntity.status(HttpStatus.OK).body(apiResponse);
     }
 
-    @GetMapping("/seller/{sellerId}")
+    @GetMapping("/sellers/{sellerId}")
     public ResponseEntity<?> getAllProductsBySeller(@PathVariable("sellerId") String sellerId) {
         List<Product> responseData = productService.getAllProductsBySellerId(sellerId);
 
@@ -111,7 +111,7 @@ public class ProductController {
         return ResponseEntity.status(HttpStatus.OK).body(apiResponse);
     }
 
-    @GetMapping("/attribute/{attributeName}/{attributeValue}")
+    @GetMapping("/attributes/{attributeName}/{attributeValue}")
     public ResponseEntity<?> getAllProductsByAttributes(@PathVariable("attributeName") String attributeName, @PathVariable("attributeValue") String attributeValue) {
         List<Product> responseData = productService.getAllProductByAttribute(attributeName,attributeValue);
 
@@ -127,7 +127,7 @@ public class ProductController {
 
     }
 
-    @GetMapping("/variant/{variantName}/{variantValue}")
+    @GetMapping("/variants/{variantName}/{variantValue}")
     public ResponseEntity<?> getAllProductsBySize(@PathVariable("variantName") String variantName,@PathVariable("variantValue") String variantValue) {
         List<Product> responseData = productService.getProductByVariants(variantName,variantValue);
 
@@ -143,7 +143,7 @@ public class ProductController {
 
     }
 
-    @GetMapping("/category/{productCategory}")
+    @GetMapping("/categories/{productCategory}")
     public ResponseEntity<?> getAllProductsByProductCategory(@PathVariable("productCategory") String productCategory) {
         List<Product> responseData = productService.getAllProductsByProductCategory(productCategory);
 
@@ -159,7 +159,7 @@ public class ProductController {
 
     }
 
-    @GetMapping("/subcategory/{productSubCategory}")
+    @GetMapping("/subcategories/{productSubCategory}")
     public ResponseEntity<?> getAllProductsByProductSubCategory(@PathVariable("productSubCategory") String productSubCategory) {
         List<Product> responseData = productService.getAllProductsByProductSubCategory(productSubCategory);
 
@@ -175,7 +175,7 @@ public class ProductController {
 
     }
 
-    @GetMapping("/type/{productType}")
+    @GetMapping("/types/{productType}")
     public ResponseEntity<?> getAllProductsByProductType(@PathVariable("productType") String productType) {
         List<Product> responseData = productService.getAllProductsByProductType(productType);
 
