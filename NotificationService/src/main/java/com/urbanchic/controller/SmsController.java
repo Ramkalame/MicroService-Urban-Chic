@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.time.LocalDateTime;
 
 @RestController
-@RequestMapping("/sms")
+@RequestMapping("/api/v1/sms")
 @RequiredArgsConstructor
 public class SmsController {
 

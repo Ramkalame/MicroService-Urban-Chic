@@ -1,6 +1,6 @@
 package com.urbanchic.service.impl;
 
-import com.urbanchic.external.Product;
+import com.urbanchic.external.OrderedProduct;
 import com.urbanchic.external.PurchasedOrderDto;
 import com.urbanchic.service.MailService;
 import jakarta.mail.internet.MimeMessage;
@@ -70,9 +70,9 @@ public class MailServiceImpl implements MailService {
                 .append("<tr><th>Item</th><th>Quantity</th><th>Price</th></tr>");
 
         // Iterate through the list of products to populate the table rows
-        for (Product product : purchasedOrderDto.getOrderedProductList()) {
+        for (OrderedProduct product : purchasedOrderDto.getOrderedProductList()) {
             htmlContent.append("<tr>")
-                    .append("<td>").append(product.getProductName()).append("</td>") // Product Name
+//                    .append("<td>").append(product.getProductName()).append("</td>") // Product Name
                     .append("<td>").append(product.getProductQuantity()).append("</td>") // Quantity
                     .append("<td>").append(product.getProductPrice()).append("</td>") // Price
                     .append("</tr>");

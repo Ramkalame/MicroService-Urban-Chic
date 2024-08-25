@@ -1,12 +1,11 @@
 server:
   port: 8084
 
-#RabbitMQ Properties
+#Custom Properties For RabbitMQ Configuration
 consumer:
-  purchase-order-mail:
-    queue-name: purchaseOrderMailQueue
-  purchase-order-sms:
-    queue-name: purchaseOrderSmsQueue
+  purchase-order:
+    queue-name: purchaseOrderQueue
+
 
 spring:
   application:

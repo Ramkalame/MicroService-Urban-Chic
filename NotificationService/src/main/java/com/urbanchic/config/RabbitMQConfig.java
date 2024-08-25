@@ -12,14 +12,14 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class RabbitMQConfig {
 
-    //Queue Name for purchase order mail
-    @Value("${consumer.purchase-order-mail.queue-name}")
-    private String purchaseOrderMailQueue;
+    //Queue Name for purchase order
+    @Value("${consumer.purchase-order.queue-name}")
+    private String purchaseOrderQueue;
 
     //Queue for listening
     @Bean
-    public Queue mailQueue(){
-        return new Queue(purchaseOrderMailQueue);
+    public Queue purchaseOrderQueue(){
+        return new Queue(purchaseOrderQueue);
     }
 
     //To convert the received message

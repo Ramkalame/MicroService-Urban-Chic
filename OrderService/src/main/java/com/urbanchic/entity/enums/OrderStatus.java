@@ -1,4 +1,4 @@
-package com.urbanchic.entity.statusenum;
+package com.urbanchic.entity.enums;
 
 public enum OrderStatus {
     PACKAGING,

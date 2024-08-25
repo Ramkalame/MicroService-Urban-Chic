@@ -1,13 +1,11 @@
 package com.urbanchic.service.impl;
 
-import com.urbanchic.external.PurchasedOrderDto;
 import com.urbanchic.service.MailService;
 import com.urbanchic.service.ConsumerService;
+import com.urbanchic.service.SmsAndEmailDetailsService;
 import com.urbanchic.service.SmsService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Service;
 
@@ -16,22 +14,15 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class ConsumerServiceImpl implements ConsumerService {
 
-    private final MailService mailService;
-    private final SmsService smsService;
+    private final SmsAndEmailDetailsService smsAndEmailDetailsService;
 
     @Override
-    @RabbitListener(queues ={"${consumer.purchase-order-mail.queue-name}"} )
-    public void purchaseOrderMailQueueConsumer(PurchasedOrderDto purchasedOrderEmailDto){
-            mailService.sendPurchaseOrderMail(purchasedOrderEmailDto);
-            log.info("Purchase Order Mail sent to : {}",purchasedOrderEmailDto.getBuyerName());
+    @RabbitListener(queues ={"${consumer.purchase-order.queue-name}"} )
+    public void purchaseOrderQueueConsumer(String orderId){
+        smsAndEmailDetailsService.prepareSmsAndEmailDetails(orderId);
+        log.info("Order Id: {}",orderId);
     }
 
-    @Override
-    @RabbitListener(queues = {"${consumer.purchase-order-sms.queue-name}"})
-    public void purchaseOrderSmsQueueConsumer(PurchasedOrderDto purchasedOrderSmsDto) {
-            smsService.sendPurchaseOrderSms(purchasedOrderSmsDto);
-            log.info("Purchase Order SMS sent to : {}",purchasedOrderSmsDto.getBuyerName());
-    }
 
 
 }

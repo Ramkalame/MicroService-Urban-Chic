@@ -5,7 +5,7 @@ import com.twilio.type.PhoneNumber;
 import com.urbanchic.dto.OtpRequestDto;
 import com.urbanchic.dto.OtpSmsResponseDto;
 import com.urbanchic.exception.SmsNotSentException;
-import com.urbanchic.external.Product;
+import com.urbanchic.external.OrderedProduct;
 import com.urbanchic.external.PurchasedOrderDto;
 import com.urbanchic.service.SmsService;
 import com.urbanchic.config.TwillioConfig;
@@ -55,8 +55,8 @@ public class SmsServiceImpl implements SmsService {
         orderConfirmationMessage.append("Your order #"+purchasedOrderDto.getOrderId()+" has been received.\n");
         orderConfirmationMessage.append("Order Details :\n");
 
-        for (Product product: purchasedOrderDto.getOrderedProductList()){
-            orderConfirmationMessage.append("- "+product.getProductName()+" : "+product.getProductQuantity()+", ₹"+product.getProductPrice()+"\n");
+        for (OrderedProduct product: purchasedOrderDto.getOrderedProductList()){
+//            orderConfirmationMessage.append("- "+product.getProductName()+" : "+product.getProductQuantity()+", ₹"+product.getProductPrice()+"\n");
         }
         double productPrice = purchasedOrderDto
                 .getOrderedProductList()
