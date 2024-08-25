@@ -3,12 +3,11 @@ package com.urbanchic.controller;
 import com.urbanchic.dto.OrderDto;
 import com.urbanchic.dto.UpdateOrderStatusDto;
 import com.urbanchic.entity.Order;
-import com.urbanchic.entity.statusenum.OrderStatus;
+import com.urbanchic.entity.enums.OrderStatus;
 import com.urbanchic.service.OrderService;
 import com.urbanchic.util.ApiResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.aspectj.weaver.ast.Or;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +18,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/orders")
+@CrossOrigin("http://localhost:4200")
 public class OrderController {
 
     private final OrderService orderService;

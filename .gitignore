@@ -23,4 +23,6 @@
 hs_err_pid*
 replay_pid*
 
+PaymentService/src/main/java/com/urbanchic/util/RazorPayDetails.java
+
 NotificationService/src/main/java/com/urbanchic/config/TwilioProperties.java
