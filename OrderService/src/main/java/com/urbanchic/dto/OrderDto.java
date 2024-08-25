@@ -23,10 +23,12 @@ public class OrderDto {
     private String sellerId;
     @NotNull(message = "payment id is mandatory")
     private String paymentId;
+    @NotNull(message = "order type is mandatory")
+    private String orderType;
     @NotNull(message = "product id is mandatory")
-    private List<OrderedProduct> orderedProducts;
+    private List<OrderedProductDto> orderedProducts;
     @NotNull(message = "address is mandatory")
-    private Address address;
+    private AddressDto address;
 
 
 }

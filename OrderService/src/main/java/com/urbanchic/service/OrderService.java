@@ -3,8 +3,7 @@ package com.urbanchic.service;
 import com.urbanchic.dto.OrderDto;
 import com.urbanchic.dto.UpdateOrderStatusDto;
 import com.urbanchic.entity.Order;
-import com.urbanchic.entity.OrderedProduct;
-import com.urbanchic.entity.statusenum.OrderStatus;
+import com.urbanchic.entity.enums.OrderStatus;
 
 import java.util.List;
 

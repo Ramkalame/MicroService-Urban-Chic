@@ -1,22 +1,27 @@
 package com.urbanchic.service.impl;
 
+import com.urbanchic.dto.AddressDto;
 import com.urbanchic.dto.OrderDto;
+import com.urbanchic.dto.OrderedProductDto;
 import com.urbanchic.dto.UpdateOrderStatusDto;
 import com.urbanchic.entity.Address;
 import com.urbanchic.entity.Order;
 import com.urbanchic.entity.OrderedProduct;
-import com.urbanchic.entity.statusenum.OrderStatus;
+import com.urbanchic.entity.enums.OrderStatus;
+import com.urbanchic.entity.enums.OrderType;
 import com.urbanchic.exception.EntityNotFoundException;
 import com.urbanchic.repository.OrderRepository;
 import com.urbanchic.service.MessageProducer;
 import com.urbanchic.service.OrderService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class OrderServiceImpl implements OrderService {
@@ -25,6 +30,7 @@ public class OrderServiceImpl implements OrderService {
     private final MessageProducer messageProducer;
 
     @Override
+    @Transactional
     public Order addOrder(OrderDto orderDto) {
         String orderId = UUID.randomUUID().toString().replace("-","");
 
@@ -36,16 +42,34 @@ public class OrderServiceImpl implements OrderService {
                 .orderStatus(OrderStatus.PACKAGING)
                 .build();
 
-        Address address = orderDto.getAddress();
-        address.setOrder(newOrder);
+        AddressDto addressdto = orderDto.getAddress();
+        Address address = Address.builder()
+                .street(addressdto.getStreet())
+                .city(addressdto.getCity())
+                .state(addressdto.getState())
+                .zipCode(addressdto.getZipCode())
+                .order(newOrder)
+                .build();
         List<OrderedProduct> orderedProducts = new ArrayList<>();
-        for (OrderedProduct orderedProduct:orderDto.getOrderedProducts()){
-            orderedProduct.setOrder(newOrder);
+        for (OrderedProductDto orderedProductDto:orderDto.getOrderedProducts()){
+            OrderedProduct orderedProduct = OrderedProduct.builder()
+                    .productId(orderedProductDto.getProductId())
+                    .productQuantity(orderedProductDto.getProductQuantity())
+                    .productPrice(orderedProductDto.getProductPrice())
+                    .order(newOrder)
+                    .build();
             orderedProducts.add(orderedProduct);
         }
         newOrder.setOrderedProducts(orderedProducts);
         newOrder.setAddress(address);
+
+        if (orderDto.getOrderType().equals(OrderType.ONLINE_PAYMENT.name())) {
+            newOrder.setOrderType(OrderType.ONLINE_PAYMENT);
+        }else {
+            newOrder.setOrderType(OrderType.CASH_ON_DELIVERY);
+        }
         Order savedOrder = orderRepository.save(newOrder);
+        log.info("Order Created with OrderId: {}",savedOrder.getOrderId());
         messageProducer.sendPurchaseOrderId(savedOrder.getOrderId());
         return savedOrder;
     }

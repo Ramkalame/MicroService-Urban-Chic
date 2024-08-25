@@ -1,7 +1,7 @@
 package com.urbanchic.repository;
 
 import com.urbanchic.entity.Order;
-import com.urbanchic.entity.statusenum.OrderStatus;
+import com.urbanchic.entity.enums.OrderStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

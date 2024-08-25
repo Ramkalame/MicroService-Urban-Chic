@@ -1,7 +1,7 @@
 package com.urbanchic.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.urbanchic.entity.statusenum.OrderStatus;
+import com.urbanchic.entity.enums.OrderStatus;
+import com.urbanchic.entity.enums.OrderType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -34,6 +34,8 @@ public class Order {
     private String paymentId;
     @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;
+    @Enumerated(EnumType.STRING)
+    private OrderType orderType;
     @CreationTimestamp
     private LocalDateTime createdDate;
     @UpdateTimestamp
