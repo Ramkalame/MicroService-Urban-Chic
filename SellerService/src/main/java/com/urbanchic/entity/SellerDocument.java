@@ -1,7 +1,7 @@
-package com.urbanchic.model;
+package com.urbanchic.entity;
 
 
-import com.urbanchic.model.sellerEnum.SellerStatus;
+import com.urbanchic.entity.sellerEnum.SellerStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

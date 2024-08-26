@@ -1,4 +1,4 @@
-package com.urbanchic.modelDTO;
+package com.urbanchic.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;

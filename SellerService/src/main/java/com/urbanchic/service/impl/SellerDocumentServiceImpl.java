@@ -1,9 +1,9 @@
 package com.urbanchic.service.impl;
 
-import com.urbanchic.exception.SellerNotFoundException;
-import com.urbanchic.model.SellerDocument;
-import com.urbanchic.model.sellerEnum.SellerStatus;
-import com.urbanchic.modelDTO.SellerDocumentDto;
+import com.urbanchic.exception.EntityNotFoundException;
+import com.urbanchic.entity.SellerDocument;
+import com.urbanchic.entity.sellerEnum.SellerStatus;
+import com.urbanchic.dto.SellerDocumentDto;
 import com.urbanchic.repository.SellerDocumentRepository;
 import com.urbanchic.service.SellerDocumentService;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +25,7 @@ public class SellerDocumentServiceImpl implements SellerDocumentService {
                 .bankFrontPageImg(sellerDocumentDto.getBankFrontPageImg())
                 .accountNo(sellerDocumentDto.getAccountNo())
                 .ifscCode(sellerDocumentDto.getIfscCode())
-                .sellerStatus(SellerStatus.PENDING_VERIFICATION)
+                .sellerStatus(SellerStatus.VERIFICATION_PENDING)
                 .sellerId(sellerDocumentDto.getSellerId())
                 .build();
 
@@ -36,7 +36,7 @@ public class SellerDocumentServiceImpl implements SellerDocumentService {
     public boolean approveVerificationRequest(String sellerId) {
         SellerDocument existringSellerDocument = sellerDocumentRepository.findBySellerId(sellerId);
         if(existringSellerDocument == null){
-            throw new SellerNotFoundException("Seller not found with this email: " + sellerId);
+            throw new EntityNotFoundException("Seller not found with this email: " + sellerId);
         }
         existringSellerDocument.setSellerStatus(SellerStatus.VERIFIED);
         sellerDocumentRepository.save(existringSellerDocument);
@@ -47,7 +47,7 @@ public class SellerDocumentServiceImpl implements SellerDocumentService {
     public boolean rejectVerificationRequest(String sellerId) {
         SellerDocument existringSellerDocument = sellerDocumentRepository.findBySellerId(sellerId);
         if(existringSellerDocument == null){
-            throw new SellerNotFoundException("Seller not found with this email: " + sellerId);
+            throw new EntityNotFoundException("Seller not found with this email: " + sellerId);
         }
         existringSellerDocument.setSellerStatus(SellerStatus.REJECTED);
         sellerDocumentRepository.save(existringSellerDocument);

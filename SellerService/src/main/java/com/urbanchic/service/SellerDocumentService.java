@@ -1,7 +1,7 @@
 package com.urbanchic.service;
 
-import com.urbanchic.model.SellerDocument;
-import com.urbanchic.modelDTO.SellerDocumentDto;
+import com.urbanchic.entity.SellerDocument;
+import com.urbanchic.dto.SellerDocumentDto;
 
 public interface SellerDocumentService {
 
