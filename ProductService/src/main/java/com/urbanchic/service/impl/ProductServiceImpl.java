@@ -2,6 +2,7 @@ package com.urbanchic.service.impl;
 
 import com.urbanchic.dto.ProductDto;
 import com.urbanchic.entity.Product;
+import com.urbanchic.event.DeleteAllPrductImagesEvent;
 import com.urbanchic.event.DeleteAllReviewsOfProductEvent;
 import com.urbanchic.exception.EntityNotFoundException;
 import com.urbanchic.repository.CustomProductRepository;
@@ -52,7 +53,7 @@ public class ProductServiceImpl implements ProductService {
 
         //reviewService.deleteAllReviewByProductId(productId); Instead of this
         eventPublisher.publishEvent(new DeleteAllReviewsOfProductEvent(this,productId));
-
+        eventPublisher.publishEvent(new DeleteAllPrductImagesEvent(this,productId));
         return "Product Deleted ID :" + productId;
     }
 
