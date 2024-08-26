@@ -1,8 +1,7 @@
 package com.urbanchic.service;
 
-import com.urbanchic.model.Company;
-import com.urbanchic.modelDTO.CompanyDto;
-import org.springframework.stereotype.Service;
+import com.urbanchic.entity.Company;
+import com.urbanchic.dto.CompanyDto;
 
 
 public interface CompanyService {

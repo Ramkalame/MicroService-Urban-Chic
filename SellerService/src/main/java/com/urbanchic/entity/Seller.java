@@ -1,4 +1,4 @@
-package com.urbanchic.model;
+package com.urbanchic.entity;
 
 
 import lombok.AllArgsConstructor;
@@ -11,16 +11,16 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Document(collection = "seller_collecion")
+@Document(collection = "seller_details_collection")
 public class Seller {
 
     @Id
     private String sellerId;
     private String sellerFullName;
-    private String sellerEmail;
     private String sellerPrimaryMoNumber;
     private String sellerPrimaryEmail;
     private String sellerSecondaryMoNumber;
     private String sellerSecondaryEmail;
-    private String sellerAddress;
+    private String sellerAccountStatus;
+
 }

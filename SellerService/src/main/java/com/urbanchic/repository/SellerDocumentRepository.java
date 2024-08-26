@@ -1,7 +1,7 @@
 package com.urbanchic.repository;
 
-import com.urbanchic.model.SellerDocument;
-import com.urbanchic.model.sellerEnum.SellerStatus;
+import com.urbanchic.entity.SellerDocument;
+import com.urbanchic.entity.sellerEnum.SellerStatus;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 

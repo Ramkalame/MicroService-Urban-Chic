@@ -1,19 +1,19 @@
 package com.urbanchic.service;
 
-import com.urbanchic.model.Seller;
-import com.urbanchic.model.SellerDocument;
-import com.urbanchic.modelDTO.SellerDto;
-import org.springframework.stereotype.Service;
+import com.urbanchic.entity.Seller;
+import com.urbanchic.entity.SellerDocument;
+import com.urbanchic.dto.SellerDto;
 
 import java.util.List;
 
 
 public interface SellerService {
 
-    public Seller createSeller(SellerDto sellerDto);
-    public Seller updateSeller(SellerDto seller);
-    public Seller getSellerBySellerId(String email);
-    public List<SellerDocument> getListOfPendingSeller();
+     Seller createSeller(SellerDto sellerDto);
+     Seller updateSeller(String sellerId,SellerDto sellerDto);
+     Seller getSellerBySellerId(String sellerId);
+     List<Seller> getAllSellerByAccountStatus(String accountStatus);
+     Seller getSellerByPrimaryEmail(String primaryEmail);
 
 
 }

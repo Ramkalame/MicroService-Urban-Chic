@@ -1,4 +1,4 @@
-package com.urbanchic.model;
+package com.urbanchic.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

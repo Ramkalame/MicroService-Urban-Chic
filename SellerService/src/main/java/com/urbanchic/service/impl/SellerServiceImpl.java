@@ -1,13 +1,15 @@
 package com.urbanchic.service.impl;
 
+import com.urbanchic.dto.SellerAddressDto;
 import com.urbanchic.exception.SellerAlreadyExistException;
-import com.urbanchic.exception.SellerNotFoundException;
-import com.urbanchic.model.Seller;
-import com.urbanchic.model.SellerDocument;
-import com.urbanchic.model.sellerEnum.SellerStatus;
-import com.urbanchic.modelDTO.SellerDto;
+import com.urbanchic.exception.EntityNotFoundException;
+import com.urbanchic.entity.Seller;
+import com.urbanchic.entity.SellerDocument;
+import com.urbanchic.entity.sellerEnum.SellerStatus;
+import com.urbanchic.dto.SellerDto;
 import com.urbanchic.repository.SellerDocumentRepository;
 import com.urbanchic.repository.SellerRepository;
+import com.urbanchic.service.SellerAddressService;
 import com.urbanchic.service.SellerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -20,48 +22,64 @@ import java.util.NoSuchElementException;
 public class SellerServiceImpl implements SellerService {
 
     private final SellerRepository sellerRepository;
-
-    private final SellerDocumentRepository sellerDocumentRepository;
+    private final SellerAddressService sellerAddressService;
 
     @Override
     public Seller createSeller(SellerDto sellerDto) {
-        if (sellerRepository.findBySellerPrimaryEmail(sellerDto.getSellerPrimaryEmail()) != null){
+        if (sellerRepository.findBySellerPrimaryEmail(sellerDto.getSellerPrimaryEmail()).isPresent()){
             throw new SellerAlreadyExistException("Seller is already present with this email: "+ sellerDto.getSellerPrimaryEmail());
         }
 
         Seller newSeller = Seller.builder()
                 .sellerFullName(sellerDto.getSellerFullName())
-                .sellerEmail(sellerDto.getSellerEmail())
                 .sellerPrimaryMoNumber(sellerDto.getSellerPrimaryMoNumber())
                 .sellerPrimaryEmail(sellerDto.getSellerPrimaryEmail())
                 .sellerSecondaryMoNumber(sellerDto.getSellerSecondaryMoNumber())
                 .sellerSecondaryEmail(sellerDto.getSellerSecondaryEmail())
-                .sellerAddress(sellerDto.getSellerAddress())
+                .sellerAccountStatus(SellerStatus.VERIFICATION_PENDING.name())
                 .build();
-        return sellerRepository.save(newSeller);
+        Seller savedSeller = sellerRepository.save(newSeller);
+
+        SellerAddressDto sellerAddressDto = sellerDto.getSellerAddress();
+        sellerAddressDto.setSellerId(savedSeller.getSellerId());
+        sellerAddressService.addSellerAddress(sellerAddressDto);
+        return savedSeller;
     }
 
     @Override
-    public Seller updateSeller(SellerDto seller) {
-        return null;
+    public Seller updateSeller(String sellerId,SellerDto sellerDto) {
+        Seller seller = sellerRepository.findById(sellerId).orElseThrow(() ->
+                new EntityNotFoundException("Seller Not Found"));
+        seller.setSellerFullName(sellerDto.getSellerFullName());
+        seller.setSellerPrimaryMoNumber(sellerDto.getSellerPrimaryMoNumber());
+        seller.setSellerPrimaryEmail(sellerDto.getSellerPrimaryEmail());
+        seller.setSellerSecondaryMoNumber(sellerDto.getSellerSecondaryMoNumber());
+        seller.setSellerSecondaryEmail(sellerDto.getSellerSecondaryEmail());
+        Seller updatedSellerDetails = sellerRepository.save(seller);
+        return updatedSellerDetails;
     }
 
     @Override
-    public Seller getSellerBySellerId(String email) {
-        Seller existingSeller = sellerRepository.findBySellerPrimaryEmail(email);
-        if(existingSeller == null){
-            throw new SellerNotFoundException("seller not found with this email: "+email);
-        }
+    public Seller getSellerBySellerId(String sellerId) {
+        Seller existingSeller = sellerRepository.findById(sellerId).orElseThrow(()->
+                new EntityNotFoundException("Seller not found"));
         return existingSeller;
     }
 
     @Override
-    public List<SellerDocument> getListOfPendingSeller() {
-        List<SellerDocument> listOfPendingSeller = sellerDocumentRepository.findBySellerStatus(SellerStatus.PENDING_VERIFICATION);
-        if(listOfPendingSeller.isEmpty()){
-            throw new NoSuchElementException("there is no pending seller available");
+    public List<Seller> getAllSellerByAccountStatus(String accountStatus) {
+        List<Seller> sellerList = sellerRepository.findBySellerAccountStatus(accountStatus);
+        if (sellerList.isEmpty()){
+            throw  new EntityNotFoundException("No Seller Found With Status:- "+accountStatus);
         }
-        return listOfPendingSeller;
+        return  sellerList;
+    }
+
+    @Override
+    public Seller getSellerByPrimaryEmail(String primaryEmail) {
+        Seller seller = sellerRepository.findBySellerPrimaryEmail(primaryEmail).orElseThrow( ()->
+                new EntityNotFoundException("Seller Not Found with email:- "+primaryEmail));
+        return  seller;
     }
 
 
