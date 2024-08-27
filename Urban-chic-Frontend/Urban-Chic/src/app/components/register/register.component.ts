@@ -6,7 +6,7 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { OtpmodelComponent } from '../../otpmodel/otpmodel.component';
 import { AuthService } from '../../service/login-registration/auth.service';
 import { User } from '../../Model/user';
-import { HttpClientModule } from '@angular/common/http';
+import {} from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 
@@ -16,7 +16,11 @@ import { Router } from '@angular/router';
   imports: [
     CommonModule,
     FormsModule,
-    HttpClientModule,
+    
+// TODO: `HttpClientModule` should not be imported into a component directly.
+// Please refactor the code to add `provideHttpClient()` call to the provider list in the
+// application bootstrap logic and remove the `HttpClientModule` import from this component.
+HttpClientModule,
     MatDialogModule,
   ],
   templateUrl: './register.component.html',
