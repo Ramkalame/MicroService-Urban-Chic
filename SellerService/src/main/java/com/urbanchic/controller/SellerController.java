@@ -91,6 +91,17 @@ public class SellerController {
         return ResponseEntity.status(HttpStatus.OK).body(apiResponse);
     }
 
-
+    @DeleteMapping("/seller/{sellerId}")
+    public ResponseEntity<?> deleteSeller(@PathVariable("sellerId") String sellerId){
+        String responseData = sellerService.deleteSeller(sellerId);
+        ApiResponse<String> apiResponse = ApiResponse.<String>builder()
+                .data(responseData)
+                .message("Seller Details Deleted Successfully")
+                .timestamp(LocalDateTime.now())
+                .statusCode(HttpStatus.OK.value())
+                .success(true)
+                .build();
+        return ResponseEntity.status(HttpStatus.OK).body(apiResponse);
+    }
 
 }

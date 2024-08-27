@@ -1,45 +1,34 @@
 package com.urbanchic.dto;
 
+import com.urbanchic.entity.SellerAddress;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+@Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
 public class SellerDocumentDto {
 
-    @NotBlank(message = "Aadhaar image is required")
-    private String aadhaarImg;
-
-    @NotBlank(message = "Aadhaar number is required")
-    @Pattern(regexp = "^[0-9]{12}$", message = "Aadhaar number must be 12 digits")
-    private String aadhaarNo;
-
-    @NotBlank(message = "PAN image is required")
-    private String panImg;
-
+    @NotBlank(message = "company name is required")
+    private String companyName;
+    @NotBlank(message = "company logo is required")
+    private String companyLogoUrl;
+    @NotNull(message = "company address is required")
+    private SellerAddressDto sellerAddress;
+    @NotBlank(message = "GST number is required")
+    private String gstNumber;
     @NotBlank(message = "PAN number is required")
-    @Pattern(regexp = "[A-Z]{5}[0-9]{4}[A-Z]{1}", message = "Invalid PAN format")
-    private String panNo;
-
-    @NotBlank(message = "Bank front page image is required")
-    private String bankFrontPageImg;
-
-    @NotBlank(message = "Account number is required")
-    @Size(min = 10, max = 20, message = "Account number must be between 10 and 20 characters")
-    private String accountNo;
-
-    @NotBlank(message = "IFSC code is required")
-    @Pattern(regexp = "^[A-Z]{4}0[A-Z0-9]{6}$", message = "Invalid IFSC code format")
+    private String panNumber;
+    @NotBlank(message = "Account Number is required")
+    private String accountNumber;
+    @NotBlank(message = "IFSC code is mandatory")
     private String ifscCode;
-
-    @NotBlank(message = "Seller ID is required")
+    @NotBlank(message = "seller Id is mandatory")
     private String sellerId;
 
 }

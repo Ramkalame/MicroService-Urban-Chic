@@ -1,6 +1,6 @@
 package com.urbanchic.exception.handler;
 
-import com.urbanchic.exception.SellerAlreadyExistException;
+import com.urbanchic.exception.EntityAlreadyExistException;
 import com.urbanchic.exception.EntityNotFoundException;
 import com.urbanchic.utils.ApiResponse;
 import org.springframework.http.HttpStatus;
@@ -39,8 +39,8 @@ public class SellerServiceGlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(apiResponse);
     }
 
-    @ExceptionHandler(SellerAlreadyExistException.class)
-    public ResponseEntity<?> handleAlreadyExistException(SellerAlreadyExistException e){
+    @ExceptionHandler(EntityAlreadyExistException.class)
+    public ResponseEntity<?> handleAlreadyExistException(EntityAlreadyExistException e){
         ApiResponse<Object> apiResponse = ApiResponse.builder()
                 .data(null)
                 .message(e.getMessage())
