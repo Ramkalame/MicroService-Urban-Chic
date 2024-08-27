@@ -21,7 +21,6 @@ public class Product {
     private String productName;
     private Double productPrice;
     private String productDescription;
-    private String productImageUrl;
     private Integer productQuantity;
     private String productBrand;
     private String productCategory;

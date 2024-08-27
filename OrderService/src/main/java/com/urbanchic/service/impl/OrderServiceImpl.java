@@ -70,7 +70,7 @@ public class OrderServiceImpl implements OrderService {
         }
         Order savedOrder = orderRepository.save(newOrder);
         log.info("Order Created with OrderId: {}",savedOrder.getOrderId());
-        messageProducer.sendPurchaseOrderId(savedOrder.getOrderId());
+        //messageProducer.sendPurchaseOrderId(savedOrder.getOrderId());
         return savedOrder;
     }
 

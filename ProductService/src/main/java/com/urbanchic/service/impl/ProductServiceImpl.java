@@ -32,7 +32,6 @@ public class ProductServiceImpl implements ProductService {
                 .productName(addProductDto.getProductName())
                 .productPrice(addProductDto.getProductPrice())
                 .productDescription(addProductDto.getProductDescription())
-                .productImageUrl(addProductDto.getProductImageUrl())
                 .productQuantity(addProductDto.getProductQuantity())
                 .productBrand(addProductDto.getProductBrand())
                 .productCategory(addProductDto.getProductCategory())
@@ -80,7 +79,6 @@ public class ProductServiceImpl implements ProductService {
         existingProduct.setProductName(updateProductDto.getProductName());
         existingProduct.setProductPrice(updateProductDto.getProductPrice());
         existingProduct.setProductDescription(updateProductDto.getProductDescription());
-        existingProduct.setProductImageUrl(updateProductDto.getProductImageUrl());
         existingProduct.setProductQuantity(updateProductDto.getProductQuantity());
         existingProduct.setProductBrand(updateProductDto.getProductBrand());
         existingProduct.setProductCategory(updateProductDto.getProductCategory());

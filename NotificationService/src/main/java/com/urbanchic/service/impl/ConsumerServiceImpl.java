@@ -1,9 +1,7 @@
 package com.urbanchic.service.impl;
 
-import com.urbanchic.service.MailService;
 import com.urbanchic.service.ConsumerService;
 import com.urbanchic.service.SmsAndEmailDetailsService;
-import com.urbanchic.service.SmsService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
