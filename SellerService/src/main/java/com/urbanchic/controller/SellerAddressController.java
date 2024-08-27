@@ -4,7 +4,7 @@ import com.urbanchic.dto.SellerAddressDto;
 import com.urbanchic.entity.SellerAddress;
 import com.urbanchic.service.SellerAddressService;
 import com.urbanchic.utils.ApiResponse;
-import jakarta.ws.rs.Path;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,10 +14,26 @@ import java.time.LocalDateTime;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/seller-address")
+@RequestMapping("/api/v1/company-address")
 public class SellerAddressController {
 
     private final SellerAddressService sellerAddressService;
+
+
+    @PostMapping("/add")
+    public ResponseEntity<?> addSellerAddress(@RequestBody @Valid SellerAddressDto sellerAddressDto){
+        SellerAddress responseData = sellerAddressService.addSellerAddress(sellerAddressDto);
+
+        ApiResponse<SellerAddress> apiResponse = ApiResponse.<SellerAddress>builder()
+                .data(responseData)
+                .message("Seller Address is added successfully")
+                .timestamp(LocalDateTime.now())
+                .statusCode(HttpStatus.CREATED.value())
+                .success(true)
+                .build();
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(apiResponse);
+    }
 
     @GetMapping("/seller/{sellerId}")
     public ResponseEntity<?> getSellerAddressBySellerId(@PathVariable("sellerId") String sellerId){
@@ -25,7 +41,7 @@ public class SellerAddressController {
 
         ApiResponse<SellerAddress> apiResponse = ApiResponse.<SellerAddress>builder()
                 .data(responseData)
-                .message("Address is Fetched successfully")
+                .message("Seller Address is Fetched successfully")
                 .timestamp(LocalDateTime.now())
                 .statusCode(HttpStatus.OK.value())
                 .success(true)
@@ -37,11 +53,11 @@ public class SellerAddressController {
     @PutMapping("/update/{id}")
     public ResponseEntity<?> updateSellerAddress(@PathVariable("id") String id,
                                                  @RequestBody SellerAddressDto sellerAddressDto){
-        SellerAddress responseData = sellerAddressService.updateSellerAddress(id,sellerAddressDto);
+        SellerAddress responseData = sellerAddressService.updateSellerAddress(id, sellerAddressDto);
 
         ApiResponse<SellerAddress> apiResponse = ApiResponse.<SellerAddress>builder()
                 .data(responseData)
-                .message("Address is updated successfully")
+                .message("Seller Address is updated successfully")
                 .timestamp(LocalDateTime.now())
                 .statusCode(HttpStatus.OK.value())
                 .success(true)

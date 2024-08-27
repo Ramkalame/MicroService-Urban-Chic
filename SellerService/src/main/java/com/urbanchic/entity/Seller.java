@@ -19,8 +19,7 @@ public class Seller {
     private String sellerFullName;
     private String sellerPrimaryMoNumber;
     private String sellerPrimaryEmail;
-    private String sellerSecondaryMoNumber;
-    private String sellerSecondaryEmail;
+    private String sellerPassword;
     private String sellerAccountStatus;
 
 }

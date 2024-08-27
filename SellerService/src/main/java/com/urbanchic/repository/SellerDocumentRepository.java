@@ -1,15 +1,13 @@
 package com.urbanchic.repository;
 
 import com.urbanchic.entity.SellerDocument;
-import com.urbanchic.entity.sellerEnum.SellerStatus;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
+import java.util.Optional;
 
 @Repository
-public interface SellerDocumentRepository extends MongoRepository<SellerDocument, String> {
-    List<SellerDocument> findBySellerStatus(SellerStatus sellerStatus);
-
-    SellerDocument findBySellerId(String sellerId);
+public interface SellerDocumentRepository extends MongoRepository<SellerDocument,String> {
+    Optional<SellerDocument> findBySellerId(String sellerId);
+    Optional<SellerDocument> findByGstNumber(String gstNumber);
 }
