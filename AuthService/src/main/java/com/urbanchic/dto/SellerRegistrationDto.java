@@ -8,14 +8,11 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+@Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
-public class SellerDto {
-
-    @NotBlank(message = "seller id is required")
-    private String sellerId;
+public class SellerRegistrationDto {
 
     @NotBlank(message = "Seller full name is required")
     private String sellerFullName;
@@ -27,4 +24,9 @@ public class SellerDto {
     @Email(message = "Invalid email format")
     @NotBlank(message = "Seller email is required")
     private String sellerPrimaryEmail;
+
+    @NotBlank(message = "Password is required")
+    @Size(min = 6,max = 20,message = "Password must be at least 6 characters")
+    private String sellerPassword;
+
 }

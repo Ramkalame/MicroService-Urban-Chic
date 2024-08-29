@@ -1,6 +1,5 @@
 package com.urbanchic.service.impl;
 
-import com.urbanchic.client.UserServiceClient;
 import com.urbanchic.service.TokenService;
 import com.urbanchic.util.JwtUtil;
 import lombok.RequiredArgsConstructor;

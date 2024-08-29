@@ -1,4 +1,4 @@
-package com.urbanchic.entity;
+package com.urbanchic.external;
 
 
 import lombok.AllArgsConstructor;
@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -15,11 +16,12 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Seller {
 
     @Id
-    private String Id;
     private String sellerId;
     private String sellerFullName;
     private String sellerPrimaryMoNumber;
     private String sellerPrimaryEmail;
+    private String sellerPassword;
     private String sellerAccountStatus;
+    private String role;
 
 }

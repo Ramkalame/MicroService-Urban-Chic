@@ -29,6 +29,7 @@ public class SellerServiceImpl implements SellerService {
         }
 
         Seller newSeller = Seller.builder()
+                .sellerId(sellerDto.getSellerId())
                 .sellerFullName(sellerDto.getSellerFullName())
                 .sellerPrimaryMoNumber(sellerDto.getSellerPrimaryMoNumber())
                 .sellerPrimaryEmail(sellerDto.getSellerPrimaryEmail())

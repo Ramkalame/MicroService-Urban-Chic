@@ -2,7 +2,7 @@ package com.urbanchic.config;
 
 import com.urbanchic.config.filter.CsrfCookieFilter;
 import com.urbanchic.config.filter.JwtVerificationFilter;
-import com.urbanchic.external.role.Role;
+import com.urbanchic.entity.Role;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -40,13 +40,13 @@ public class AuthConfig {
              .csrf(csrf -> csrf
                      .csrfTokenRequestHandler(csrfTokenRequestAttributeHandler)
                      .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
-                     .ignoringRequestMatchers("/auth/**"))
+                     .ignoringRequestMatchers("/**"))
              .exceptionHandling(ex -> ex.accessDeniedHandler(customAccessDeniedHandler))
              .addFilterAfter(new CsrfCookieFilter(), BasicAuthenticationFilter.class)
              .addFilterBefore(jwtVerificationFilter, BasicAuthenticationFilter.class)
              .authorizeHttpRequests( request-> request
-                             .requestMatchers("/auth/**","/oauth2/**").permitAll()
-                     .requestMatchers("/users/**").hasAnyAuthority(Role.BUYER.name())
+                             .requestMatchers("/**").permitAll()
+//                     .requestMatchers("/users/**").hasAnyAuthority(Role.ROLE_BUYER.name())
              )
 
              //.formLogin(Customizer.withDefaults())

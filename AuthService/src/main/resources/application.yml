@@ -11,7 +11,7 @@ spring:
     mongodb:
       host: localhost
       port: 27017
-      database: ms_userservice_db
+      database: ms_authservice_db
 
 #  #Oauth2.0
 #  security:
