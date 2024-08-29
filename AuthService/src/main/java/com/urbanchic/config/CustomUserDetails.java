@@ -1,6 +1,7 @@
 package com.urbanchic.config;
 
-import com.urbanchic.external.role.Role;
+
+import com.urbanchic.entity.Role;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

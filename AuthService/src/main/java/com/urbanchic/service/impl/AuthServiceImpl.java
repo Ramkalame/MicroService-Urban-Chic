@@ -1,62 +1,54 @@
 package com.urbanchic.service.impl;
 
-import com.urbanchic.client.UserServiceClient;
-import com.urbanchic.dto.LoginRequestDto;
-import com.urbanchic.dto.OtpVerificationDto;
-import com.urbanchic.dto.UserRegistrationDto;
-import com.urbanchic.dto.UserSocialRegistrationDto;
-import com.urbanchic.external.User;
+
+import com.urbanchic.client.SellerServiceClient;
+import com.urbanchic.dto.SellerRegistrationDto;
+import com.urbanchic.dto.UserDto;
+import com.urbanchic.entity.User;
+import com.urbanchic.even.SellerProfileCreatedEvent;
+import com.urbanchic.external.SellerDto;
 import com.urbanchic.service.AuthService;
-import com.urbanchic.service.OtpService;
-import com.urbanchic.service.TokenService;
-import com.urbanchic.util.ApiResponse;
+import com.urbanchic.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.context.event.EventListener;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
 public class AuthServiceImpl implements AuthService {
 
-    private final UserServiceClient userServiceClient;
-    private final TokenService tokenService;
-    private final OtpService otpService;
-    private final AuthenticationManager authenticationManager;
-    private final UserDetailsService userDetailsService;
+    private final ApplicationEventPublisher eventPublisher;
+    private final SellerServiceClient sellerServiceClient;
+    private final UserService userService;
 
 
-    @Override
-    public ApiResponse<User> buyerRegister(UserRegistrationDto userRegistrationDto) {
-        ApiResponse<User> responseData = userServiceClient.register(userRegistrationDto);
-        return responseData;
-    }
 
     @Override
-    public ApiResponse<User> buyerSocialRegister(UserSocialRegistrationDto userSocialRegistrationDto) {
-        ApiResponse<User> responseData = userServiceClient.registerSocial(userSocialRegistrationDto);
-        return responseData;
-    }
-
-    @Override
-    public String login(LoginRequestDto loginRequestDto) {
-        String jwtToken = null;
-        User existingUser = userServiceClient.getUserByMobileNo(loginRequestDto.getMobileNo()).getData();
-        OtpVerificationDto otpVerificationDto = OtpVerificationDto.builder()
-                .moNumber(loginRequestDto.getMobileNo())
-                .otpNumber(loginRequestDto.getOtp())
+    public User createSellerUser(SellerRegistrationDto sellerRegistrationDto) {
+        UserDto newUser = UserDto.builder()
+                .userName(sellerRegistrationDto.getSellerPrimaryEmail())
+                .password(sellerRegistrationDto.getSellerPassword())
                 .build();
+        User savedUser = userService.createSellerUser(newUser);
 
-        if (otpService.verifyOtp(otpVerificationDto)){
-            Authentication authentication = new
-                    UsernamePasswordAuthenticationToken(loginRequestDto.getMobileNo(),loginRequestDto.getOtp());
-            authenticationManager.authenticate(authentication);
-            UserDetails userDetails = userDetailsService.loadUserByUsername(loginRequestDto.getMobileNo());
-            jwtToken =  tokenService.generateJwtToken(userDetails);
-        }
-        return jwtToken;
+        SellerDto newSellerDto = SellerDto.builder()
+                .sellerId(savedUser.getId())
+                .sellerFullName(sellerRegistrationDto.getSellerFullName())
+                .sellerPrimaryEmail(sellerRegistrationDto.getSellerPrimaryEmail())
+                .sellerPrimaryMoNumber(sellerRegistrationDto.getSellerPrimaryMoNumber())
+                .build();
+        eventPublisher.publishEvent(new SellerProfileCreatedEvent(this,newSellerDto));
+        return savedUser;
     }
+
+    @Override
+    @Async
+    @EventListener
+    public void sellerProfileCreatedEventListner(SellerProfileCreatedEvent sellerProfileCreatedEvent) {
+        sellerServiceClient.createSeller(sellerProfileCreatedEvent.getSellerDto());
+    }
+
+
 }

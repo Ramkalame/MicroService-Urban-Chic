@@ -2,10 +2,13 @@ package com.urbanchic.controller;
 
 import com.urbanchic.dto.*;
 import com.urbanchic.entity.Otp;
-import com.urbanchic.external.User;
+import com.urbanchic.entity.User;
+import com.urbanchic.external.Seller;
+import com.urbanchic.external.SellerDto;
 import com.urbanchic.service.AuthService;
 import com.urbanchic.service.OtpService;
 import com.urbanchic.util.ApiResponse;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -17,67 +20,30 @@ import java.time.LocalDateTime;
 
 @Slf4j
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/api/v1/auth")
 @RequiredArgsConstructor
 public class AuthController {
 
     private final AuthService authService;
     private final OtpService otpService;
 
-    @PostMapping("/register")
-    public ResponseEntity<ApiResponse<User>> buyerRegister(@RequestBody UserRegistrationDto userRegistrationDto) {
-        ApiResponse<User> responseData = authService.buyerRegister(userRegistrationDto);
-        return ResponseEntity.ok(responseData);
-    }
+    @PostMapping("/register/seller")
+    public ResponseEntity<?> createSellerUser(@RequestBody @Valid SellerRegistrationDto sellerRegistrationDto){
+        User responseData = authService.createSellerUser(sellerRegistrationDto);
 
-    @PostMapping("/register/social")
-    public ResponseEntity<?> buyerSocialRegister(@RequestBody UserSocialRegistrationDto userSocialRegistrationDto) {
-        ApiResponse<User> responseData = authService.buyerSocialRegister(userSocialRegistrationDto);
-        return ResponseEntity.ok(responseData);
-    }
-
-    @PostMapping("/login")
-    public ResponseEntity<?> normalLogin(@RequestBody LoginRequestDto loginRequestDto) {
-        String responseData = authService.login(loginRequestDto);
-        ApiResponse<String> apiResponse = ApiResponse.<String>builder()
+        ApiResponse<User> apiResponse = ApiResponse.<User>builder()
                 .data(responseData)
-                .message("Logged in successfully")
-                .timestamp(LocalDateTime.now())
-                .statusCode(HttpStatus.OK.value())
-                .success(true)
-                .build();
-
-        return ResponseEntity.ok(apiResponse);
-    }
-
-
-    @PostMapping("/send/otp")
-    public ResponseEntity<?> sendOtp(@RequestBody OtpRequestDto otpRequestDto) {
-        Otp responseData = otpService.sendOtp(otpRequestDto);
-        ApiResponse<Otp> apiResponse = ApiResponse.<Otp>builder()
-                .data(responseData)
-                .message("Otp Sent to mobile number : " + responseData.getMoNumber() + " successfully")
+                .message("User is created.")
                 .timestamp(LocalDateTime.now())
                 .statusCode(HttpStatus.CREATED.value())
                 .success(true)
                 .build();
 
-        return ResponseEntity.ok(apiResponse);
+        return ResponseEntity.status(HttpStatus.CREATED).body(apiResponse);
     }
 
-    @PostMapping("/verify/otp")
-    public ResponseEntity<?> verifyOtp(@RequestBody OtpVerificationDto otpVerificationDto) {
-        boolean responseData = otpService.verifyOtp(otpVerificationDto);
-        ApiResponse<Boolean> apiResponse = ApiResponse.<Boolean>builder()
-                .data(responseData)
-                .message(responseData)
-                .timestamp(LocalDateTime.now())
-                .statusCode(HttpStatus.CREATED.value())
-                .success(true)
-                .build();
 
-        return ResponseEntity.ok(apiResponse);
-    }
+
 
     @GetMapping("/dummy")
     public String get(){

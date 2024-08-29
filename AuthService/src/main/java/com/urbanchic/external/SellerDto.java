@@ -1,4 +1,4 @@
-package com.urbanchic.dto;
+package com.urbanchic.external;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 @Data
 public class SellerDto {
 
-    @NotBlank(message = "seller id is required")
+    @NotBlank(message = "Seller id name is required")
     private String sellerId;
 
     @NotBlank(message = "Seller full name is required")
@@ -27,4 +27,5 @@ public class SellerDto {
     @Email(message = "Invalid email format")
     @NotBlank(message = "Seller email is required")
     private String sellerPrimaryEmail;
+
 }
