@@ -6,4 +6,5 @@ import com.urbanchic.entity.User;
 public interface UserService {
 
     User createSellerUser(UserDto userDto);
+    User getByUserName(String userName);
 }

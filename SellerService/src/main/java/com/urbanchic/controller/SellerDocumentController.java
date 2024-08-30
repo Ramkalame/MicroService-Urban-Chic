@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/seller-documents")
+@RequestMapping("/api/v1/sellers/documents")
 public class SellerDocumentController {
 
     private final SellerDocumentService sellerDocumentService;

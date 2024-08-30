@@ -1,5 +1,6 @@
 package com.urbanchic.util;
 
+import com.urbanchic.config.CustomUserDetails;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -62,10 +63,10 @@ public class JwtUtil {
     }
 
     // public method to generate a token
-    public String generateToken(UserDetails userDetails) {
+    public String generateToken(CustomUserDetails userDetails) {
         Map<String, Object> claims = new HashMap<>();
         claims.put("roles", userDetails.getAuthorities());
-        return createToken(userDetails.getUsername(), claims);
+        return createToken(userDetails.getUserId(), claims);
     }
 
     // create a token using all the necessary details

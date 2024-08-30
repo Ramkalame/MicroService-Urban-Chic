@@ -6,7 +6,7 @@ import com.urbanchic.dto.OtpSmsResponseDto;
 import com.urbanchic.dto.OtpVerificationDto;
 import com.urbanchic.entity.Otp;
 import com.urbanchic.exception.OtpExpiredException;
-import com.urbanchic.exception.OtpNotFoundException;
+import com.urbanchic.exception.EntityNotFoundException;
 import com.urbanchic.repository.OtpRepository;
 import com.urbanchic.service.OtpService;
 import com.urbanchic.util.ApiResponse;
@@ -27,14 +27,14 @@ public class OtpServiceImpl implements OtpService {
     @Override
     public Otp getOtpByOtpNumber(String otpNumber) {
         Otp existingOtp = otpRepository.findByOtpNumber(otpNumber).orElseThrow(() ->
-                new OtpNotFoundException("Otp not found"));
+                new EntityNotFoundException("Otp not found"));
         return existingOtp;
     }
 
     @Override
     public boolean verifyOtp(OtpVerificationDto otpVerificationDto) {
         Otp existingOtp = otpRepository.findByMoNumber(otpVerificationDto.getMoNumber()).orElseThrow(() ->
-                new OtpNotFoundException("INVALID OTP:not found"));
+                new EntityNotFoundException("INVALID OTP:not found"));
 
         LocalDateTime nowDateTime = LocalDateTime.now();
         LocalDateTime expirationTime = existingOtp.getOtpCreationTime().plusSeconds(60);

@@ -1,7 +1,8 @@
 package com.urbanchic.config;
 
-import com.urbanchic.entity.Otp;
-import com.urbanchic.repository.OtpRepository;
+import com.urbanchic.entity.User;
+import com.urbanchic.exception.EntityNotFoundException;
+import com.urbanchic.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -12,14 +13,12 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class CustomUserDetailsService implements UserDetailsService {
 
-    private final OtpRepository otpRepository;
+    private final UserRepository userRepository;
 
     @Override
-    public UserDetails loadUserByUsername(String mobileNo) throws UsernameNotFoundException {
-//        User user = userServiceClient.getUserByMobileNo(mobileNo).getData();
-//        Otp otp = otpRepository.findByMoNumber(mobileNo).get();
-        
-//        return  new CustomUserDetails(user.getMobileNo(),otp.getOtpNumber(),user.getRole());
-        return  null;
+    public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
+        User user = userRepository.findByUserName(userName).orElseThrow(() ->
+                new EntityNotFoundException("User Not Found"));
+        return  new CustomUserDetails(user.getId(),user.getUserName(),user.getPassword(), user.getRole());
     }
 }

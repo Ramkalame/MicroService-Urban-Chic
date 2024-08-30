@@ -61,7 +61,7 @@ public class SellerServiceImpl implements SellerService {
 
     @Override
     public Seller getSellerBySellerId(String sellerId) {
-        Seller existingSeller = sellerRepository.findById(sellerId).orElseThrow(()->
+        Seller existingSeller = sellerRepository.findBySellerId(sellerId).orElseThrow(()->
                 new EntityNotFoundException("Seller not found"));
         return existingSeller;
     }

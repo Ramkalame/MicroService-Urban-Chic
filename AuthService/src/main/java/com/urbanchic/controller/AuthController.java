@@ -1,12 +1,9 @@
 package com.urbanchic.controller;
 
-import com.urbanchic.dto.*;
-import com.urbanchic.entity.Otp;
+import com.urbanchic.dto.seller.SellerLoginRequestDto;
+import com.urbanchic.dto.seller.SellerRegistrationDto;
 import com.urbanchic.entity.User;
-import com.urbanchic.external.Seller;
-import com.urbanchic.external.SellerDto;
 import com.urbanchic.service.AuthService;
-import com.urbanchic.service.OtpService;
 import com.urbanchic.util.ApiResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +22,6 @@ import java.time.LocalDateTime;
 public class AuthController {
 
     private final AuthService authService;
-    private final OtpService otpService;
 
     @PostMapping("/register/seller")
     public ResponseEntity<?> createSellerUser(@RequestBody @Valid SellerRegistrationDto sellerRegistrationDto){
@@ -40,6 +36,21 @@ public class AuthController {
                 .build();
 
         return ResponseEntity.status(HttpStatus.CREATED).body(apiResponse);
+    }
+
+    @PostMapping("/login/seller")
+    public ResponseEntity<?> sellerLogin(@RequestBody @Valid SellerLoginRequestDto sellerLoginRequestDto){
+        String responseData = authService.sellerLogin(sellerLoginRequestDto);
+
+        ApiResponse<String> apiResponse = ApiResponse.<String>builder()
+                .data(responseData)
+                .message("Logged In Successfully")
+                .timestamp(LocalDateTime.now())
+                .statusCode(HttpStatus.OK.value())
+                .success(true)
+                .build();
+
+        return ResponseEntity.status(HttpStatus.OK).body(apiResponse);
     }
 
 
