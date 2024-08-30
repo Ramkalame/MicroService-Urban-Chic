@@ -31,3 +31,6 @@ build/
 
 ### VS Code ###
 .vscode/
+
+src/main/java/com/urbanchic/config/TwilioConfigProperties.java
+NotificationService/src/main/java/com/urbanchic/config/TwillioConfigProperties.java
