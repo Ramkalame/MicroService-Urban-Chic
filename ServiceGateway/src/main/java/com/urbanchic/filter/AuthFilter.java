@@ -1,104 +1,99 @@
-//package com.urbanchic.filter;
-//
-//import com.urbanchic.client.AuthServiceClient;
-//import com.urbanchic.exception.MissingAuthorizationHeaderException;
-//import com.urbanchic.exception.MissingAuthorizationTokenException;
-//import lombok.extern.slf4j.Slf4j;
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.boot.autoconfigure.http.HttpMessageConverters;
-//import org.springframework.cloud.gateway.filter.GatewayFilter;
-//import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
-//import org.springframework.context.annotation.Bean;
-//import org.springframework.context.annotation.Configuration;
-//import org.springframework.http.HttpHeaders;
-//import org.springframework.http.HttpStatus;
-//import org.springframework.stereotype.Component;
-//import feign.Logger;
-//
-//@Component
-//@Slf4j
-//public class AuthFilter extends AbstractGatewayFilterFactory<AbstractGatewayFilterFactory.NameConfig> {
-//
-//    @Autowired
-//    private RouteValidator validator;
-//
-//    @Autowired
-//    private AuthServiceClient authServiceClient;
-//
-//    public AuthFilter() {
-//        super(NameConfig.class);
-//    }
-//
-//    @Override
-//    public GatewayFilter apply(NameConfig config) {
-//        return (exchange, chain) -> {
-//            if (validator.isSecured.test(exchange.getRequest())) {
-//                HttpHeaders headers = exchange.getRequest().getHeaders();
-//
-//                if (!headers.containsKey(HttpHeaders.AUTHORIZATION)) {
-//                    throw new MissingAuthorizationHeaderException("Missing Authorization Header");
-//                }
-//
-//                String authToken = headers.getFirst("Authorization");
-//
-//                if (authToken == null || authToken.isBlank()) {
-//                    throw new MissingAuthorizationTokenException("Missing Authorization Token");
-//                }
-//
-//                // Call AuthServiceClient to verify role
-//                return authServiceClient.verifyRole(authToken)
-//                        .flatMap(apiResponse -> {
-//                            if (apiResponse.getData()) {
-//                                // If authorized, continue with the request
-//                                return chain.filter(exchange);
-//                            } else {
-//                                // If unauthorized, return unauthorized response
-//                                exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
-//                                return exchange.getResponse().setComplete();
-//                            }
-//                        })
-//                        .onErrorResume(throwable -> {
-//                            // Handle any errors (e.g., Feign exceptions)
-//                            log.error("Error verifying role:", throwable);
-//                            exchange.getResponse().setStatusCode(HttpStatus.INTERNAL_SERVER_ERROR);
-//                            return exchange.getResponse().setComplete();
-//                        });
-//
-//            }
-//            return chain.filter(exchange);
-//        };
-//    }
-//
-//    @Configuration
-//    public static class FeignConfig {
-//
-//        @Bean
-//        public HttpMessageConverters httpMessageConverters() {
-//            return new HttpMessageConverters();
-//        }
-//
-//        @Bean
-//        Logger.Level feignLoggerLevel() {
-//            return Logger.Level.FULL;
-//        }
-//    }
-//}
-//
-////                Mono<Boolean> authResultMono = Mono.fromCallable(() -> authServiceClient.verifyRole(authToken))
-////                        .subscribeOn(Schedulers.boundedElastic())
-////                        .doOnSuccess(isValid -> log.info("Auth Service Response: {}", isValid))
-////                        .doOnError(e -> log.error("Error calling Auth Service", e));
-////
-////                return authResultMono.flatMap(isValid -> {
-////                            if (Boolean.TRUE.equals(isValid)) {
-////                                return chain.filter(exchange);
-////                            } else {
-////                                exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
-////                                return exchange.getResponse().setComplete();
-////                            }
-////                        })
-////                        .onErrorResume(e -> {
-////                            log.error("Exception during auth verification", e);
-////                            exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
-////                            return exchange.getResponse().setComplete();
-////                        });
+package com.urbanchic.filter;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.urbanchic.util.ApiResponse;
+import com.urbanchic.util.JwtUtil;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.gateway.filter.GatewayFilter;
+import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
+import org.springframework.core.io.buffer.DataBuffer;
+import org.springframework.core.io.buffer.DataBufferFactory;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.server.reactive.ServerHttpRequest;
+import org.springframework.http.server.reactive.ServerHttpResponse;
+import org.springframework.stereotype.Component;
+import org.springframework.web.server.ServerWebExchange;
+import reactor.core.publisher.Mono;
+
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
+@Slf4j
+@Component
+public class AuthFilter extends AbstractGatewayFilterFactory {
+
+    @Autowired
+    private RouteValidator routeValidator;
+    @Autowired
+    private  JwtUtil jwtUtil;
+
+    @Override
+    public GatewayFilter apply(Object config) {
+        return (exchange, chain) -> {
+            ServerHttpRequest request = exchange.getRequest();
+            if (routeValidator.isSecured.test(exchange.getRequest())){
+                if (authMissing(request)){
+                    return onError(exchange, HttpStatus.UNAUTHORIZED,"Authorization header is missing");
+                }
+                final String token = request.getHeaders().get("Authorization").get(0).substring(7);
+                boolean isTokenExpired;
+                try {
+                    isTokenExpired = jwtUtil.isTokenExpired(token);
+                }catch (Exception e){
+                    return  onError(exchange,HttpStatus.UNAUTHORIZED,"Invalid Jwt Token!!");
+                }
+                if (isTokenExpired) {
+                    return onError(exchange, HttpStatus.UNAUTHORIZED,"Token is Expired!!");
+                }
+                if (!userHasAccess(request,token)){
+                    return onError(exchange, HttpStatus.FORBIDDEN,"Access Denied!!");
+                }
+            }
+          return chain.filter(exchange);
+        };
+    }
+
+    private boolean userHasAccess(ServerHttpRequest request,String token){
+        String role = jwtUtil.getRolesFromToken(token);
+        String uri = String.valueOf(request.getURI());
+        log.info("URI ---- {}",uri);
+        log.info("USER ROLE ---- {}",role);
+        if (uri.contains("seller") && role.equals("ROLE_SELLER")){
+            return  true;
+        }
+        return false;
+    }
+
+
+    private Mono<Void> onError(ServerWebExchange exchange, HttpStatus httpStatus,String message) {
+        ServerHttpResponse response = exchange.getResponse();
+        response.setStatusCode(httpStatus);
+        ApiResponse<String> apiResponse = ApiResponse.<String>builder()
+                .data(null)
+                .timestamp(LocalDateTime.now().toString())
+                .message(message)
+                .statusCode(HttpStatus.UNAUTHORIZED.value())
+                .success(false)
+                .build();
+        DataBufferFactory bufferFactory = response.bufferFactory();
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
+        DataBuffer dataBuffer;
+        try {
+            String jsonResponse = objectMapper.writeValueAsString(apiResponse);
+            dataBuffer = bufferFactory.wrap(jsonResponse.getBytes());
+        } catch (Exception e) {
+            return Mono.error(e);
+        }
+        return response.writeWith(Mono.just(dataBuffer));
+    }
+
+    private boolean authMissing(ServerHttpRequest request){
+        return !request.getHeaders().containsKey("Authorization");
+    }
+
+
+}

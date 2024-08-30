@@ -1,8 +1,12 @@
 package com.urbanchic.service;
 
-import com.urbanchic.external.PurchasedOrderDto;
+
+import com.urbanchic.dto.otp.EmailOtpRequestDto;
+import com.urbanchic.dto.otp.OtpResponseDto;
 
 public interface MailService {
 
-    void sendPurchaseOrderMail(PurchasedOrderDto purchasedOrderEmailDto);
+    OtpResponseDto sendOtpEmail(EmailOtpRequestDto emailOtpRequestDto);
+
+
 }

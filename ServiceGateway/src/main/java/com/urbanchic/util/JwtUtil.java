@@ -1,17 +1,14 @@
 package com.urbanchic.util;
 
-import com.urbanchic.config.CustomUserDetails;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import java.security.Key;
 import java.util.Date;
-import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 
@@ -34,12 +31,16 @@ public class JwtUtil {
         return getClaimsFromToken(token, Claims::getExpiration);
     }
 
-    // Extract role from token
-//    public Role getRoleFromToken(String token) {
-//        Claims claims = getAllClaims(token);
-//        String role = claims.get("role", String.class);
-//        return Role.valueOf(role);
-//    }
+
+    // To extract the role from token
+    public String getRolesFromToken(String token){
+        Claims claims = getAllClaims(token);
+        List<Map<String, String>> roles = (List<Map<String, String>>) claims.get("roles");
+        if (roles != null && !roles.isEmpty()) {
+            return roles.get(0).get("authority");
+        }
+        return null;
+    }
 
     // To extract the claims in generic way
     private <T> T getClaimsFromToken(String token, Function<Claims, T> claimsResolver) {
@@ -57,27 +58,9 @@ public class JwtUtil {
     }
 
     // To check whether the token is expired or not
-    private Boolean isTokenExpired(String token) {
+    public Boolean isTokenExpired(String token) {
         final Date expirationDate = getExpirationDateFromToken(token);
         return expirationDate.before(new Date());
-    }
-
-    // public method to generate a token
-    public String generateToken(CustomUserDetails userDetails) {
-        Map<String, Object> claims = new HashMap<>();
-        claims.put("roles", userDetails.getAuthorities());
-        return createToken(userDetails.getUserId(), claims);
-    }
-
-    // create a token using all the necessary details
-    private String createToken(String username, Map<String, Object> claims) {
-        return Jwts.builder()
-                .setClaims(claims)
-                .setSubject(username)
-                .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + JWT_TOKEN_VALIDITY * 1000))
-                .signWith(getSignKey(), SignatureAlgorithm.HS256)
-                .compact();
     }
 
     // To decode the secrete key
@@ -86,16 +69,4 @@ public class JwtUtil {
         return Keys.hmacShaKeyFor(signkey);
     }
 
-    // To validate the token
-    public Boolean validateToken(String token, UserDetails userDetails) {
-        final String userNameFromToken = getUsernameFromToken(token);
-        return (userNameFromToken.equals(userDetails.getUsername()) && !isTokenExpired(token));
-    }
-
-    //take AuthHeader and return the username
-    public String getUsernameFromAuthHeader(String authHeader) {
-        String jwtToken = authHeader.substring(7);
-        String userName = getUsernameFromToken(jwtToken);
-        return userName;
-    }
 }

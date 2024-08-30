@@ -1,4 +1,4 @@
-package com.urbanchic.dto;
+package com.urbanchic.dto.otp;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class OtpSmsResponseDto {
+public class OtpResponseDto {
 
     private String otp;
     private String from;

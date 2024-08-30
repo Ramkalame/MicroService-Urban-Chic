@@ -2,6 +2,7 @@ package com.urbanchic.config;
 
 import com.urbanchic.config.filter.CsrfCookieFilter;
 import com.urbanchic.config.filter.JwtVerificationFilter;
+import com.urbanchic.config.filter.JwtVerificationFilter;
 import com.urbanchic.entity.Role;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -32,10 +33,9 @@ public class AuthConfig {
 
         CsrfTokenRequestAttributeHandler csrfTokenRequestAttributeHandler = new CsrfTokenRequestAttributeHandler();
         csrfTokenRequestAttributeHandler.setCsrfRequestAttributeName("_csrf");
-
      return   httpSecurity
-             .sessionManagement(session-> session.sessionCreationPolicy(SessionCreationPolicy.ALWAYS))
-
+             .csrf(csrf -> csrf.disable())
+             .sessionManagement(session-> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
              .cors(cors->cors.configurationSource(corsConfigurationSource))
              .csrf(csrf -> csrf
                      .csrfTokenRequestHandler(csrfTokenRequestAttributeHandler)
@@ -45,16 +45,12 @@ public class AuthConfig {
              .addFilterAfter(new CsrfCookieFilter(), BasicAuthenticationFilter.class)
              .addFilterBefore(jwtVerificationFilter, BasicAuthenticationFilter.class)
              .authorizeHttpRequests( request-> request
-                             .requestMatchers("/**").permitAll()
-//                     .requestMatchers("/users/**").hasAnyAuthority(Role.ROLE_BUYER.name())
-             )
-
-             //.formLogin(Customizer.withDefaults())
-             //.httpBasic(Customizer.withDefaults())
-                .build();
-
+                     .requestMatchers("/api/v1/auth/**").permitAll()
+                     //.requestMatchers("/api/v1/seller").hasAnyAuthority(Role.ROLE_SELLER.name())
+                     .anyRequest().authenticated())
+             .build();
     }
-
+    //                     .requestMatchers("/users/**").hasAnyAuthority(Role.ROLE_BUYER.name())
     @Bean
     public PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();

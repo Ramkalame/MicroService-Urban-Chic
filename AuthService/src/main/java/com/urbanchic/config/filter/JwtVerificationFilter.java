@@ -1,7 +1,6 @@
 package com.urbanchic.config.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.urbanchic.util.ApiResponse;
 import com.urbanchic.util.JwtUtil;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -29,72 +28,100 @@ import java.time.LocalDateTime;
 @Component
 @RequiredArgsConstructor
 public class JwtVerificationFilter extends OncePerRequestFilter {
+
+    private static final String AUTH_HEADER = "Authorization";
+    private static final String BEARER_PREFIX = "Bearer ";
+
     private final JwtUtil jwtUtil;
     private final UserDetailsService userDetailsService;
+    private final ObjectMapper objectMapper;
 
-
-    /**
-     * Same contract as for {@code doFilter}, but guaranteed to be
-     * just invoked once per request within a single request thread.
-     * See {@link #shouldNotFilterAsyncDispatch()} for details.
-     * <p>Provides HttpServletRequest and HttpServletResponse arguments instead of the
-     * default ServletRequest and ServletResponse ones.
-     *
-     * @param request
-     * @param response
-     * @param filterChain
-     */
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        log.info("Executing JwtVerificationFilter for request: {}", request.getRequestURI());
-        String jwtToken  = request.getHeader("Authorization");
-        String username = null;
-        if (jwtToken != null){
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+            throws ServletException, IOException {
+        log.debug("Processing JWT for request: {}", request.getRequestURI());
+
+        String jwtToken = extractToken(request);
+        if (isValidToken(jwtToken)) {
             try {
-                username = jwtUtil.getUsernameFromToken(jwtToken);
-            }catch (ExpiredJwtException | MalformedJwtException | SignatureException exception){
-                //exception.printStackTrace();
-                // creating a map object for desired response
-                ApiResponse<String> apiResponse = ApiResponse.<String>builder()
-                        .data(exception.getMessage())
-                        .message("UnAuthorized access to AuthService")
-                        .timestamp(LocalDateTime.now())
-                        .statusCode(HttpStatus.UNAUTHORIZED.value())
-                        .success(false)
-                        .build();
-
-                // Converting object to json using ObjectMapper
-                ObjectMapper objectMapper = new ObjectMapper();
-                objectMapper.registerModule(new JavaTimeModule());
-                String jsonString = objectMapper.writeValueAsString(apiResponse);
-
-                response.setStatus(HttpStatus.UNAUTHORIZED.value());
-                response.setContentType("application/json");
-                response.getWriter().write(jsonString);
+                String username = jwtUtil.getUsernameFromToken(jwtToken);
+                validateAndAuthenticateUser(username, jwtToken, request);
+            } catch (Exception e) {
+                handleJwtException(response, e);
                 return;
             }
-
-            if (SecurityContextHolder.getContext().getAuthentication() == null){
-                UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-                Boolean validatedtoken = jwtUtil.validateToken(jwtToken, userDetails);
-
-                log.info("TOKEN-VALIDATION {}: ",validatedtoken);
-
-                if (validatedtoken){
-                    UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-                    authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                    SecurityContextHolder.getContext().setAuthentication(authentication);
-                    log.info("AUTHENTICATION-OBJECT {} : AUTHENTICATION-OBJECT-ROLE {} :  ",SecurityContextHolder.getContext().getAuthentication().getName(),SecurityContextHolder.getContext().getAuthentication().getAuthorities());
-                }
-            }
+        } else {
+            log.warn("JWT token is missing or invalid");
+            handleJwtException(response, new IllegalArgumentException("Token is missing or invalid"));
+            return;
         }
+
         filterChain.doFilter(request, response);
     }
 
+    //Extract Token From the Auth Header of Request
+    private String extractToken(HttpServletRequest request) {
+        String header = request.getHeader(AUTH_HEADER);
+        if (header != null && header.startsWith(BEARER_PREFIX)) {
+            return header.substring(BEARER_PREFIX.length());
+        }
+        return null;
+    }
+
+    //To Check whether token is not empty or blank string
+    private boolean isValidToken(String jwtToken) {
+        return jwtToken != null && !jwtToken.trim().isEmpty();
+    }
+
+    //If all is valid set the authentication object
+    private void validateAndAuthenticateUser(String username, String jwtToken, HttpServletRequest request) {
+        UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+        if (jwtUtil.validateToken(jwtToken, userDetails)) {
+            UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
+                    userDetails, null, userDetails.getAuthorities());
+            authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+            log.debug("User '{}' authenticated with roles: {}", username, userDetails.getAuthorities());
+        }
+    }
+
+    //handling the response if any exception occurs
+    private void handleJwtException(HttpServletResponse response, Exception exception) throws IOException {
+        String errorMessage;
+        HttpStatus status;
+
+        if (exception instanceof ExpiredJwtException) {
+            errorMessage = "Token expired";
+            status = HttpStatus.UNAUTHORIZED;
+        } else if (exception instanceof MalformedJwtException) {
+            errorMessage = "Invalid token format";
+            status = HttpStatus.UNAUTHORIZED;
+        } else if (exception instanceof SignatureException) {
+            errorMessage = "Invalid token signature";
+            status = HttpStatus.UNAUTHORIZED;
+        } else if (exception instanceof IllegalArgumentException) {
+                errorMessage = exception.getMessage();
+                status = HttpStatus.UNAUTHORIZED;
+        } else {
+            errorMessage = "Token validation error";
+            status = HttpStatus.BAD_REQUEST;
+        }
+
+        ApiResponse<String> apiResponse = ApiResponse.<String>builder()
+                .data(errorMessage)
+                .message("Unauthorized access")
+                .timestamp(LocalDateTime.now())
+                .statusCode(status.value())
+                .success(false)
+                .build();
+
+        response.setStatus(status.value());
+        response.setContentType("application/json");
+        response.getWriter().write(objectMapper.writeValueAsString(apiResponse));
+    }
 
     @Override
-    protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
-//        log.info("Evaluating shouldNotFilter for request: {}", request.getRequestURI());
-        return request.getRequestURI().startsWith("/auth/**");
+    protected boolean shouldNotFilter(HttpServletRequest request) {
+        return request.getRequestURI().startsWith("/api/v1/auth/");
     }
 }

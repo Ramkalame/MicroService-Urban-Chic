@@ -2,11 +2,11 @@ package com.urbanchic.exception.handler;
 
 import com.urbanchic.exception.*;
 import com.urbanchic.util.ApiResponse;
-import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.security.SignatureException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -45,8 +45,8 @@ public class AuthServiceGlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(apiResponse);
     }
 
-    @ExceptionHandler(OtpNotFoundException.class )
-    public ResponseEntity<?> handleOtpNotFoundException(OtpNotFoundException exception) {
+    @ExceptionHandler(EntityNotFoundException.class )
+    public ResponseEntity<?> handleEntityNotFoundException(EntityNotFoundException exception) {
         ApiResponse<?> apiResponse = ApiResponse.builder()
                 .data(null)
                 .message(exception.getMessage())
@@ -55,6 +55,42 @@ public class AuthServiceGlobalExceptionHandler {
                 .success(false)
                 .build();
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(apiResponse);
+    }
+
+    @ExceptionHandler(EntityAlreadyExistsException.class )
+    public ResponseEntity<?> handleEntityAlreadyExistsException(EntityAlreadyExistsException exception) {
+        ApiResponse<?> apiResponse = ApiResponse.builder()
+                .data(null)
+                .message(exception.getMessage())
+                .timestamp(LocalDateTime.now())
+                .statusCode(HttpStatus.CONFLICT.value())
+                .success(false)
+                .build();
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(apiResponse);
+    }
+
+    @ExceptionHandler(IncorrectPasswordException.class )
+    public ResponseEntity<?> handleIncorrectPasswordException(IncorrectPasswordException exception) {
+        ApiResponse<?> apiResponse = ApiResponse.builder()
+                .data(null)
+                .message(exception.getMessage())
+                .timestamp(LocalDateTime.now())
+                .statusCode(HttpStatus.UNAUTHORIZED.value())
+                .success(false)
+                .build();
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(apiResponse);
+    }
+
+    @ExceptionHandler(BadCredentialsException.class )
+    public ResponseEntity<?> handleBadCredentialsException(BadCredentialsException exception) {
+        ApiResponse<?> apiResponse = ApiResponse.builder()
+                .data(null)
+                .message(exception.getMessage())
+                .timestamp(LocalDateTime.now())
+                .statusCode(HttpStatus.UNAUTHORIZED.value())
+                .success(false)
+                .build();
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(apiResponse);
     }
 
 
@@ -69,31 +105,6 @@ public class AuthServiceGlobalExceptionHandler {
                 .build();
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(apiResponse);
     }
-
-    @ExceptionHandler(MalformedJwtException.class )
-    public ResponseEntity<?> handleMalformedJwtException(MalformedJwtException exception) {
-        ApiResponse<?> apiResponse = ApiResponse.builder()
-                .data(null)
-                .message(exception.getMessage())
-                .timestamp(LocalDateTime.now())
-                .statusCode(HttpStatus.UNAUTHORIZED.value())
-                .success(false)
-                .build();
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(apiResponse);
-    }
-
-    @ExceptionHandler(SignatureException.class )
-    public ResponseEntity<?> handleSignatureException(SignatureException exception) {
-        ApiResponse<?> apiResponse = ApiResponse.builder()
-                .data(null)
-                .message(exception.getMessage())
-                .timestamp(LocalDateTime.now())
-                .statusCode(HttpStatus.UNAUTHORIZED.value())
-                .success(false)
-                .build();
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(apiResponse);
-    }
-
 
 
 }

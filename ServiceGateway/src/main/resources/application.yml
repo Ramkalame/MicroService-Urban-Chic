@@ -25,7 +25,9 @@ spring:
         - id: auth-service
           uri: lb://AUTHSERVICE
           predicates:
-            - Path=/auth/**
+            - Path=/api/v1/auth/**
+          filters:
+            - name: AuthFilter
 
         #User-Service
         - id: user-service
@@ -33,13 +35,15 @@ spring:
           predicates:
             - Path=/users/**
           filters:
-            - AuthFilterWebClient
+            - name: AuthFilter
 
         #Notification-Service
-        - id: notification-service-sms
+        - id: notification-service
           uri: lb://NOTIFICATIONSERVICE
           predicates:
-            - Path=/sms/**
+            - Path=/api/v1/notifications/**
+          filters:
+            - name: AuthFilter
 
         #Order-Service
         - id: order-service
@@ -47,6 +51,13 @@ spring:
           predicates:
             - Path=/orders/**
 
+        #Seller-Service
+        - id: seller-service
+          uri: lb://SELLERSERVICE
+          predicates:
+            - Path=/api/v1/sellers/**
+          filters:
+            - name: AuthFilter
 
   main:
       allow-circular-references: true

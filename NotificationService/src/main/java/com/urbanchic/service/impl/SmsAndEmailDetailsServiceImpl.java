@@ -10,8 +10,8 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class SmsAndEmailDetailsServiceImpl implements SmsAndEmailDetailsService {
 
-    private final ProductServiceClient productServiceClient;
-    private final UserServiceClient userServiceClient;
+//    private final ProductServiceClient productServiceClient;
+//    private final UserServiceClient userServiceClient;
 
     @Override
     public void prepareSmsAndEmailDetails(String orderId) {

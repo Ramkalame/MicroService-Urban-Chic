@@ -6,7 +6,5 @@ import { Injectable } from '@angular/core';
 })
 export class SellerServiceService {
 
-  constructor() { }
-
-  
+  constructor(private http:HttpClient) { }
 }

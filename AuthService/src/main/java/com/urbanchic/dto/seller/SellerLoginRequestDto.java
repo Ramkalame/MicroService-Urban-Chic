@@ -1,4 +1,4 @@
-package com.urbanchic.dto;
+package com.urbanchic.dto.seller;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,8 +9,8 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class LoginRequestDto {
+public class SellerLoginRequestDto {
 
-    private String mobileNo;
-    private String otp;
+    private String userName;
+    private String password;
 }

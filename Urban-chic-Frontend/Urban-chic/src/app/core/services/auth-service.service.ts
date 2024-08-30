@@ -4,9 +4,7 @@ import { Injectable } from '@angular/core';
 @Injectable({
   providedIn: 'root'
 })
-export class SellerServiceService {
+export class AuthServiceService {
 
-  constructor() { }
-
-  
+  constructor(private http:HttpClient) { }
 }
