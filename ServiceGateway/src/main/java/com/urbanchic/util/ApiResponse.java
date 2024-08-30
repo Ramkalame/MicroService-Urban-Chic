@@ -15,7 +15,7 @@ public class ApiResponse<T> {
 
    private T data;
    private String message;
-   private LocalDateTime timestamp;
+   private String timestamp;
    private int statusCode;
    private  boolean success;
 
