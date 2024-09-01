@@ -36,6 +36,7 @@ public class AuthFilter extends AbstractGatewayFilterFactory {
             ServerHttpRequest request = exchange.getRequest();
             if (routeValidator.isSecured.test(exchange.getRequest())){
                 if (authMissing(request)){
+                    log.info("Missing Auth");
                     return onError(exchange, HttpStatus.UNAUTHORIZED,"Authorization header is missing");
                 }
                 final String token = request.getHeaders().get("Authorization").get(0).substring(7);
@@ -43,12 +44,15 @@ public class AuthFilter extends AbstractGatewayFilterFactory {
                 try {
                     isTokenExpired = jwtUtil.isTokenExpired(token);
                 }catch (Exception e){
+                    log.info("Invalid JWT Token");
                     return  onError(exchange,HttpStatus.UNAUTHORIZED,"Invalid Jwt Token!!");
                 }
                 if (isTokenExpired) {
+                    log.info("Token Expired");
                     return onError(exchange, HttpStatus.UNAUTHORIZED,"Token is Expired!!");
                 }
                 if (!userHasAccess(request,token)){
+                    log.info("Access Denied");
                     return onError(exchange, HttpStatus.FORBIDDEN,"Access Denied!!");
                 }
             }

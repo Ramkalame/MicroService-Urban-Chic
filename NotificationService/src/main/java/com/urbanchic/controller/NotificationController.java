@@ -2,17 +2,14 @@ package com.urbanchic.controller;
 
 import com.urbanchic.dto.otp.EmailOtpRequestDto;
 import com.urbanchic.dto.otp.SmsOtpRequestDto;
-import com.urbanchic.dto.otp.OtpResponseDto;
+import com.urbanchic.dto.otp.VerifyOtpDto;
 import com.urbanchic.service.MailService;
 import com.urbanchic.service.SmsService;
 import com.urbanchic.util.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 
@@ -25,12 +22,12 @@ public class NotificationController {
     private final MailService mailService;
 
     @PostMapping("/otp/sms")
-    public ResponseEntity<ApiResponse<OtpResponseDto>> sendOtpSms(@RequestBody SmsOtpRequestDto smsOtpRequestDto) {
-        OtpResponseDto responseData = smsService.sendOtpSms(smsOtpRequestDto);
+    public ResponseEntity<ApiResponse<String>> sendOtpSms(@RequestBody SmsOtpRequestDto smsOtpRequestDto) {
+        String responseData = smsService.sendOtpSms(smsOtpRequestDto);
 
-        ApiResponse<OtpResponseDto> apiResponse = ApiResponse.<OtpResponseDto>builder()
+        ApiResponse<String> apiResponse = ApiResponse.<String>builder()
                 .data(responseData)
-                .message("Otp sent to "+responseData.getTo())
+                .message("Sms Sent Successfully")
                 .timestamp(LocalDateTime.now())
                 .statusCode(HttpStatus.CREATED.value())
                 .success(true)
@@ -40,12 +37,12 @@ public class NotificationController {
     }
 
     @PostMapping("/otp/email")
-    public ResponseEntity<ApiResponse<OtpResponseDto>> sendOtpMail(@RequestBody EmailOtpRequestDto emailOtpRequestDto) {
-        OtpResponseDto responseData = mailService.sendOtpEmail(emailOtpRequestDto);
+    public ResponseEntity<ApiResponse<String>> sendOtpMail(@RequestBody EmailOtpRequestDto emailOtpRequestDto) {
+        String responseData = mailService.sendOtpEmail(emailOtpRequestDto);
 
-        ApiResponse<OtpResponseDto> apiResponse = ApiResponse.<OtpResponseDto>builder()
+        ApiResponse<String> apiResponse = ApiResponse.<String>builder()
                 .data(responseData)
-                .message("E-Mail sent to "+responseData.getTo())
+                .message("E-Mail sent Successfully")
                 .timestamp(LocalDateTime.now())
                 .statusCode(HttpStatus.CREATED.value())
                 .success(true)
@@ -53,6 +50,37 @@ public class NotificationController {
 
         return ResponseEntity.status(HttpStatus.CREATED).body(apiResponse);
     }
+
+    @PostMapping("/verify/otp/")
+    public ResponseEntity<?> verifyOtp(@RequestBody VerifyOtpDto verifyOtpDto){
+        boolean responseData = smsService.verifyOtp(verifyOtpDto);
+        ApiResponse<Boolean> apiResponse = ApiResponse.<Boolean>builder()
+                .data(responseData)
+                .message("Otp Verified.")
+                .timestamp(LocalDateTime.now())
+                .statusCode(HttpStatus.OK.value())
+                .success(true)
+                .build();
+        return ResponseEntity.status(HttpStatus.OK).body(apiResponse);
+    }
+
+//    @DeleteMapping("/otp/{otpNumber}")
+//    public ResponseEntity<?> deleteOtp(@PathVariable("id")String id){
+//        Otp responseData = otpRepository.findById(id).orElse(null);
+//        if (responseData != null){
+//            otpRepository.delete(responseData);
+//        }
+//        ApiResponse<String> apiResponse = ApiResponse.<String>builder()
+//                .data("Otp Deleted")
+//                .message("Deleted")
+//                .timestamp(LocalDateTime.now())
+//                .statusCode(HttpStatus.OK.value())
+//                .success(true)
+//                .build();
+//
+//        return ResponseEntity.status(HttpStatus.OK).body(apiResponse);
+//    }
+
 
 
 }

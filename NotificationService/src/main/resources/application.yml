@@ -11,6 +11,13 @@ spring:
   application:
     name: NotificationService
 
+  #MongoDb
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: ms_authservice_db
+
   #RabbitMQ
   rabbitmq:
     host: localhost

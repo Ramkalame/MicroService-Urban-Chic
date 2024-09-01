@@ -1,10 +1,11 @@
 package com.urbanchic.service;
 
 import com.urbanchic.dto.otp.SmsOtpRequestDto;
-import com.urbanchic.dto.otp.OtpResponseDto;
+import com.urbanchic.dto.otp.VerifyOtpDto;
 
 public interface SmsService {
 
-    OtpResponseDto sendOtpSms(SmsOtpRequestDto smsOtpRequestDto);
+    String sendOtpSms(SmsOtpRequestDto smsOtpRequestDto);
+    boolean verifyOtp(VerifyOtpDto verifyOtpDto);
 
 }

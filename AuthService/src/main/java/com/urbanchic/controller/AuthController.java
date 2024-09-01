@@ -29,7 +29,7 @@ public class AuthController {
 
         ApiResponse<User> apiResponse = ApiResponse.<User>builder()
                 .data(responseData)
-                .message("User is created.")
+                .message("User is registered successfully.")
                 .timestamp(LocalDateTime.now())
                 .statusCode(HttpStatus.CREATED.value())
                 .success(true)

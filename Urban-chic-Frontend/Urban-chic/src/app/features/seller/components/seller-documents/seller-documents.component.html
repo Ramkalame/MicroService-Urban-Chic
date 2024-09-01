@@ -1,107 +1,106 @@
-<div class="heading">
-    <h2 class="heading-title">
-        <span class="heading-title-part1">Business & Tax</span><br>
-        <span class="heading-title-part2">Details</span>
-    </h2>
-</div>
 <div class="container">
     <div class="title">
-        <h3 class="title-name">Business Details</h3>
-        <hr>
+        <span class="title-part-1">Become a</span>
+        <span class="title-part-2">Seller</span>
     </div>
-    <div class="content">
-        <div>
-            <label for="companyName">Company Name</label>
+    <div class="container-body">
+        <div class="sub-body">
+            <div class="sub-body-title">
+                <h5 class="sub-title">Business Details</h5>
+                <hr>
+            </div>
+            <p>
+                <mat-form-field class="custom-form-field" appearance="outline">
+                    <mat-label>Enter Store Name</mat-label>
+                    <input matInput placeholder="company name" />
+                    <mat-hint>Company Name will be displayed as seller name to user.</mat-hint>
+                </mat-form-field>
+            </p>
+            <p class="logo-section">
+                <input type="file" class="file-input" />
+                <button class="btn">Upload Logo</button>
+            </p>
         </div>
-        <div>
-            <input class="inp" type="text" name="companyName" id="companyName">
-        <h6 class="inp-description">Company Name will be displayed as seller name to user.</h6>
+        <div class="sub-body">
+            <div class="sub-body-title">
+                <h5 class="sub-title">Tax Details</h5>
+                <hr>
+            </div>
+            <p class="cat-section">
+                <button class="cat-btn" >All Categories</button>
+                <button class="btn" >Only Books</button>
+            </p>
+            <p>
+                <mat-form-field appearance="outline">
+                    <mat-label>GSTIN Number</mat-label>
+                    <input matInput placeholder="enter GSTIN Number" />
+                    <mat-hint>GSTIN is required to sell products on Urbanchic.</mat-hint>
+                </mat-form-field>
+            </p>
+            <p>
+                <mat-form-field appearance="outline">
+                    <mat-label>PAN Number</mat-label>
+                    <input matInput placeholder="enter PAN Number" />
+                    <mat-hint>PAN Number is required for gst excempted product.</mat-hint>
+                </mat-form-field>
+            </p>
         </div>
-        <div>
-            <label for="companyLogo">Company Logo</label>
+        <div class="sub-body">
+            <div class="sub-body-title">
+                <h5 class="sub-title">Bank Details</h5>
+                <hr>
+            </div>
+            <p>
+                <mat-form-field appearance="outline">
+                    <mat-label>Account Number</mat-label>
+                    <input matInput placeholder="enter Account Number" />
+                    <mat-hint>Bank details is for receiving payment from urbanchic.</mat-hint>
+                </mat-form-field>
+            </p>
+            <p>
+                <mat-form-field appearance="outline">
+                    <mat-label>IFSC Code</mat-label>
+                    <input matInput placeholder="enter IFSC Code" />
+                </mat-form-field>
+            </p>
         </div>
-       <div class="logo-btn">
-        <input class="styled-file-input" type="file" id="companyLogo" id="companyLogo" name="companyLogo">
-        <button class="btn">Upload Logo</button>
-       </div>
+        <div class="sub-body">
+            <div class="sub-body-title">
+                <h5 class="sub-title">Pickup Address</h5>
+                <hr>
+            </div>
+            <p>
+                <mat-form-field appearance="outline">
+                    <mat-label>Street</mat-label>
+                    <input matInput placeholder="enter street name" />
+                </mat-form-field>
+            </p>
+            <p>
+                <mat-form-field appearance="outline">
+                    <mat-label>City</mat-label>
+                    <input matInput placeholder="enter city name" />
+                </mat-form-field>
+            </p>
+            <p>
+                <mat-form-field appearance="outline">
+                    <mat-label>State</mat-label>
+                    <input matInput placeholder="enter state name" />
+                </mat-form-field>
+            </p>
+            <p>
+                <mat-form-field appearance="outline">
+                    <mat-label>Country</mat-label>
+                    <input matInput placeholder="enter country name" />
+                </mat-form-field>
+            </p>
+            <p>
+                <mat-form-field appearance="outline">
+                    <mat-label>Postal Code</mat-label>
+                    <input matInput placeholder="enter postal code" />
+                    <mat-hint>Enter your pick-up address.</mat-hint>
+                </mat-form-field>
+            </p>
+            <button class="submit-btn" type="submit">Save & Continue</button>
+        </div>
     </div>
-</div>
-<div class="container">
-    <div class="title">
-        <h3 class="title-name">Tax Details</h3>
-        <hr>
-    </div>
-    <div class="content">
-        <div class="tax-btns">
-            <button class="btn">All Categories</button>
-        <button class="btn books-btn">Only Books</button>
-        </div>
-        <div>
-            <label for="companyName">GSTIN Number</label>
-        </div>
-        <div>
-            <input class="inp" type="text" name="companyName" id="companyName">
-        <h6 class="inp-description">GSTIN is required to sell products on Urbanchic.</h6>
-        </div>
-    </div>
-</div>
-<div class="container">
-    <div class="title">
-        <h3 class="title-name">Bank Details</h3>
-        <hr>
-    </div>
-    <div class="content">
-        <div>
-            <label for="accountNumber">Account Number</label>
-        </div>
-        <div>
-            <input class="inp" type="text" name="accountNumber" id="accountNumber">
-        <h6 class="inp-description">Bank details is for receiving payment from urbanchic.</h6>
-        </div>
-        <div>
-            <label for="ifscCode">IFSC Code</label>
-        </div>
-        <div>
-            <input class="inp" type="text" name="ifscCode" id="ifscCode">
-        </div>
-    </div>
-</div>
-<div class="container">
-    <div class="title">
-        <h3 class="title-name">Pick-up Details</h3>
-        <hr>
-    </div>
-    <div class="content">
-        <div>
-            <label for="street">Street</label>
-        </div>
-        <div>
-            <input class="inp" type="text" name="street" id="street">
-        </div>
-        <div>
-            <label for="city">City</label>
-        </div>
-        <div>
-            <input class="inp" type="text" name="city" id="city">
-        </div>
-        <div>
-            <label for="state">State</label>
-        </div>
-        <div>
-            <input class="inp" type="text" name="state" id="state">
-        </div>
-        <div>
-            <label for="country">Country</label>
-        </div>
-        <div>
-            <input class="inp" type="text" name="country" id="country">
-        </div>
-        <div>
-            <label for="postalCode">Postal Code</label>
-        </div>
-        <div>
-            <input class="inp" type="text" name="postalCode" id="postalCode">
-        </div>
-    </div>
-    <button type="submit" class="save-btn">Save & Continue</button>
 </div>
