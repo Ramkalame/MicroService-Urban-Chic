@@ -2,23 +2,60 @@ package com.urbanchic.service.impl;
 
 
 import com.urbanchic.dto.otp.EmailOtpRequestDto;
-import com.urbanchic.dto.otp.OtpResponseDto;
+import com.urbanchic.entity.Otp;
+import com.urbanchic.event.NonVerifiedExpiredOtpDeletionEvent;
+import com.urbanchic.exception.EmailNotSentException;
+import com.urbanchic.repository.OtpRepository;
 import com.urbanchic.service.MailService;
-import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
+
+import java.text.DecimalFormat;
+import java.time.LocalDateTime;
+import java.util.Random;
 
 @Service
 @RequiredArgsConstructor
 public class MailServiceImpl implements MailService {
 
     private final JavaMailSender javaMailSender;
+    private final OtpRepository otpRepository;
+    private final ApplicationEventPublisher eventPublisher;
 
     @Override
-    public OtpResponseDto sendOtpEmail(EmailOtpRequestDto emailOtpRequestDto) {
-        return  null;
+    public String sendOtpEmail(EmailOtpRequestDto emailOtpRequestDto) {
+            String otpNumber = generateOtp();
+        String otpEmailText = "Dear " + emailOtpRequestDto.getUserName()
+                + ", Your One-Time Password(OTP) for verifying your account is : " + otpNumber
+                + ". This code is valid for 30 seconds"
+                + " Please do not share the OTP."
+                +" Thank you, Team Urbanchic";
+        try {
+            SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
+            simpleMailMessage.setTo(emailOtpRequestDto.getEmail());
+            simpleMailMessage.setSubject("Urbanchic Account Verification OTP");
+            simpleMailMessage.setText(otpEmailText);
+            javaMailSender.send(simpleMailMessage);
+        }catch (Exception e){
+            throw new EmailNotSentException("Email sent failed. Please try again");
+        }
+        Otp newOtp = Otp.builder()
+                .otpNumber(otpNumber)
+                .emailOrNumber(emailOtpRequestDto.getEmail())
+                .createdDate(LocalDateTime.now())
+                .expiryDate(LocalDateTime.now().plusSeconds(31))
+                .build();
+        Otp savedOtp = otpRepository.save(newOtp);
+        eventPublisher.publishEvent(new NonVerifiedExpiredOtpDeletionEvent(this));
+        return  "Otp has been sent on email : "+savedOtp.getEmailOrNumber();
+    }
+
+
+    private String generateOtp(){
+        return  new DecimalFormat("0000").format(new Random().nextInt(9999));
     }
 
 
