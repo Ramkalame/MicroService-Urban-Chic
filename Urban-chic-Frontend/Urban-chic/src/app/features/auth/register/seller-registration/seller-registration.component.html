@@ -1,60 +1,88 @@
-<div class="container" [class.blurred] ="isOpen">
-    <h1><Span class="heading-part-1">Become a</Span><span class="heading-part-2">Seller</span></h1>
-    <form action="">
+<div class="container" >
+    <h1>
+        <span class="heading-part-1">Become a</span>
+        <span class="heading-part-2">Seller</span>
+    </h1>
+    <form [formGroup]="sellerRegistrationForm" (ngSubmit)="submitSellerRegistrationForm()">
         <div class="form-group-1">
             <div class="lbl">
-                <label for="fullName">Full Name</label>
+                <label for="sellerFullName">Full Name</label>
             </div>
             <div class="form">
-                <input class="inp-1" type="text" id="fullName" name="fullName" required />
+                <input class="inp-1" type="text" id="sellerFullName" formControlName="sellerFullName" />
             </div>
         </div>
         <div class="form-group-1">
             <div class="lbl">
-                <label for="mobileNumber">Mobile Number</label>
+                <label for="sellerPrimaryMoNumber">Mobile Number</label>
             </div>
             <div class="form">
-                <input class="inp-2" type="text" id="mobileNumber" name="mobileNumber" required />
-                <button class="otp-button" (click)="openModal()">Verify</button>
+                <input class="inp-2" type="text" id="sellerPrimaryMoNumber" formControlName="sellerPrimaryMoNumber"  />
+                @if (!isNumberVerified) {
+                    <button class="otp-button" type="button" (click)="openModal('mobile')">Verify</button>
+                }
+                @else {
+                    <h3 class="verified"><b>Verified</b></h3>
+                }
+
             </div>
         </div>
         <div class="form-group-1">
             <div class="lbl">
-                <label for="email">E-Mail</label>
+                <label for="sellerPrimaryEmail">E-Mail</label>
             </div>
             <div class="form">
-                <input class="inp-2" type="email" id="email" name="email" required />
-                <button class="otp-button" (click)="openModal()">Verify</button>
+                <input class="inp-2" type="email" id="sellerPrimaryEmail" formControlName="sellerPrimaryEmail" />
+                @if (!isEmailVerified) {
+                    <button class="otp-button" type="button" (click)="openModal('email')">Verify</button>
+                }
+                @else {
+                    <h3 class="verified"><b>Verified</b></h3>
+                }
+
             </div>
         </div>
         <div class="form-group-1">
             <div class="lbl">
-                <label for="password">Password</label>
+                <label for="sellerPassword">Password</label>
             </div>
             <div class="form password-form">
-                <input class="password-inp" type="{{showPassword ? 'text':'password'}}" id="password" name="password" required />
-                <button class="eye-icon" (click)="togglePasswordVisibility(passwordBtnText)"><b>{{passwordBtnText}}</b></button>
+                <input class="password-inp" [type]="showPassword ? 'text' : 'password'" id="sellerPassword"
+                    formControlName="sellerPassword" />
+                <button class="eye-icon" type="button" (click)="togglePasswordVisibility(passwordBtnText)">
+                    <b>{{ passwordBtnText }}</b>
+                </button>
+
             </div>
         </div>
         <div class="form-group-1">
             <div class="lbl">
-                <label for="confirmPassword">Confirm Password</label>
+                <label for="confirmSellerPassword">Confirm Password</label>
             </div>
             <div class="form">
-                <input class="inp-1" type="password" id="confirmPassword" name="confirmPassword" required />
+                <input (keyup)="checkPasswordMatches($event)" class="inp-1" type="password" id="confirmSellerPassword" formControlName="confirmSellerPassword"/>
+                @if (passwordMatch) {
+                    <a class="tick" href="https://ibb.co/zh7f99w"><img src="https://i.ibb.co/4ZYNvvx/tick.png" alt="tick"></a>
+                }
             </div>
         </div>
-        <button type="submit" class="register-btn">Register & Continue</button>
+        <button type="submit" class="register-btn" [disabled]="!(isEmailVerified && isNumberVerified)"
+            [style.color]="!(isEmailVerified && isNumberVerified && passwordMatch) ? '#b4b3b2' : 'white'">
+            Register & Continue
+        </button>
         <h6>Already have an account? <a href="">login here</a></h6>
     </form>
-</div>
-
 
     <div class="otp-modal" *ngIf="isOpen">
         <h2>Enter OTP</h2>
-        <h4>Enter the 6-digit verification code that was sent to <br> your phone number xxxxxxxx93</h4>
-        <input class="otp-input" type="text" id="otp" name="otp"><br>
-        <button class="submit-btn" type="submit" (click)="closeModal()">Submit OTP</button>
+        <h4>
+            Enter the 6-digit verification code that was sent to <br />
+            your {{otpModalContactType}} {{otpModalContactInfo}}
+        </h4>
+        <input [(ngModel)]="inpOtpValue" class="otp-input" type="text" id="otp" name="otp" /><br />
+        <button class="submit-btn" type="button" (click)="verifyOtp()">
+            Submit OTP
+        </button>
         <h6>Didn't receive code?<a href="">Resend</a></h6>
     </div>
-
+</div>

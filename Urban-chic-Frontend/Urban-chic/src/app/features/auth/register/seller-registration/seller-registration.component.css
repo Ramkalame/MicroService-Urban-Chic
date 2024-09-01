@@ -6,25 +6,31 @@
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
   transition: filter 0.2s ease;
 }
+
 .blurred {
-    filter: blur(2px);
-  } 
+  filter: blur(2px);
+}
+
 h1 {
   text-align: center;
   padding: 15px;
   margin-bottom: 20px;
 }
+
 h1 .heading-part-1 {
   font-size: 36px;
   font-weight: lighter;
 }
+
 h1 .heading-part-2 {
   font-size: 40px;
   font-weight: bold;
   margin-left: 5px;
 }
+
 .form-group-1 {
-  margin-bottom: 15px; /* Space between each form group */
+  margin-bottom: 15px;
+  /* Space between each form group */
   display: flex;
   flex-direction: column;
 }
@@ -35,16 +41,21 @@ h1 .heading-part-2 {
 
 label {
   font-size: 14px;
-  margin-bottom: 5px; /* Space between the label and input */
+  margin-bottom: 5px;
+  /* Space between the label and input */
   font-weight: bold;
-  float: left; /* Optional: make the label text bold */
+  float: left;
+  /* Optional: make the label text bold */
 }
+
 .form {
   margin-left: 20px;
+  display: flex;
 }
+
 .inp-1 {
   height: 25px;
-  width: 315px;
+  width: 305px;
   padding: 8px;
   font-size: 16px;
   border: 3px solid #4f4b4b;
@@ -63,6 +74,7 @@ label {
   background-color: #c2f0d4;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
 }
+
 .otp-button {
   font-size: 16px;
   height: 45px;
@@ -82,13 +94,15 @@ label {
 .password-form {
   height: 45px;
   width: 320px;
-  margin-bottom: 5px; /* Space between each form group */
+  margin-bottom: 5px;
+  /* Space between each form group */
   display: flex;
   flex-direction: row;
   border: 3px solid #4f4b4b;
   border-radius: 8px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
 }
+
 .password-inp {
   background-color: #c2f0d4;
   border: 2px solid #c2f0d4;
@@ -96,11 +110,13 @@ label {
   width: 260px;
   padding: 5px;
 }
+
 .password-inp:focus {
   border: none;
   box-shadow: none;
   outline: none;
 }
+
 .eye-icon {
   height: 45px;
   width: 45px;
@@ -109,6 +125,7 @@ label {
   border-radius: 8px;
   cursor: pointer;
 }
+
 .register-btn {
   font-size: 16px;
   height: 45px;
@@ -125,6 +142,7 @@ label {
   margin-bottom: 5px;
   cursor: pointer;
 }
+
 h6 {
   font-weight: lighter;
   font-size: 14px;
@@ -149,13 +167,16 @@ h6 {
   padding: 20px;
   z-index: 1000;
 }
+
 .otp-modal h2 {
   font-size: 20px;
   margin-bottom: 0;
 }
+
 .otp-modal h4 {
   font-size: 12px;
 }
+
 .otp-modal .otp-input {
   width: 250px;
   height: 30px;
@@ -164,6 +185,7 @@ h6 {
   background-color: #c2f0d4;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
 }
+
 .otp-modal .submit-btn {
   width: 181px;
   height: 40px;
@@ -174,4 +196,23 @@ h6 {
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
   margin: 5px;
   cursor: pointer;
+}
+
+.verified {
+  color: green;
+  font-size: 15px;
+  margin-left: 20px;
+}
+
+.matched {
+  color: green;
+  font-size: 15px;
+  margin-left: 5px;
+}
+
+.tick img {
+  height: 20px;
+  height: 20px;
+  margin-top: 10px;
+  margin-left: 3px;
 }
