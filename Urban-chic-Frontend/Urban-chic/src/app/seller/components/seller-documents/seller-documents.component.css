@@ -92,7 +92,7 @@ mat-form-field .mdc-text-field--focused .mdc-notched-outline > * {
   align-items: center;
 }
 .submit-btn{
-    height: 40px;
+    height: 50px;
     width: 370px;
     background-color: #224f34;
     color: white;
