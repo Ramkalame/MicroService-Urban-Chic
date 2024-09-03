@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { ApiResponse } from '../models/shared-models/api-response.model';
 import { User } from '../models/auth-models/user.model';
 import { SellerRegistration } from '../models/auth-models/seller-registration.model';
+import { SellerLoginRequest } from '../models/auth-models/seller-login.model';
 
 @Injectable({
   providedIn: 'root'
@@ -17,8 +18,14 @@ export class AuthServiceService {
   //to create a user of seller type
   createSellerUser(formData:SellerRegistration):Observable<ApiResponse<User>>{
     const endpoint = `/register/seller`;
-    const url = `${this.BASE_URL}${endpoint}`
+    const url = `${this.BASE_URL}${endpoint}`;
     return this.http.post<ApiResponse<User>>(url,formData);
+  }
+
+  sellerLogin(formData:SellerLoginRequest):Observable<ApiResponse<string>>{
+    const endpoint = `/login/seller`;
+    const url = `${this.BASE_URL}${endpoint}`;
+    return this.http.post<ApiResponse<string>>(url,formData);
   }
 
 }

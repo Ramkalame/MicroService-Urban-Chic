@@ -93,4 +93,18 @@
       font-size: 16px;
       font-weight: bold;
   }
+ ::ng-deep .success-snackbar {
+    --mdc-snackbar-container-color: #4BB543 !important;
+    --mdc-snackbar-supporting-text-color: white !important;
+    --mat-mdc-snack-bar-button-color: rgba(0, 0, 0, 0.2) !important;
+    white-space: pre-wrap
+  }
+
+  ::ng-deep .failed-snackbar {
+    --mdc-snackbar-container-color: #A82E2E !important;
+    --mdc-snackbar-supporting-text-color: white !important;
+    --mat-mdc-snack-bar-button-color: rgba(0, 0, 0, 0.2) !important;
+    white-space: pre-wrap
+  }
+  
   

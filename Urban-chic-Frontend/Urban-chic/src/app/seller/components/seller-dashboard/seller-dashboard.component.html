@@ -1,0 +1,25 @@
+<div class="container">
+    <mat-toolbar class="mat-elevation-z3">
+        <button mat-icon-button (click)="collapse.set(!collapse())"><mat-icon>menu</mat-icon></button>
+    </mat-toolbar>
+    <mat-sidenav-container>
+        <mat-sidenav opened mode="side" [style.width]="sideNavWidht()">
+            <mat-nav-list>
+                <a mat-list-item *ngFor="let item of menuItems()" 
+                [routerLink]="item.route" 
+                class="menu-item"
+                routerLinkActive = "selected-menu-item"
+                #rla="routerLinkActive" 
+                [activated]="rla.isActive">
+                    <mat-icon matListItemIcon>{{item.icon}}</mat-icon>
+                    <span matListItemTitle *ngIf="!collapse()">{{item.label}}</span>
+                </a>
+            </mat-nav-list>
+        </mat-sidenav>
+        <!-- sidenave content -->
+        <mat-sidenav-content class="content" [style.margin-left]="sideNavWidht()">
+                <router-outlet></router-outlet>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate aliquid porro unde, quod animi illum! Expedita facilis magnam assumenda quia eius consequatur commodi molestias, eos, pariatur ratione ducimus non alias.
+        </mat-sidenav-content>
+    </mat-sidenav-container>
+</div>

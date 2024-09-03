@@ -83,13 +83,14 @@ mat-form-field {
 }
 
 .dialog {
-  width: 370px;
-  height: 250px;
-  padding: 20px;
+  width: 350px;
+  height: 230px;
+  padding: 15px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  text-align: center;
   background-color: #C2F0D4;
   border-radius: 8px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
@@ -98,11 +99,13 @@ mat-form-field {
 .dialog-title {
   font-size: 25px;
   color: #373737;
+  margin-bottom: 0;
 }
 
-h5 {
+.dialog-text {
   font-size: 12px;
   color: #373737;
+  margin-bottom: 1px;
 }
 
 .dialog mat-form-field {
@@ -110,18 +113,43 @@ h5 {
 }
 
 .dialog-button {
-  height: 45px;
-  width: 100px;
+  height: 35px;
+  width: 90px;
   background-color: #224F34;
   color: white;
   border: 3px solid #224f34;
   border-radius: 8px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
   cursor: pointer;
-  font-size: 16px;
+  font-size: 14px;
 }
 .btn-div{
   width: 250px;
   display: flex;
   justify-content: space-between;
+}
+.close-btn{
+  top: 20px;
+  left: 150px;
+  background-color: transparent !important; 
+  border: none; 
+  cursor: pointer;
+}
+
+.otp-input{
+  height: 10px !important;
+}
+
+::ng-deep .success-snackbar {
+  --mdc-snackbar-container-color: #4BB543 !important;
+  --mdc-snackbar-supporting-text-color: white !important;
+  --mat-mdc-snack-bar-button-color: rgba(0, 0, 0, 0.2) !important;
+  white-space: pre-wrap
+}
+
+::ng-deep .failed-snackbar {
+  --mdc-snackbar-container-color: #A82E2E !important;
+  --mdc-snackbar-supporting-text-color: white !important;
+  --mat-mdc-snack-bar-button-color: rgba(0, 0, 0, 0.2) !important;
+  white-space: pre-wrap
 }
