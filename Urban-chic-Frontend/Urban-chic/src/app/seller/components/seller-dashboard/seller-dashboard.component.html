@@ -1,25 +1,42 @@
 <div class="container">
     <mat-toolbar class="mat-elevation-z3">
         <button mat-icon-button (click)="collapse.set(!collapse())"><mat-icon>menu</mat-icon></button>
+        <span class="nav-title">Urban Chic</span>
+        <span class="nav-spacer"></span>
+        <h4 class="name">John Doe</h4>
     </mat-toolbar>
     <mat-sidenav-container>
         <mat-sidenav opened mode="side" [style.width]="sideNavWidht()">
-            <mat-nav-list>
-                <a mat-list-item *ngFor="let item of menuItems()" 
-                [routerLink]="item.route" 
-                class="menu-item"
-                routerLinkActive = "selected-menu-item"
-                #rla="routerLinkActive" 
-                [activated]="rla.isActive">
-                    <mat-icon matListItemIcon>{{item.icon}}</mat-icon>
-                    <span matListItemTitle *ngIf="!collapse()">{{item.label}}</span>
+            <mat-nav-list class="top-nav-list">
+                <a mat-list-item *ngFor="let item of menuItems1()" [routerLink]="item.route" class="menu-item"
+                    routerLinkActive="selected-menu-item" #rla="routerLinkActive" [activated]="rla.isActive">
+                    <mat-icon [fontSet]="rla.isActive ? 'material-icons':'material-icons-outlined'" matListItemIcon
+                        [ngStyle]="{'color':rla.isActive ? '#224F34':'#1E1E1E'}"
+                        [matTooltip]=" collapse()? item.label:'' "
+                        [matTooltipPosition]="'left'">{{item.icon}}</mat-icon>
+                    <span matListItemTitle *ngIf="!collapse()"
+                        [ngStyle]="{'color':rla.isActive ? '#224F34':'#1E1E1E'}">{{item.label}}</span>
                 </a>
             </mat-nav-list>
+            
+            <mat-nav-list class="bottom-nav-list">
+                <mat-divider></mat-divider>
+                <a mat-list-item *ngFor="let item of menuItems2()" [routerLink]="item.route" class="menu-item"
+                    routerLinkActive="selected-menu-item" #rla="routerLinkActive" [activated]="rla.isActive">
+                    <mat-icon [fontSet]="rla.isActive ? 'material-icons':'material-icons-outlined'" matListItemIcon
+                        [ngStyle]="{'color':rla.isActive ? '#224F34':'#1E1E1E'}"
+                        [matTooltip]=" collapse()? item.label:'' "
+                        [matTooltipPosition]="'left'">{{item.icon}}</mat-icon>
+                    <span matListItemTitle *ngIf="!collapse()"
+                        [ngStyle]="{'color':rla.isActive ? '#224F34':'#1E1E1E'}">{{item.label}}</span>
+                </a>
+                <a mat-list-item class="log-out-btn" (click)="logout()"><mat-icon matListItemIcon>exit_to_app</mat-icon>Logout</a>
+            </mat-nav-list>
+
         </mat-sidenav>
         <!-- sidenave content -->
         <mat-sidenav-content class="content" [style.margin-left]="sideNavWidht()">
-                <router-outlet></router-outlet>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate aliquid porro unde, quod animi illum! Expedita facilis magnam assumenda quia eius consequatur commodi molestias, eos, pariatur ratione ducimus non alias.
+            <router-outlet></router-outlet>
         </mat-sidenav-content>
     </mat-sidenav-container>
 </div>

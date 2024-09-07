@@ -9,16 +9,17 @@ import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { merge } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { AuthServiceService } from '../../../core/services/auth.service';
-import { NotificationService } from '../../../core/services/notification.service';
-import { SmsOtpRequest } from '../../../core/models/notification-model/sms-otp-request.model';
-import { ApiResponse } from '../../../core/models/shared-models/api-response.model';
-import { EmailOtpRequest } from '../../../core/models/notification-model/email-otp-request.model';
-import { VerifyOtp } from '../../../core/models/notification-model/verify-otp.model';
-import { SellerRegistration } from '../../../core/models/auth-models/seller-registration.model';
-import { User } from '../../../core/models/auth-models/user.model';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
+import { SnackbarService } from '../../../../common/services/snackbar.service';
+import { NotificationService } from '../../../../core/services/notification.service';
+import { AuthServiceService } from '../../../services/auth.service';
+import { SmsOtpRequest } from '../../../../core/models/notification-model/sms-otp-request.model';
+import { ApiResponse } from '../../../../core/models/shared-models/api-response.model';
+import { EmailOtpRequest } from '../../../../core/models/notification-model/email-otp-request.model';
+import { VerifyOtp } from '../../../../core/models/notification-model/verify-otp.model';
+import { SellerRegistration } from '../../../models/seller-registration.model';
+import { User } from '../../../models/user.model';
 
 @Component({
   selector: 'app-seller-registration',
@@ -60,7 +61,7 @@ export class SellerRegistrationComponent {
   otpContactType: string = '';
   otpDialogText: string = '';
 
-  private snackbar = inject(MatSnackBar);
+  private snackbar = inject(SnackbarService);
   hide = signal(true);
 
   constructor(private authService: AuthServiceService,
@@ -151,23 +152,6 @@ export class SellerRegistrationComponent {
     event.stopPropagation();
   }
 
-  //success message 
-  openSuccessSnackBar(message: string) {
-    this.snackbar.open(message, 'Close', {
-      duration: 3000,
-      panelClass: ['success-snackbar']
-    });
-  }
-
-  //failed message
-  openFailedSnackBar(error: HttpErrorResponse) {
-    console.log(error);
-    const errorResponse = error.error as ApiResponse<null>;
-    this.snackbar.open(errorResponse.message, 'Close', {
-      duration: 3000,
-      panelClass: ['failed-snackbar']
-    });
-  }
 
   openOtpDialog() {
     this.isDialogOpen = true
@@ -189,11 +173,11 @@ export class SellerRegistrationComponent {
     console.log(data);
     this.notificationService.sendSmsOtp(data).subscribe({
       next: (res: ApiResponse<string>) => {
-        this.openSuccessSnackBar(res.message);
+        this.snackbar.openSuccessSnackBar(res.message);
       },
       error: (error:HttpErrorResponse) => {
         console.error(error)
-        this.openFailedSnackBar(error);
+        this.snackbar.openFailedSnackBar(error);
       },
     });
   }
@@ -209,11 +193,11 @@ export class SellerRegistrationComponent {
     console.log(data);
     this.notificationService.sendEmailOtp(data).subscribe({
       next: (res: ApiResponse<string>) => {
-        this.openSuccessSnackBar(res.message);
+        this.snackbar.openSuccessSnackBar(res.message);
       },
       error: (error: HttpErrorResponse) => {
         console.error(error)
-        this.openFailedSnackBar(error);
+        this.snackbar.openFailedSnackBar(error);
       },
     });
   }
@@ -247,16 +231,16 @@ export class SellerRegistrationComponent {
           }
           this.isDialogOpen = false;
           this.cdr.detectChanges();
-          this.openSuccessSnackBar(res.message);
+          this.snackbar.openSuccessSnackBar(res.message);
         }
         else {
-          this.openSuccessSnackBar(res.message);
+          this.snackbar.openSuccessSnackBar(res.message);
         }
         this.otp.reset();
       },
       error: (error: HttpErrorResponse) => {
         console.error(error)
-        this.openFailedSnackBar(error);
+        this.snackbar.openFailedSnackBar(error);
       },
     });
   }
@@ -270,11 +254,11 @@ export class SellerRegistrationComponent {
       console.log(data);
       this.notificationService.sendSmsOtp(data).subscribe({
         next: (res: ApiResponse<string>) => {
-          this.openSuccessSnackBar(res.message);
+          this.snackbar.openSuccessSnackBar(res.message);
         },
         error: (error: HttpErrorResponse) => {
           console.error(error)
-          this.openFailedSnackBar(error);
+          this.snackbar.openFailedSnackBar(error);
         },
       });
     } else {
@@ -286,11 +270,11 @@ export class SellerRegistrationComponent {
       console.log(data);
       this.notificationService.sendEmailOtp(data).subscribe({
         next: (res: ApiResponse<string>) => {
-          this.openSuccessSnackBar(res.message);
+          this.snackbar.openSuccessSnackBar(res.message);
         },
         error: (error: HttpErrorResponse) => {
           console.error(error)
-          this.openFailedSnackBar(error);
+          this.snackbar.openFailedSnackBar(error);
         },
       });
     }
@@ -308,16 +292,16 @@ export class SellerRegistrationComponent {
     this.authService.createSellerUser(data).subscribe({
       next: (res: ApiResponse<User>) => {
         if (res.success) {
-          this.openSuccessSnackBar(res.message);
+          this.snackbar.openSuccessSnackBar(res.message);
           this.router.navigate(['/auth/login/seller'])
           this.resetForm();
         } else {
-          this.openSuccessSnackBar(res.message);
+          this.snackbar.openSuccessSnackBar(res.message);
         }
       },
       error: (error: HttpErrorResponse) => {
         console.error(error)
-        this.openFailedSnackBar(error);
+        this.snackbar.openFailedSnackBar(error);
       },
     })
 

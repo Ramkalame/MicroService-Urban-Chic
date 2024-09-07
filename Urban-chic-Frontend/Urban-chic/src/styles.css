@@ -1,3 +1,4 @@
+
 html,
 body {
   height: 100%;
@@ -5,4 +6,18 @@ body {
 body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+/* global css for snack bar */
+.success-snackbar {
+  --mdc-snackbar-container-color: #224f34 !important;
+  --mdc-snackbar-supporting-text-color: white !important;
+  --mat-mdc-snack-bar-button-color: rgba(0, 0, 0, 0.2) !important;
+  white-space: pre-wrap
+}
+
+.failed-snackbar {
+  --mdc-snackbar-container-color: #A82E2E !important;
+  --mdc-snackbar-supporting-text-color: white !important;
+  --mat-mdc-snack-bar-button-color: rgba(0, 0, 0, 0.2) !important;
+  white-space: pre-wrap
 }
