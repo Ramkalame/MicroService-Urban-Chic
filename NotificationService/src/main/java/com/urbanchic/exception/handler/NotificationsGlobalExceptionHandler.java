@@ -43,7 +43,7 @@ public class NotificationsGlobalExceptionHandler {
     @ExceptionHandler(EntityNotFoundException.class)
     public ResponseEntity<?> handleEntityNotFoundException(EntityNotFoundException exception){
         ApiResponse<?> apiResponse = ApiResponse.builder()
-                .data(null)
+                .data(false)
                 .message(exception.getMessage())
                 .timestamp(LocalDateTime.now())
                 .statusCode(HttpStatus.NOT_FOUND.value())

@@ -1,7 +1,6 @@
 package com.urbanchic.dto;
 
-import com.urbanchic.entity.productenum.ProductColor;
-import com.urbanchic.entity.productenum.ProductSize;
+
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -9,6 +8,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
 import java.util.Map;
 
 @Data
@@ -27,7 +27,7 @@ public class ProductDto {
     private String productDescription;
 
     @NotBlank(message = "Product image URL is mandatory")
-    private String productImageUrl;
+    private List<String> productImageUrls;
 
     @NotNull(message = "Product quantity is mandatory")
     private Integer productQuantity;

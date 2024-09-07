@@ -20,6 +20,4 @@ public class Seller {
     private String sellerFullName;
     private String sellerPrimaryMoNumber;
     private String sellerPrimaryEmail;
-    private String sellerAccountStatus;
-
 }

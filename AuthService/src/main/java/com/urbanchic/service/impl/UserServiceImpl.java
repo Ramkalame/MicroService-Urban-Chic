@@ -5,7 +5,6 @@ import com.urbanchic.entity.Role;
 import com.urbanchic.entity.User;
 import com.urbanchic.exception.EntityAlreadyExistsException;
 import com.urbanchic.exception.EntityNotFoundException;
-import com.urbanchic.external.SellerDto;
 import com.urbanchic.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -28,6 +27,7 @@ public class UserServiceImpl implements com.urbanchic.service.UserService {
                 .userName(userDto.getUserName())
                 .password(passwordEncoder.encode(userDto.getPassword()))
                 .role(Role.ROLE_SELLER.name())
+                .userAccountStatus(userDto.getUserAccountStatus())
                 .build();
         User savedUser = userRepository.save(newUser);
         return savedUser;
@@ -36,7 +36,7 @@ public class UserServiceImpl implements com.urbanchic.service.UserService {
     @Override
     public User getByUserName(String userName) {
         User existingUser = userRepository.findByUserName(userName).orElseThrow(() ->
-                new EntityNotFoundException("User Not Found"));
+                new EntityNotFoundException("Incorrect Username"));
         return existingUser;
     }
 

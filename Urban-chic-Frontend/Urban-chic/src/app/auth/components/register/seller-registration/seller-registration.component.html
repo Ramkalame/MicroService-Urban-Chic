@@ -1,0 +1,77 @@
+<div class="container">
+  <div class="title">
+    <span class="title-part-1">Become a</span>
+    <span class="title-part-2">Seller</span>
+  </div>
+  <div class="container-body">
+    <div class="sub-body">
+      <p>
+        <mat-form-field appearance="outline">
+          <mat-label>Enter Full Name</mat-label>
+          <input matInput [formControl]="fullName" placeholder="Enter your full name" required
+            (blur)="updateErrorMessage()" />
+          <mat-error *ngIf="fullName.invalid">{{fullNameError()}}</mat-error>
+        </mat-form-field>
+      </p>
+      <p>
+        <mat-form-field class="custom-form-field" appearance="outline">
+          <mat-label>Enter Mobile Number</mat-label>
+          <input matInput type="number" [formControl]="mobileNumber" required (blur)="updateErrorMessage()" />
+          <span matTextPrefix>+91 </span>
+          <button *ngIf="isNumberVerified" mat-icon-button matSuffix><mat-icon
+              class="done-icon">check_circle</mat-icon></button>
+          <mat-error *ngIf="mobileNumber.invalid">{{mobileNumberError()}}</mat-error>
+        </mat-form-field>
+        <button *ngIf="mobileNumber.valid && !isNumberVerified" class="verify-btn" (click)="sendSmsOtp('mobile')">Verify Number</button>
+      </p>
+      <p>
+        <mat-form-field class="custom-form-field" appearance="outline">
+          <mat-label>Enter Email</mat-label>
+          <input matInput [formControl]="email" (blur)="updateErrorMessage()" required placeholder="Enter your email" />
+          <button *ngIf="isEmailVerified" mat-icon-button matSuffix><mat-icon
+              class="done-icon">check_circle</mat-icon></button>
+          <mat-error *ngIf="email.invalid">{{emailError()}}</mat-error>
+        </mat-form-field>
+        <button *ngIf="email.valid && !isEmailVerified" class="verify-btn" (click)="sendEmailOtp('email')">Verify Email</button>
+      </p>
+      <p>
+        <mat-form-field appearance="outline">
+          <mat-label>Enter your password</mat-label>
+          <input matInput [type]="hide() ? 'password' : 'text'" [formControl]="password" required
+            (blur)="updateErrorMessage()" />
+          <button mat-icon-button matSuffix (click)="clickEvent($event)" [attr.aria-label]="'Hide password'"
+            [attr.aria-pressed]="hide()">
+            <mat-icon>{{ hide() ? "visibility_off" : "visibility" }}</mat-icon>
+          </button>
+          <mat-error *ngIf="password.invalid">{{passwordError()}}</mat-error>
+        </mat-form-field>
+      </p>
+      <p>
+        <mat-form-field appearance="outline">
+          <mat-label>Confirm Password</mat-label>
+          <input type="password" matInput [formControl]="confirmPassword" placeholder="Confirm your password" required
+            (keypress)="checkPasswordMatch()" />
+          <mat-error *ngIf="confirmPassword.invalid">{{confirmPasswordError()}}</mat-error>
+        </mat-form-field>
+      </p>
+      <p class="logo-section">
+        <button class="submit-btn" [disabled]="!isEmailVerified && !isNumberVerified" (click)="submitSellerRegistration()">Register & Continue</button>
+      </p>
+    </div>
+  </div>
+  <div *ngIf="isDialogOpen" class="dialog-overlay">
+    <div class="dialog">
+      <button mat-mini-fab (click)="closeOtpDialog()" class="close-btn"><mat-icon>clear</mat-icon></button>
+      <h3 class="dialog-title">Enter OTP</h3>
+      <p class="dialog-text">Enter 4-digit verification code sent to your <br> {{otpDialogText}}</p>
+      <mat-form-field appearance="outline">
+        <mat-label>Enter Your OTP</mat-label>
+        <input class="otp-input" matInput [formControl]="otp" required (blur)="updateErrorMessage()">
+      </mat-form-field>
+      <div class="btn-div">
+        <button class="dialog-button" (click)="resendOtp()">Resend</button>
+        <button class="dialog-button" (click)="verifyOtp()">Verify</button>
+      </div>
+    </div>
+  </div>
+</div>

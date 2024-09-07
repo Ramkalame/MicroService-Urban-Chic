@@ -1,0 +1,73 @@
+:host * {
+    transition: all 400ms ease-in-out;
+    --primary-color: #224F34 !important;
+}
+
+.content {
+    padding: 24px;
+}
+.nav-title{
+    color: #224F34;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+mat-toolbar {
+    position: relative;
+    z-index: 5;
+    background-color: #C2F0D4;
+}
+
+mat-sidenav-container {
+    height: calc(100vh - 64px);
+}
+
+mat-sidenav,
+mat-sidenav-content {
+    transition: all 400ms ease-in-out;
+}
+
+mat-sidenav {
+    background-color: #C2F0D4;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+mat-nav-list a {
+    background-color: #C2F0D4 !important;
+}
+
+.menu-item {
+    padding: 5px;
+    border-radius: 5px !important;
+    border-left: 6px solid;
+    border-left-color: rgba(0, 0, 0, 0) !important;
+}
+
+.selected-menu-item {
+    border-left-color: #224F34 !important;
+}
+.nav-spacer{
+    flex: 1 1 auto;
+}
+.name{
+    font-size: 18px;
+    color: #224F34;   
+}
+.log-out-btn{
+    padding: 5px;
+    border-radius: 5px !important;
+}
+.mat-divider{
+    margin: 5px !important;
+    border-top-width: 3px !important;
+    border-radius: 8px;
+    border-color: #1e1e1e !important;
+}
+.bottom-nav-list{
+    margin-top: 130px !important;
+}
+mat-sidnav-content{
+    padding: 10px !important;
+    margin-bottom: 10px !important;
+}

@@ -10,9 +10,7 @@ public interface SellerService {
 
      Seller createSeller(SellerDto sellerDto);
      Seller updateSeller(String sellerId,SellerDto sellerDto);
-     Seller updateSellerAccountStatus(String sellerId,String accountStatus);
      Seller getSellerBySellerId(String sellerId);
-     List<Seller> getAllSellerByAccountStatus(String accountStatus);
      Seller getSellerByPrimaryEmail(String primaryEmail);
      String deleteSeller(String sellerId);
 

@@ -27,7 +27,7 @@ public class NotificationController {
 
         ApiResponse<String> apiResponse = ApiResponse.<String>builder()
                 .data(responseData)
-                .message("Sms Sent Successfully")
+                .message(responseData)
                 .timestamp(LocalDateTime.now())
                 .statusCode(HttpStatus.CREATED.value())
                 .success(true)
@@ -42,7 +42,7 @@ public class NotificationController {
 
         ApiResponse<String> apiResponse = ApiResponse.<String>builder()
                 .data(responseData)
-                .message("E-Mail sent Successfully")
+                .message(responseData)
                 .timestamp(LocalDateTime.now())
                 .statusCode(HttpStatus.CREATED.value())
                 .success(true)

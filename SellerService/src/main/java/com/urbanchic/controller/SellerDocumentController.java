@@ -15,6 +15,7 @@ import java.time.LocalDateTime;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/sellers/documents")
+@CrossOrigin("http://localhost:4200")
 public class SellerDocumentController {
 
     private final SellerDocumentService sellerDocumentService;

@@ -1,6 +1,5 @@
 package com.urbanchic.dto;
 
-import com.urbanchic.entity.SellerAddress;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -20,6 +19,8 @@ public class SellerDocumentDto {
     private String companyLogoUrl;
     @NotNull(message = "company address is required")
     private SellerAddressDto sellerAddress;
+    @NotNull(message = "company logo public id is required")
+    private String companyLogoPublicId;
     @NotBlank(message = "GST number is required")
     private String gstNumber;
     @NotBlank(message = "PAN number is required")

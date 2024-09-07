@@ -1,5 +1,6 @@
 package com.urbanchic.controller;
 
+import com.urbanchic.dto.LoginResponseDto;
 import com.urbanchic.dto.seller.SellerLoginRequestDto;
 import com.urbanchic.dto.seller.SellerRegistrationDto;
 import com.urbanchic.entity.User;
@@ -40,9 +41,9 @@ public class AuthController {
 
     @PostMapping("/login/seller")
     public ResponseEntity<?> sellerLogin(@RequestBody @Valid SellerLoginRequestDto sellerLoginRequestDto){
-        String responseData = authService.sellerLogin(sellerLoginRequestDto);
+        LoginResponseDto responseData = authService.sellerLogin(sellerLoginRequestDto);
 
-        ApiResponse<String> apiResponse = ApiResponse.<String>builder()
+        ApiResponse<LoginResponseDto> apiResponse = ApiResponse.<LoginResponseDto>builder()
                 .data(responseData)
                 .message("Logged In Successfully")
                 .timestamp(LocalDateTime.now())

@@ -33,7 +33,6 @@ public class SellerServiceImpl implements SellerService {
                 .sellerFullName(sellerDto.getSellerFullName())
                 .sellerPrimaryMoNumber(sellerDto.getSellerPrimaryMoNumber())
                 .sellerPrimaryEmail(sellerDto.getSellerPrimaryEmail())
-                .sellerAccountStatus(SellerStatus.CONTACT_DETAILS_VERIFIED.name())
                 .build();
         Seller savedSeller = sellerRepository.save(newSeller);
         return savedSeller;
@@ -50,14 +49,6 @@ public class SellerServiceImpl implements SellerService {
         return updatedSellerDetails;
     }
 
-    @Override
-    public Seller updateSellerAccountStatus(String sellerId, String accountStatus) {
-        Seller seller = sellerRepository.findById(sellerId).orElseThrow(() ->
-                new EntityNotFoundException("Seller Not Found"));
-        seller.setSellerAccountStatus(accountStatus);
-        Seller updatedSeller = sellerRepository.save(seller);
-        return  updatedSeller;
-    }
 
     @Override
     public Seller getSellerBySellerId(String sellerId) {
@@ -66,14 +57,6 @@ public class SellerServiceImpl implements SellerService {
         return existingSeller;
     }
 
-    @Override
-    public List<Seller> getAllSellerByAccountStatus(String accountStatus) {
-        List<Seller> sellerList = sellerRepository.findBySellerAccountStatus(accountStatus);
-        if (sellerList.isEmpty()){
-            throw  new EntityNotFoundException("No Seller Found With Status:- "+accountStatus);
-        }
-        return  sellerList;
-    }
 
     @Override
     public Seller getSellerByPrimaryEmail(String primaryEmail) {

@@ -1,0 +1,36 @@
+<div class="container">
+    <div class="container-body">
+        <div class="title">
+            <span class="title-part-1">Welcome to</span>
+            <span class="title-part-2">Urbanchic</span>
+        </div>
+        <div class="sub-body">
+            <p>
+                <mat-form-field class="custom-form-field" appearance="outline">
+                    <mat-label>Enter Email</mat-label>
+                    <input type="email" matInput placeholder="enter your email" [formControl]="email" (blur)="updateErrorMessage()"/>
+                    <mat-error *ngIf="email.invalid">{{emailError()}}</mat-error>
+                </mat-form-field>
+            </p>
+            <p>
+                  <mat-form-field appearance="outline">
+                    <mat-label>Enter your password</mat-label>
+                    <input matInput [type]="hide() ? 'password' : 'text'" [formControl]="password"  (blur)="updateErrorMessage()" />
+                    <button
+                      mat-icon-button
+                      matSuffix
+                      (click)="clickEvent($event)"
+                      [attr.aria-label]="'Hide password'"
+                      [attr.aria-pressed]="hide()"
+                    >
+                      <mat-icon>{{hide() ? 'visibility_off' : 'visibility'}}</mat-icon>
+                    </button>
+                    <mat-error *ngIf="password.invalid">{{passwordError()}}</mat-error>
+                  </mat-form-field>
+            </p>
+            <p class="logo-section">
+                <button class="submit-btn" [disabled]="email.invalid || password.invalid" (click)="sellerLogin()">Login</button>
+            </p>
+        </div> 
+    </div>
+</div>
