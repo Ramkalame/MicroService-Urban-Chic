@@ -31,3 +31,5 @@ build/
 
 ### VS Code ###
 .vscode/
+
+SellerService/src/main/java/com/urbanchic/config/CloudinaryConfigDetails.java

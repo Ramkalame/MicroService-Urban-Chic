@@ -9,7 +9,6 @@ import java.util.Optional;
 
 @Repository
 public interface SellerRepository extends MongoRepository<Seller, String> {
-    List<Seller> findBySellerAccountStatus(String sellerAccountStatus);
     Optional<Seller> findBySellerPrimaryEmail(String primaryEmail);
     Optional<Seller> findBySellerId(String sellerId);
 }

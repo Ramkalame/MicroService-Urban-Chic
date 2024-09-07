@@ -18,4 +18,6 @@ public class UserDto {
     private String password;
     @NotBlank(message = "role is required")
     private String role;
+    @NotBlank(message = "account status is required")
+    private String userAccountStatus;
 }

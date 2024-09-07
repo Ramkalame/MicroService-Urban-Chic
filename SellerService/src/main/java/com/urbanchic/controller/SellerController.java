@@ -63,21 +63,6 @@ public class SellerController {
         return ResponseEntity.status(HttpStatus.OK).body(apiResponse);
     }
 
-    @GetMapping("/account-status/{accountStatus}")
-    public ResponseEntity<?> getAllSellerByAccountStatus(@PathVariable("accountStatus") String accountStatus){
-        List<Seller> responseData = sellerService.getAllSellerByAccountStatus(accountStatus);
-
-        ApiResponse<List<Seller>> apiResponse = ApiResponse.<List<Seller>>builder()
-                .data(responseData)
-                .message("Seller List With Account Status Fetched Successfully")
-                .timestamp(LocalDateTime.now())
-                .statusCode(HttpStatus.OK.value())
-                .success(true)
-                .build();
-
-        return ResponseEntity.status(HttpStatus.OK).body(apiResponse);
-    }
-
     @GetMapping("/email/{email}")
     public ResponseEntity<ApiResponse<Seller>> getSellerBySellerPrimaryEmail(@PathVariable("email") String email) {
         Seller responseData = sellerService.getSellerByPrimaryEmail(email);

@@ -18,6 +18,7 @@ public class SellerDocument {
     private String id;
     private String companyName;
     private String companyLogoUrl;
+    private String companyLogoPublicId;
     private String gstNumber;
     private String panNumber;
     private String accountNumber;

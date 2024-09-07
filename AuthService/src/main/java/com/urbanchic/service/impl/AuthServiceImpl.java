@@ -3,10 +3,12 @@ package com.urbanchic.service.impl;
 
 import com.urbanchic.client.SellerServiceClient;
 import com.urbanchic.config.CustomUserDetails;
+import com.urbanchic.dto.LoginResponseDto;
 import com.urbanchic.dto.seller.SellerLoginRequestDto;
 import com.urbanchic.dto.seller.SellerRegistrationDto;
 import com.urbanchic.dto.UserDto;
 import com.urbanchic.entity.User;
+import com.urbanchic.entity.sellerEnum.SellerStatus;
 import com.urbanchic.even.SellerProfileCreatedEvent;
 import com.urbanchic.exception.IncorrectPasswordException;
 import com.urbanchic.external.SellerDto;
@@ -42,6 +44,7 @@ public class AuthServiceImpl implements AuthService {
         UserDto newUser = UserDto.builder()
                 .userName(sellerRegistrationDto.getSellerPrimaryEmail())
                 .password(sellerRegistrationDto.getSellerPassword())
+                .userAccountStatus(SellerStatus.CONTACT_DETAILS_VERIFIED.name())
                 .build();
         User savedUser = userService.createSellerUser(newUser);
 
@@ -63,7 +66,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public String sellerLogin(SellerLoginRequestDto sellerLoginRequestDto) {
+    public LoginResponseDto sellerLogin(SellerLoginRequestDto sellerLoginRequestDto) {
         User existingUser = userService.getByUserName(sellerLoginRequestDto.getUserName());
         if (passwordEncoder.matches(sellerLoginRequestDto.getPassword(), existingUser.getPassword())){
                 doAuthenticate(sellerLoginRequestDto.getUserName(),sellerLoginRequestDto.getPassword());
@@ -72,7 +75,12 @@ public class AuthServiceImpl implements AuthService {
         }
         CustomUserDetails userDetails = new CustomUserDetails(existingUser.getId(),existingUser.getUserName(),existingUser.getPassword(),existingUser.getRole());
         String jwtToken = jwtUtil.generateToken(userDetails);
-        return jwtToken;
+
+        LoginResponseDto loginResponseDto = LoginResponseDto.builder()
+                .jwtToken(jwtToken)
+                .userAccountStatus(existingUser.getUserAccountStatus())
+                .build();
+        return loginResponseDto;
     }
 
     private void doAuthenticate(String userName,String password){

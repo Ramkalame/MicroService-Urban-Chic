@@ -2,7 +2,6 @@ package com.urbanchic.service.impl;
 
 import com.urbanchic.dto.SellerDocumentDto;
 import com.urbanchic.entity.SellerDocument;
-import com.urbanchic.entity.sellerEnum.SellerStatus;
 import com.urbanchic.event.SellerDocumentAndAddressDeleteEvent;
 import com.urbanchic.exception.EntityAlreadyExistException;
 import com.urbanchic.exception.EntityNotFoundException;
@@ -34,6 +33,7 @@ public class SellerDocumentServiceImpl implements SellerDocumentService {
         SellerDocument newSellerDocument = SellerDocument.builder()
                 .companyName(sellerDocumentDto.getCompanyName())
                 .companyLogoUrl(sellerDocumentDto.getCompanyLogoUrl())
+                .companyLogoPublicId(sellerDocumentDto.getCompanyLogoPublicId())
                 .gstNumber(sellerDocumentDto.getGstNumber())
                 .panNumber(sellerDocumentDto.getPanNumber())
                 .accountNumber(sellerDocumentDto.getAccountNumber())
@@ -41,7 +41,6 @@ public class SellerDocumentServiceImpl implements SellerDocumentService {
                 .sellerId(sellerDocumentDto.getSellerId())
                 .build();
         SellerDocument savedSellerDocument = sellerDocumentRepository.save(newSellerDocument);
-        sellerService.updateSellerAccountStatus(sellerDocumentDto.getSellerId(), SellerStatus.COMPANY_DETAILS_VERIFIED.name());
         sellerAddressService.addSellerAddress(sellerDocumentDto.getSellerAddress());
         return savedSellerDocument;
     }

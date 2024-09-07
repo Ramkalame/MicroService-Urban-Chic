@@ -27,6 +27,7 @@ public class UserServiceImpl implements com.urbanchic.service.UserService {
                 .userName(userDto.getUserName())
                 .password(passwordEncoder.encode(userDto.getPassword()))
                 .role(Role.ROLE_SELLER.name())
+                .userAccountStatus(userDto.getUserAccountStatus())
                 .build();
         User savedUser = userRepository.save(newUser);
         return savedUser;
