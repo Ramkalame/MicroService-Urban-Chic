@@ -16,11 +16,11 @@ import { numericValidator } from '../../../common/validators/NumericValidator';
 import { SellerService } from '../../services/seller.service';
 import { SnackbarService } from '../../../common/services/snackbar.service';
 import { ApiResponse } from '../../../core/models/shared-models/api-response.model';
-import { ImageUploadResponse } from '../../models/image-upload-response.model';
-import { SellerDocumentRequest } from '../../models/seller-documents-request.model';
-import { SellerDocument } from '../../models/seller-document.model';
+import { ImageUploadResponse } from '../../models/response-models/image-upload-response.model';
+import { SellerDocument } from '../../models/response-models/seller-document.model';
 import { Router } from '@angular/router';
 import { AuthServiceService } from '../../../auth/services/auth.service';
+import { SellerDocumentRequest } from '../../models/request-models/seller-documents-request.model';
 
 @Component({
   selector: 'app-seller-documents',

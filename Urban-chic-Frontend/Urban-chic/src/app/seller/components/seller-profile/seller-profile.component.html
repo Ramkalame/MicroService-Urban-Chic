@@ -1,22 +1,33 @@
 <div class="container">
-    <mat-grid-list cols="1" rowHeight="130px"  gutterSize="10px" class="top-bar">
-        <mat-grid-tile> 
-           <div class="one">
-            <mat-icon class="custom-icon">account_circle</mat-icon>
-           </div>
-           <div class="two">
-            <h5>John Smith</h5>
-            <p>johnsmit134gmail.com</p>
-            <p>+91 8319348293</p>
-           </div>
-           <div class="three">
-            <button>Update</button>
-           </div>
+    <mat-grid-list cols="2" rowHeight="130px" gutterSize="10px" class="top-bar">
+        <mat-grid-tile>
+            <div class="one">
+                <mat-icon class="custom-icon">account_circle</mat-icon>
+            </div>
+            <div class="two">
+                <h5>John Smith</h5>
+                <p>johnsmit134gmail.com</p>
+                <p>+91 8319348293</p>
+            </div>
+            <div class="three">
+                <button (click)="openContactDialog()">Update</button>
+            </div>
+        </mat-grid-tile>
+        <mat-grid-tile>
+            <div class="four">
+                <h5>Company Logo</h5>
+            </div>
+            <div class="five">
+                <button (click)="openImageDialog()">Update</button>
+            </div>
         </mat-grid-tile>
     </mat-grid-list>
-    <mat-grid-list cols="2" rowHeight="485px"  gutterSize="10px">
+    <mat-grid-list cols="2" rowHeight="485px" gutterSize="10px">
         <mat-grid-tile>
-           <div class="left">
+            <div class="left">
+                <h6>Company Name</h6>
+                <p>Amazon.com</p>
+                <mat-divider></mat-divider>
                 <h6>GSTIN Number</h6>
                 <p>29ABCDE1234F1Z5</p>
                 <mat-divider></mat-divider>
@@ -29,8 +40,8 @@
                 <h6>IFSC Code</h6>
                 <p>SBIN0001234</p>
                 <mat-divider></mat-divider>
-                <button>Update</button>
-           </div>
+                <button (click)="openTaxDialog()">Update</button>
+            </div>
         </mat-grid-tile>
         <mat-grid-tile>
             <div class="left">
@@ -49,8 +60,167 @@
                 <h6>Postal Code</h6>
                 <p>SBIN0001234</p>
                 <mat-divider></mat-divider>
-                <button>Update</button>
-           </div>
+                <button (click)="openAddressDialog()">Update</button>
+            </div>
         </mat-grid-tile>
     </mat-grid-list>
-</div>  
+</div>
+<!-- Dialog for contact details update -->
+<ng-template #contactDialogTemplate>
+    <h2 mat-dialog-title>Update Contact Details</h2>
+    <mat-dialog-content>
+        <form [formGroup]="contactForm">
+            <div class="dialog-content">
+                <mat-form-field appearance="outline">
+                    <mat-label>Full Name</mat-label>
+                    <input matInput placeholder="enter full name" formControlName="fullName">
+                    <mat-error *ngIf="contactForm.controls['fullName'].errors?.['required']">full name is
+                        required</mat-error>
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                    <mat-label>Mobile Number</mat-label>
+                    <input matInput placeholder="enter mobile number" formControlName="mobileNumber">
+                    <span class="number-prefix" matTextPrefix>+91 </span>
+                    <!-- <mat-icon matSuffix>check_circle</mat-icon> -->
+                    <mat-error *ngIf="contactForm.controls['mobileNumber'].errors?.['required']">mobile number is
+                        required</mat-error>
+                    <mat-error *ngIf="contactForm.controls['mobileNumber'].errors?.['pattern']">enter valid
+                        number</mat-error>
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                    <mat-label>Email</mat-label>
+                    <input matInput placeholder="enter email" formControlName="email">
+                    <!-- <mat-icon matSuffix>check_circle</mat-icon> -->
+                    <mat-error *ngIf="contactForm.controls['email'].errors?.['required']">email is required</mat-error>
+                    <mat-error *ngIf="contactForm.controls['email'].errors?.['email']">enter valid email</mat-error>
+                </mat-form-field>
+            </div>
+        </form>
+    </mat-dialog-content>
+    <mat-dialog-actions>
+        <button class="dialog-close-btn" (click)="closeContactDialog()">Close</button>
+        <button class="dialog-submit-btn" (click)="submitContactForm()" [disabled]="contactForm.invalid">Submit</button>
+    </mat-dialog-actions>
+</ng-template>
+
+<!-- Dialog for tax details update -->
+<ng-template #taxDialogTemplate>
+    <h2 mat-dialog-title>Update Tax Details</h2>
+    <mat-dialog-content>
+        <form [formGroup]="taxForm">
+            <div class="dialog-content">
+                <mat-form-field appearance="outline">
+                    <mat-label>Company Name</mat-label>
+                    <input matInput placeholder="enter gstin number" formControlName="companyName">
+                    <mat-error *ngIf="taxForm.controls['companyName'].errors?.['required']">company name is
+                        required</mat-error>
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                    <mat-label>GSTIN Number</mat-label>
+                    <input matInput placeholder="enter gstin number" formControlName="gstNumber">
+                    <mat-error *ngIf="taxForm.controls['gstNumber'].errors?.['required']">gstin is required</mat-error>
+                    <mat-error *ngIf="taxForm.controls['gstNumber'].errors?.['pattern']">enter valid gst
+                        number</mat-error>
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                    <mat-label>PAN Number</mat-label>
+                    <input matInput placeholder="enter pan number" formControlName="panNumber">
+                    <mat-error *ngIf="taxForm.controls['panNumber'].errors?.['required']">pan number is
+                        required</mat-error>
+                    <mat-error *ngIf="taxForm.controls['panNumber'].errors?.['pattern']">enter valid pan
+                        number</mat-error>
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                    <mat-label>Account Number</mat-label>
+                    <input matInput placeholder="enter account number" formControlName="accountNumber">
+                    <mat-error *ngIf="taxForm.controls['accountNumber'].errors?.['required']">account number is
+                        required</mat-error>
+                    <mat-error *ngIf="taxForm.controls['accountNumber'].errors?.['minlength']">enter valid account
+                        number</mat-error>
+                    <mat-error *ngIf="taxForm.controls['accountNumber'].errors?.['maxlength']">enter valid account
+                        number</mat-error>
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                    <mat-label>IFSC Code</mat-label>
+                    <input matInput placeholder="enter ifsc code">
+                    <mat-error *ngIf="taxForm.controls['ifscCode'].errors?.['required']">ifsc code is
+                        required</mat-error>
+                    <mat-error *ngIf="taxForm.controls['ifscCode'].errors?.['pattern']">enter valid ifsc
+                        code</mat-error>
+                </mat-form-field>
+            </div>
+        </form>
+    </mat-dialog-content>
+    <mat-dialog-actions>
+        <button class="dialog-close-btn" (click)="closeTaxDialog()">Close</button>
+        <button class="dialog-submit-btn" [disabled]="taxForm.invalid" (click)="submitTaxForm()">Submit</button>
+    </mat-dialog-actions>
+</ng-template>
+
+<!-- Dialog for address details update -->
+<ng-template #addressDialogTemplate>
+    <h2 mat-dialog-title>Update Pick-up Address Details</h2>
+    <mat-dialog-content>
+        <form [formGroup]="addressForm">
+            <div class="dialog-content">
+                <mat-form-field appearance="outline">
+                    <mat-label>Street Name</mat-label>
+                    <input matInput placeholder="enter street name" formControlName="street">
+                    <mat-error *ngIf="addressForm.controls['street'].errors?.['required']">street name is
+                        required</mat-error>
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                    <mat-label>City Name</mat-label>
+                    <input matInput placeholder="enter city name" formControlName="city">
+                    <mat-error *ngIf="addressForm.controls['city'].errors?.['required']">city name is
+                        required</mat-error>
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                    <mat-label>State Name</mat-label>
+                    <input matInput placeholder="enter state name" formControlName="state">
+                    <mat-error *ngIf="addressForm.controls['state'].errors?.['required']">state name is
+                        required</mat-error>
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                    <mat-label>Country Name</mat-label>
+                    <input matInput placeholder="enter country name" formControlName="country">
+                    <mat-error *ngIf="addressForm.controls['country'].errors?.['required']">country name is
+                        required</mat-error>
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                    <mat-label>Postal Code</mat-label>
+                    <input matInput placeholder="enter postal code" formControlName="postalCode">
+                    <mat-error *ngIf="addressForm.controls['postalCode'].errors?.['required']">postal code is
+                        required</mat-error>
+                    <mat-error *ngIf="addressForm.controls['postalCode'].errors?.['pattern']">enter valid
+                        postal code</mat-error>
+                </mat-form-field>
+            </div>
+        </form>
+    </mat-dialog-content>
+    <mat-dialog-actions>
+        <button class="dialog-close-btn" (click)="closeAddressDialog()">Close</button>
+        <button class="dialog-submit-btn" [disabled]="addressForm.invalid" (click)="submitAddressForm()">Submit</button>
+    </mat-dialog-actions>
+</ng-template>
+
+
+<!-- image upload dialog -->
+<ng-template #imageDialogTemplate>
+    <h2 mat-dialog-title>Update Company Logo</h2>
+    <mat-dialog-content>
+        <div class="dialog-content">
+            <input type="file" id="uploadBtn" (change)="onFileSelected($event)" accept="image/*" />
+            <label class="file-input-lable" for="uploadBtn"><mat-icon class="upload-icon">file_upload</mat-icon> Choose
+                File</label>
+            <!-- Preview the selected image -->
+            <div class="image-preview" *ngIf="previewUrl">
+                <img [src]="previewUrl" alt="Image Preview" class="preview-img" />
+            </div>
+        </div>
+    </mat-dialog-content>
+    <mat-dialog-actions>
+        <button class="dialog-close-btn" (click)="closeImageDialog()">Close</button>
+        <button class="dialog-submit-btn" (click)="submitImage()" [disabled]="!selectedFile?.size">Submit</button>
+    </mat-dialog-actions>
+</ng-template>
