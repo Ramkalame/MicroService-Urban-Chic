@@ -8,6 +8,6 @@ public interface SellerAddressService {
 
     SellerAddress addSellerAddress(SellerAddressDto sellerAddressDto);
     SellerAddress getSellerAddressBySellerId(String sellerId);
-    SellerAddress updateSellerAddress(String id, SellerAddressDto sellerAddressDto);
+    SellerAddress updateSellerAddress(String sellerId, SellerAddressDto sellerAddressDto);
     String deleteSellerAddress(SellerDocumentAndAddressDeleteEvent event);
 }

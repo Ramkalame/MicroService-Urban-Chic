@@ -40,7 +40,7 @@ public class SellerServiceImpl implements SellerService {
 
     @Override
     public Seller updateSeller(String sellerId,SellerDto sellerDto) {
-        Seller seller = sellerRepository.findById(sellerId).orElseThrow(() ->
+        Seller seller = sellerRepository.findBySellerId(sellerId).orElseThrow(() ->
                 new EntityNotFoundException("Seller Not Found"));
         seller.setSellerFullName(sellerDto.getSellerFullName());
         seller.setSellerPrimaryMoNumber(sellerDto.getSellerPrimaryMoNumber());

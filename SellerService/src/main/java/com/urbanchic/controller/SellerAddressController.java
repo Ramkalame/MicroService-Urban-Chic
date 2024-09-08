@@ -50,10 +50,10 @@ public class SellerAddressController {
         return ResponseEntity.status(HttpStatus.OK).body(apiResponse);
     }
 
-    @PutMapping("/update/{id}")
-    public ResponseEntity<?> updateSellerAddress(@PathVariable("id") String id,
+    @PutMapping("/update/{sellerId}")
+    public ResponseEntity<?> updateSellerAddress(@PathVariable("sellerId") String sellerId,
                                                  @RequestBody SellerAddressDto sellerAddressDto){
-        SellerAddress responseData = sellerAddressService.updateSellerAddress(id, sellerAddressDto);
+        SellerAddress responseData = sellerAddressService.updateSellerAddress(sellerId, sellerAddressDto);
 
         ApiResponse<SellerAddress> apiResponse = ApiResponse.<SellerAddress>builder()
                 .data(responseData)

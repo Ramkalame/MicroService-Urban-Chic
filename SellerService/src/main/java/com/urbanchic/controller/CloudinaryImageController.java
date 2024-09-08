@@ -50,4 +50,19 @@ public class CloudinaryImageController {
         return ResponseEntity.status(HttpStatus.OK).body(apiResponse);
     }
 
+    @PostMapping("/update/{sellerId}")
+    public ResponseEntity<?> updateImage(@PathVariable("sellerId") String sellerId,@RequestParam MultipartFile file){
+        ImageUploadResponseDto responseData = cloudinaryImageService.updateImage(sellerId,file);
+
+        ApiResponse<ImageUploadResponseDto> apiResponse = ApiResponse.<ImageUploadResponseDto>builder()
+                .data(responseData)
+                .message("Image Updated Successfully")
+                .timestamp(LocalDateTime.now())
+                .statusCode(HttpStatus.OK.value())
+                .success(true)
+                .build();
+
+        return ResponseEntity.status(HttpStatus.OK).body(apiResponse);
+    }
+
 }

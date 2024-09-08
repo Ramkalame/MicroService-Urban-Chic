@@ -38,8 +38,8 @@ public class SellerAddressServiceImpl implements SellerAddressService {
     }
 
     @Override
-    public SellerAddress updateSellerAddress(String id, SellerAddressDto sellerAddressDto) {
-        SellerAddress existingSellerAddress = sellerAddressRepository.findById(id).orElseThrow(() ->
+    public SellerAddress updateSellerAddress(String sellerId, SellerAddressDto sellerAddressDto) {
+        SellerAddress existingSellerAddress = sellerAddressRepository.findBySellerId(sellerId).orElseThrow(() ->
                 new EntityNotFoundException("Company Address Not Found"));
 
         existingSellerAddress.setStreet(sellerAddressDto.getStreet());

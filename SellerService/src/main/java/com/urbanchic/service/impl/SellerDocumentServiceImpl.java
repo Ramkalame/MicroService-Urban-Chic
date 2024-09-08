@@ -1,6 +1,8 @@
 package com.urbanchic.service.impl;
 
+import com.urbanchic.dto.ImageUploadResponseDto;
 import com.urbanchic.dto.SellerDocumentDto;
+import com.urbanchic.dto.UpdateSellerDocumentDto;
 import com.urbanchic.entity.SellerDocument;
 import com.urbanchic.event.SellerDocumentAndAddressDeleteEvent;
 import com.urbanchic.exception.EntityAlreadyExistException;
@@ -20,7 +22,6 @@ public class SellerDocumentServiceImpl implements SellerDocumentService {
 
     private final SellerDocumentRepository sellerDocumentRepository;
     private final SellerAddressService sellerAddressService;
-    private final SellerService sellerService;
 
     @Override
     public SellerDocument addSellerDocument(SellerDocumentDto sellerDocumentDto) {
@@ -46,8 +47,8 @@ public class SellerDocumentServiceImpl implements SellerDocumentService {
     }
 
     @Override
-    public SellerDocument updateSellerDocument(String id, SellerDocumentDto sellerDocumentDto) {
-        SellerDocument existingSellerDocument = sellerDocumentRepository.findById(id).orElseThrow(() ->
+    public SellerDocument updateSellerDocument(String sellerId, UpdateSellerDocumentDto sellerDocumentDto) {
+        SellerDocument existingSellerDocument = sellerDocumentRepository.findBySellerId(sellerId).orElseThrow(() ->
                 new EntityNotFoundException("Seller Address Not Found"));
 
         existingSellerDocument.setCompanyName(sellerDocumentDto.getCompanyName());
@@ -75,5 +76,16 @@ public class SellerDocumentServiceImpl implements SellerDocumentService {
                 new EntityNotFoundException("Seller Address Not Found"));
         sellerDocumentRepository.delete(existingSellerDocument);
         return "Seller Id: "+event.getSellerId();
+    }
+
+    @Override
+    public SellerDocument updateSellerImage(String sellerId, ImageUploadResponseDto imageUploadResponseDto) {
+        SellerDocument existingSellerDocument = sellerDocumentRepository.findBySellerId(sellerId).orElseThrow(() ->
+                new EntityNotFoundException("Seller Address Not Found"));
+
+        existingSellerDocument.setCompanyLogoUrl(imageUploadResponseDto.getPublicUrl());
+        existingSellerDocument.setCompanyLogoPublicId(imageUploadResponseDto.getPublicId());
+        SellerDocument updatedSellerDocument = sellerDocumentRepository.save(existingSellerDocument);
+        return updatedSellerDocument;
     }
 }
