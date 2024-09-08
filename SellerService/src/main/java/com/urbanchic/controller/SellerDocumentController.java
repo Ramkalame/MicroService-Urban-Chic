@@ -1,6 +1,7 @@
 package com.urbanchic.controller;
 
 import com.urbanchic.dto.SellerDocumentDto;
+import com.urbanchic.dto.UpdateSellerDocumentDto;
 import com.urbanchic.entity.SellerDocument;
 import com.urbanchic.service.SellerDocumentService;
 import com.urbanchic.utils.ApiResponse;
@@ -35,9 +36,9 @@ public class SellerDocumentController {
         return ResponseEntity.status(HttpStatus.CREATED).body(apiResponse);
     }
 
-    @PutMapping("/update/{id}")
-    public ResponseEntity<?> updateSellerDocument(@PathVariable("id") String id,SellerDocumentDto sellerDocumentDto){
-        SellerDocument responseData = sellerDocumentService.updateSellerDocument(id,sellerDocumentDto);
+    @PutMapping("/update/{sellerId}")
+    public ResponseEntity<?> updateSellerDocument(@PathVariable("sellerId") String sellerId, UpdateSellerDocumentDto sellerDocumentDto){
+        SellerDocument responseData = sellerDocumentService.updateSellerDocument(sellerId,sellerDocumentDto);
 
         ApiResponse<SellerDocument> apiResponse = ApiResponse.<SellerDocument>builder()
                 .data(responseData)
