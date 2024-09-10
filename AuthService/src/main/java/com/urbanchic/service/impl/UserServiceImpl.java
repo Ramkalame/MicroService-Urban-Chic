@@ -3,6 +3,7 @@ package com.urbanchic.service.impl;
 import com.urbanchic.dto.UserDto;
 import com.urbanchic.entity.Role;
 import com.urbanchic.entity.User;
+import com.urbanchic.entity.sellerEnum.SellerStatus;
 import com.urbanchic.exception.EntityAlreadyExistsException;
 import com.urbanchic.exception.EntityNotFoundException;
 import com.urbanchic.repository.UserRepository;
@@ -38,6 +39,14 @@ public class UserServiceImpl implements com.urbanchic.service.UserService {
         User existingUser = userRepository.findByUserName(userName).orElseThrow(() ->
                 new EntityNotFoundException("Incorrect Username"));
         return existingUser;
+    }
+
+    @Override
+    public User updateSellerAccountStatus(String sellerId) {
+        User existingUser = userRepository.findById(sellerId).orElseThrow(() ->
+                new EntityNotFoundException("user not found"));
+        existingUser.setUserAccountStatus(SellerStatus.DOCUMENTS_VERIFIED.name());
+       return userRepository.save(existingUser);
     }
 
 

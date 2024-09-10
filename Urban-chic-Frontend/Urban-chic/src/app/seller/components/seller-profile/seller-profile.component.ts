@@ -1,4 +1,4 @@
-import { Component, TemplateRef, ViewChild } from '@angular/core';
+import { Component, inject, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -10,6 +10,17 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { numericValidator } from '../../../common/validators/NumericValidator';
 import { CommonModule } from '@angular/common';
+import { AuthServiceService } from '../../../auth/services/auth.service';
+import { SellerService } from '../../services/seller.service';
+import { ApiResponse } from '../../../core/models/shared-models/api-response.model';
+import { Seller } from '../../models/response-models/seller.model';
+import { SellerDocument } from '../../models/response-models/seller-document.model';
+import { SellerAddress } from '../../models/response-models/seller-address.model';
+import { SellerAuthService } from '../../../core/services/seller-auth.service';
+import { ImageUploadResponse } from '../../models/response-models/image-upload-response.model';
+import { SnackbarService } from '../../../common/services/snackbar.service';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { SpinnerComponent } from "../../../common/components/spinner/spinner.component";
 
 @Component({
   selector: 'app-seller-profile',
@@ -18,11 +29,11 @@ import { CommonModule } from '@angular/common';
     MatGridTileFooterCssMatStyler,
     MatCardModule, MatButtonModule, MatIconModule,
     MatDividerModule, MatDialogModule,
-    MatInputModule, MatFormFieldModule, CommonModule, ReactiveFormsModule],
+    MatInputModule, MatFormFieldModule, CommonModule, ReactiveFormsModule, SpinnerComponent],
   templateUrl: './seller-profile.component.html',
   styleUrl: './seller-profile.component.css'
 })
-export class SellerProfileComponent {
+export class SellerProfileComponent implements OnInit  {
 
   //contact dialog
   @ViewChild('contactDialogTemplate') contactDialogTemplate!: TemplateRef<any>;
@@ -45,10 +56,20 @@ export class SellerProfileComponent {
 
   //other
   previewUrl: string | ArrayBuffer | null = null; // Holds the preview image URL
-  selectedFile: File | null = null;               // Holds the selected file
+  selectedFile!: File;               // Holds the selected file
 
 
-  constructor(public dialog: MatDialog) {
+  //logged in user id
+  userId!: string;
+  imageData: ImageUploadResponse = { publicId: '', publicUrl: '' };
+
+  //service injection 
+  sellerService = inject(SellerService);
+  sellerAuthService = inject(SellerAuthService);
+  snackBar = inject(SnackbarService);
+
+
+  constructor(public dialog: MatDialog,private authService: AuthServiceService) {  
     this.contactForm = new FormGroup({
       fullName: new FormControl('', Validators.required),
       mobileNumber: new FormControl('', [Validators.required, numericValidator(), Validators.pattern('^[0-9]{10}$')]),
@@ -75,6 +96,13 @@ export class SellerProfileComponent {
       postalCode: new FormControl('', [Validators.required, numericValidator(), Validators.pattern('^[0-9]{6}$')])
     });
 
+  }
+  
+  ngOnInit() {
+    this.userId = this.sellerAuthService.getUserId();
+    this.fetchContactData(); 
+    this.fetchTaxData();
+    this.fetchAddressData();
   }
 
   // contact dialog
@@ -126,7 +154,6 @@ export class SellerProfileComponent {
   closeImageDialog(): void {
     this.imageDialogRef.close();
     this.previewUrl = null; // Clear the preview when the dialog is closed
-    this.selectedFile = null; // Reset the selected file
   }
 
   //image preview
@@ -166,22 +193,74 @@ export class SellerProfileComponent {
   }
 
   submitImage() {
-    console.log("image submitted");
+    this.sellerService.updateImage(this.selectedFile,this.userId).subscribe({
+      next: (res: ApiResponse<ImageUploadResponse>) => {
+        console.log('Data:', res.data);
+        this.imageData = res.data;
+        this.snackBar.openSuccessSnackBar(res.message);
+        this.closeImageDialog();
+      },
+      error: (error) => {
+        console.error('Error:', error);
+      }
+    })
 
   }
 
   //api methods for fetching data 
   fetchContactData() {
-    //api call to fetch contact data
-    //return data
+    this.sellerService.getSellersDetails(this.userId).subscribe({
+      next: (res:ApiResponse<Seller>) => {
+        console.log('Data:', res.data);
+        //using patchValue to update the form wiht the data
+        this.contactForm.patchValue({
+          fullName: res.data.sellerFullName,
+          mobileNumber: res.data.sellerPrimaryMoNumber,
+          email: res.data.sellerPrimaryEmail
+        })
+      },
+      error: (error) => {
+        console.error('Error:', error);
+      }
+    })
   }
   fetchTaxData() {
-    //api call to fetch tax data
-    //return data
+    this.sellerService.getSellerDocuments(this.userId).subscribe({
+      next: (res:ApiResponse<SellerDocument>) => {
+        console.log('Data:', res.data);
+        //using patchValue to update the form wiht the data
+       this.taxForm.patchValue({
+         companyName: res.data.companyName,
+         gstNumber: res.data.gstNumber,
+         panNumber: res.data.panNumber,
+         accountNumber: res.data.accountNumber,
+         ifscCode: res.data.ifscCode
+       })
+       this.imageData.publicUrl = res.data.companyLogoUrl;
+       this.imageData.publicId = res.data.companyLogoPublicId;
+      },
+      error: (error) => {
+        console.error('Error:', error);
+      }
+    })
   }
   fetchAddressData() {
-    //api call to fetch address data
-    //return data
+    this.sellerService.getSellersAddress(this.userId).subscribe({
+      next:(res:ApiResponse<SellerAddress>) =>{
+          console.log('Data',res.data);
+          this.addressForm.patchValue({
+            street: res.data.street,
+            city: res.data.city,
+            state: res.data.state,
+            country: res.data.country,
+            postalCode: res.data.postalCode
+          })
+          
+      },
+      error: (error) => {
+        console.error('Error:', error);
+      }
+    })
   }
 
 }

@@ -1,0 +1,27 @@
+.loader{
+    border: 10px solid #C2F0D4;
+    border-top: 10px solid #224f34;
+    /* border-right: 10px solid #224f34; */
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.spinner-overlay {
+    position: fixed;      /* Fixes the position relative to the viewport */
+    top: 0;               /* Aligns the overlay to the top of the viewport */
+    left: 0;              /* Aligns the overlay to the left of the viewport */
+    width: 100vw;         /* Full width of the viewport */
+    height: 100vh;        /* Full height of the viewport */
+    display: flex;        /* Use flexbox for centering */
+    justify-content: center; /* Center horizontally */
+    align-items: center;  /* Center vertically */
+    background-color: rgba(0, 0, 0, 0.5); /* Optional: Adds a semi-transparent background */
+    z-index: 1000;        /* Makes sure the overlay is above other content */
+}

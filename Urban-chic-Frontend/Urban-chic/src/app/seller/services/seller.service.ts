@@ -22,7 +22,7 @@ export class SellerService {
 
   constructor(private http:HttpClient) { }
 
-
+// company logo api methods
   uploadImage(file:File): Observable<any>{
     const formData = new FormData();
     formData.append('file', file);
@@ -31,6 +31,16 @@ export class SellerService {
     return this.http.post(url, formData);
   }
 
+
+  updateImage(image:File,sellerId:string): Observable<any>{
+    const formData = new FormData();
+    formData.append('file', image);
+    const endpoint = `/update/${sellerId}`;
+    const url = `${this.BASE_URL_IMAGES}${endpoint}`;
+    return this.http.post(url, formData);
+  }
+
+  //seller documents api methods
   addSellerDocuments(formData:SellerDocumentRequest):Observable<ApiResponse<SellerDocument>>{
     const endpoint = `/add`;
     const url = `${this.BASE_URL_DOCUMENTS}${endpoint}`;

@@ -3,16 +3,5 @@
         <mat-grid-tile>1</mat-grid-tile>
         <mat-grid-tile>2</mat-grid-tile>
         <mat-grid-tile>3</mat-grid-tile>
-        <mat-grid-tile>
-            <button class="add-btn" (click)="submitProductForm()"><mat-icon> add</mat-icon> Add Product</button>
-        </mat-grid-tile>
     </mat-grid-list>
-</div>
-
-<div class="add-form">
-        <mat-form-field appearance="outline">
-            <mat-label>Product Name</mat-label>
-            <input #produtNameControl="ngModel" [ngModel]="productName()" (ngModelChange)="productName.set($event)" matInput placeholder="enter product name" required>
-            <mat-error *ngIf="produtNameControl.hasError('required')">Product Name Requrired</mat-error>
-        </mat-form-field>
 </div>

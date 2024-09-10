@@ -54,6 +54,21 @@ public class AuthController {
         return ResponseEntity.status(HttpStatus.OK).body(apiResponse);
     }
 
+    @PutMapping("/account-status/{sellerId}")
+    public ResponseEntity<?> updateSellerAccountStatus(@PathVariable("sellerId") String sellerId){
+        User responseData = authService.updateSellerAccountStatus(sellerId);
+
+        ApiResponse<User> apiResponse = ApiResponse.<User>builder()
+                .data(responseData)
+                .message("Account Status is updated")
+                .timestamp(LocalDateTime.now())
+                .statusCode(HttpStatus.OK.value())
+                .success(true)
+                .build();
+
+        return ResponseEntity.status(HttpStatus.OK).body(apiResponse);
+    }
+
 
 
 

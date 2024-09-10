@@ -26,6 +26,7 @@ import { SellerLoginRequest } from '../../../models/seller-login.model';
 import { ApiResponse } from '../../../../core/models/shared-models/api-response.model';
 import { LoginResponse } from '../../../models/login-response.model';
 import { SellerAccountStatus } from '../../../../core/enums/seller-account-status';
+import { SellerAuthService } from '../../../../core/services/seller-auth.service';
 
 @Component({
   selector: 'app-seller-login',
@@ -55,7 +56,9 @@ export class SellerLoginComponent {
 
   //other signals
   hide = signal(true);
-  private snackbar = inject(SnackbarService);
+  snackbar = inject(SnackbarService);
+  sellerAuthService = inject(SellerAuthService);
+  
 
   constructor(private router: Router, private authService: AuthServiceService) {
     merge(
@@ -101,19 +104,16 @@ export class SellerLoginComponent {
     };
     console.log(data);
     this.authService.sellerLogin(data).subscribe({
-      next: (response: ApiResponse<LoginResponse>) => {
+      next:(response: ApiResponse<LoginResponse>) => {
         console.log(response);
-        //storing the token to local storage
-        localStorage.setItem('token', response.data.jwtToken);
-        //updating the logged in status in the service
+        // Store the token in local storage
+        this.sellerAuthService.login(response.data.jwtToken);      
         this.snackbar.openSuccessSnackBar('Login successful');
-        if (
-          response.data.userAccountStatus ===
-          SellerAccountStatus.DOCUMENTS_VERIFIED
-        ) {
-          this.router.navigate(['/seller/dashboard']);
+        // Navigate based on user account status
+        if (response.data.userAccountStatus === SellerAccountStatus.DOCUMENTS_VERIFIED) {
+          this.router.navigate(['seller/dashboard']);
         } else {
-          this.router.navigate(['/seller/documents']);
+          this.router.navigate(['seller/documents']);
         }
       },
       error: (error: HttpErrorResponse) => {
@@ -122,4 +122,5 @@ export class SellerLoginComponent {
       },
     });
   }
+
 }

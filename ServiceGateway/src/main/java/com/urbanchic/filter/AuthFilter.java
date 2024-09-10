@@ -18,8 +18,7 @@ import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
+
 
 @Slf4j
 @Component
@@ -55,7 +54,9 @@ public class AuthFilter extends AbstractGatewayFilterFactory {
                     log.info("Access Denied");
                     return onError(exchange, HttpStatus.FORBIDDEN,"Access Denied!!");
                 }
+                log.info("----------->PASSED THE GATEWAY-1");
             }
+            log.info("----------->PASSED THE GATEWAY-2");
           return chain.filter(exchange);
         };
     }

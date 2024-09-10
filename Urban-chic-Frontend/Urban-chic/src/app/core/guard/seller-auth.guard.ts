@@ -1,21 +1,31 @@
 import { inject } from '@angular/core';
-import { CanActivateFn, Router } from '@angular/router';
-import { SellerLoginComponent } from '../../auth/components/login/seller-login/seller-login.component';
-import { AuthServiceService } from '../../auth/services/auth.service';
+import { ActivatedRouteSnapshot, CanActivateFn, Router, RouterStateSnapshot } from '@angular/router';
+import { JwtDecoderService } from '../services/jwt-decoder.service';
+import { SellerAuthService } from '../services/seller-auth.service';
+import { SnackbarService } from '../../common/services/snackbar.service';
+import { HttpErrorResponse, HttpEventType, HttpHeaders } from '@angular/common/http';
 
 export const sellerAuthGuard: CanActivateFn = (route, state) => {
 
   const router = inject(Router);
-  const authService = inject(AuthServiceService);
-  let loggedIn = false;
-  authService.isLoggedIn().subscribe({
-    next: (isLoggedIn) => loggedIn = isLoggedIn,
-    error: (error) => console.error('Error:', error)
-  })
-  if(loggedIn) {
+  const sellerAuthService = inject(SellerAuthService);
+  const snackBar = inject(SnackbarService);
+  if(sellerAuthService.isLoggedIn() && sellerAuthService.isAuthorized()){
+    // User is authenticated and authorized, allow navigation
     return true;
-  }
-  else {
+  }else{
+    let error:HttpErrorResponse = {
+      status: 401,
+      statusText: 'Unauthorized',
+      error: 'User not authorized',
+      name: 'HttpErrorResponse',
+      message: 'Please Login',
+      ok: false,
+      headers: new HttpHeaders,
+      url: null,
+      type: HttpEventType.ResponseHeader
+    }
+    snackBar.openNonApiFailedSnackBar(error);
     router.navigate(['/auth/login/seller']);
     return false;
   }

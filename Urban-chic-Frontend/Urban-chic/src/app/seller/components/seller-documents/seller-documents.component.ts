@@ -21,6 +21,7 @@ import { SellerDocument } from '../../models/response-models/seller-document.mod
 import { Router } from '@angular/router';
 import { AuthServiceService } from '../../../auth/services/auth.service';
 import { SellerDocumentRequest } from '../../models/request-models/seller-documents-request.model';
+import { SellerAuthService } from '../../../core/services/seller-auth.service';
 
 @Component({
   selector: 'app-seller-documents',
@@ -46,7 +47,7 @@ export class SellerDocumentsComponent implements OnInit {
   sellerForm!: FormGroup;
   fileError: string | null = null;
 
-  authService = inject(AuthServiceService);
+  sellerAuthService = inject(SellerAuthService);
   sellerService = inject(SellerService);
   snackBar = inject(SnackbarService);
   router = inject(Router);
@@ -91,12 +92,7 @@ export class SellerDocumentsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    const isUserIdNull: string = this.authService.getUserId();
-    if (isUserIdNull.length == 0) {
-      this.router.navigate(['/auth/login/seller']);
-    } else {
-      this.userId = isUserIdNull;
-    }
+    this.userId = this.sellerAuthService.getUserId();
   }
 
   onlyBooksBtn() {
