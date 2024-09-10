@@ -2,7 +2,9 @@ package com.urbanchic.service.impl;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
+import com.urbanchic.config.CloudinaryConfigProperties;
 import com.urbanchic.dto.ImageUploadResponseDto;
+import com.urbanchic.entity.SellerDocument;
 import com.urbanchic.exception.EntityNotFoundException;
 import com.urbanchic.exception.ImageUploadFailedException;
 import com.urbanchic.service.CloudinaryImageService;
@@ -25,7 +27,7 @@ public class CloudinaryImageServiceImpl implements CloudinaryImageService {
         ImageUploadResponseDto responseDto = new ImageUploadResponseDto();
         try{
            Map res = cloudinary.uploader().upload(file.getBytes(),
-                   ObjectUtils.asMap("folder", CloudinaryConfigDetails.IMAGE_FOLDER));
+                   ObjectUtils.asMap("folder", CloudinaryConfigProperties.IMAGE_FOLDER));
            responseDto.setPublicId(res.get("public_id").toString());
            responseDto.setPublicUrl(res.get("url").toString());
         }catch (Exception e){
@@ -50,16 +52,18 @@ public class CloudinaryImageServiceImpl implements CloudinaryImageService {
 
     @Override
     public ImageUploadResponseDto updateImage(String sellerId, MultipartFile file) {
+        SellerDocument existingSellerDocument = sellerDocumentService.getSellerDocumentBySellerId(sellerId);
         ImageUploadResponseDto responseDto = new ImageUploadResponseDto();
         try{
             Map res = cloudinary.uploader().upload(file.getBytes(),
-                    ObjectUtils.asMap("folder", CloudinaryConfigDetails.IMAGE_FOLDER));
+                    ObjectUtils.asMap("folder", CloudinaryConfigProperties.IMAGE_FOLDER));
             responseDto.setPublicId(res.get("public_id").toString());
             responseDto.setPublicUrl(res.get("url").toString());
         }catch (Exception e){
             throw new ImageUploadFailedException("Image Upload Failed!! Try Again");
         }
         sellerDocumentService.updateSellerImage(sellerId,responseDto);
+        deleteImage(existingSellerDocument.getCompanyLogoPublicId());
         return responseDto;
     }
 }

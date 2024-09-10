@@ -5,6 +5,7 @@ import com.urbanchic.dto.SellerDocumentDto;
 import com.urbanchic.dto.UpdateSellerDocumentDto;
 import com.urbanchic.entity.SellerDocument;
 import com.urbanchic.event.SellerDocumentAndAddressDeleteEvent;
+import com.urbanchic.event.UpdateSellerAccountStatusEvent;
 import com.urbanchic.exception.EntityAlreadyExistException;
 import com.urbanchic.exception.EntityNotFoundException;
 import com.urbanchic.repository.SellerDocumentRepository;
@@ -12,6 +13,7 @@ import com.urbanchic.service.SellerAddressService;
 import com.urbanchic.service.SellerDocumentService;
 import com.urbanchic.service.SellerService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
@@ -20,6 +22,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class SellerDocumentServiceImpl implements SellerDocumentService {
 
+    private final ApplicationEventPublisher eventPublisher;
     private final SellerDocumentRepository sellerDocumentRepository;
     private final SellerAddressService sellerAddressService;
 
@@ -43,6 +46,7 @@ public class SellerDocumentServiceImpl implements SellerDocumentService {
                 .build();
         SellerDocument savedSellerDocument = sellerDocumentRepository.save(newSellerDocument);
         sellerAddressService.addSellerAddress(sellerDocumentDto.getSellerAddress());
+        eventPublisher.publishEvent(new UpdateSellerAccountStatusEvent(this, savedSellerDocument.getSellerId()));
         return savedSellerDocument;
     }
 

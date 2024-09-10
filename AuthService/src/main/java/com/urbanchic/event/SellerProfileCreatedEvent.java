@@ -1,4 +1,4 @@
-package com.urbanchic.even;
+package com.urbanchic.event;
 
 import com.urbanchic.external.SellerDto;
 import lombok.Getter;

@@ -1,5 +1,6 @@
 package com.urbanchic.exception.handler;
 
+import com.urbanchic.exception.CustomFeignException;
 import com.urbanchic.exception.EntityAlreadyExistException;
 import com.urbanchic.exception.EntityNotFoundException;
 import com.urbanchic.exception.ImageUploadFailedException;
@@ -20,6 +21,11 @@ import java.util.NoSuchElementException;
 
 @RestControllerAdvice
 public class SellerServiceGlobalExceptionHandler {
+
+    @ExceptionHandler(CustomFeignException.class )
+    public ResponseEntity<?> handleCustomFeignException(CustomFeignException exception) {
+        return ResponseEntity.status(exception.getStatus()).body(exception.getApiResponse());
+    }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<?> handleMethodArgumentNotValidException(MethodArgumentNotValidException exception) {

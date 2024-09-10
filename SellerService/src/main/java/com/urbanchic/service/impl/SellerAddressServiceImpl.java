@@ -24,6 +24,7 @@ public class SellerAddressServiceImpl implements SellerAddressService {
                 .city(sellerAddressDto.getCity())
                 .state(sellerAddressDto.getState())
                 .country(sellerAddressDto.getCountry())
+                .postalCode(sellerAddressDto.getPostalCode())
                 .sellerId(sellerAddressDto.getSellerId())
                 .build();
         SellerAddress savedSellerAddress = sellerAddressRepository.save(sellerAddress);
