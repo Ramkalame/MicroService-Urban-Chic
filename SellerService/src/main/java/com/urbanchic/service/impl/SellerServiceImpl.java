@@ -10,11 +10,13 @@ import com.urbanchic.repository.SellerRepository;
 
 import com.urbanchic.service.SellerService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class SellerServiceImpl implements SellerService {
@@ -35,6 +37,7 @@ public class SellerServiceImpl implements SellerService {
                 .sellerPrimaryEmail(sellerDto.getSellerPrimaryEmail())
                 .build();
         Seller savedSeller = sellerRepository.save(newSeller);
+        log.info("seller created successfully");
         return savedSeller;
     }
 

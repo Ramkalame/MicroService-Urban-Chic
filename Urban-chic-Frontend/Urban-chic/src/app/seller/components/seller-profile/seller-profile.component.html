@@ -1,3 +1,4 @@
+<app-spinner></app-spinner>
 <div class="container">
     <mat-grid-list cols="2" rowHeight="130px" gutterSize="10px" class="top-bar">
         <mat-grid-tile>
@@ -5,9 +6,9 @@
                 <mat-icon class="custom-icon">account_circle</mat-icon>
             </div>
             <div class="two">
-                <h5>John Smith</h5>
-                <p>johnsmit134gmail.com</p>
-                <p>+91 8319348293</p>
+                <h5>{{contactForm.get('fullName')?.value}}</h5>
+                <p>{{contactForm.get('email')?.value}}</p>
+                <p>{{contactForm.get('mobileNumber')?.value}}</p>
             </div>
             <div class="three">
                 <button (click)="openContactDialog()">Update</button>
@@ -15,7 +16,7 @@
         </mat-grid-tile>
         <mat-grid-tile>
             <div class="four">
-                <h5>Company Logo</h5>
+                <img class="company-logo" [src]="imageData.publicUrl" alt="company logo">
             </div>
             <div class="five">
                 <button (click)="openImageDialog()">Update</button>
@@ -26,39 +27,39 @@
         <mat-grid-tile>
             <div class="left">
                 <h6>Company Name</h6>
-                <p>Amazon.com</p>
+                <p>{{taxForm.get('companyName')?.value}}</p>
                 <mat-divider></mat-divider>
                 <h6>GSTIN Number</h6>
-                <p>29ABCDE1234F1Z5</p>
+                <p>{{taxForm.get('gstNumber')?.value}}</p>
                 <mat-divider></mat-divider>
                 <h6>PAN Number</h6>
-                <p>ABCDE1234F</p>
+                <p>{{taxForm.get('panNumber')?.value}}</p>
                 <mat-divider></mat-divider>
                 <h6>Account Number</h6>
-                <p>1234567890123456</p>
+                <p>{{taxForm.get('accountNumber')?.value}}</p>
                 <mat-divider></mat-divider>
                 <h6>IFSC Code</h6>
-                <p>SBIN0001234</p>
+                <p>{{taxForm.get('ifscCode')?.value}}</p>
                 <mat-divider></mat-divider>
                 <button (click)="openTaxDialog()">Update</button>
             </div>
         </mat-grid-tile>
         <mat-grid-tile>
-            <div class="left">
+            <div class="left">  
                 <h6>Street Name</h6>
-                <p>29ABCDE1234F1Z5</p>
+                <p>{{addressForm.get('street')?.value}}</p>
                 <mat-divider></mat-divider>
                 <h6>City Name</h6>
-                <p>ABCDE1234F</p>
+                <p>{{addressForm.get('city')?.value}}</p>
                 <mat-divider></mat-divider>
                 <h6>State Name</h6>
-                <p>1234567890123456</p>
+                <p>{{addressForm.get('state')?.value}}</p>
                 <mat-divider></mat-divider>
                 <h6>Country</h6>
-                <p>SBIN0001234</p>
+                <p>{{addressForm.get('country')?.value}}</p>
                 <mat-divider></mat-divider>
                 <h6>Postal Code</h6>
-                <p>SBIN0001234</p>
+                <p>{{addressForm.get('postalCode')?.value}}</p>
                 <mat-divider></mat-divider>
                 <button (click)="openAddressDialog()">Update</button>
             </div>
@@ -80,7 +81,6 @@
                 <mat-form-field appearance="outline">
                     <mat-label>Mobile Number</mat-label>
                     <input matInput placeholder="enter mobile number" formControlName="mobileNumber">
-                    <span class="number-prefix" matTextPrefix>+91 </span>
                     <!-- <mat-icon matSuffix>check_circle</mat-icon> -->
                     <mat-error *ngIf="contactForm.controls['mobileNumber'].errors?.['required']">mobile number is
                         required</mat-error>
@@ -142,7 +142,7 @@
                 </mat-form-field>
                 <mat-form-field appearance="outline">
                     <mat-label>IFSC Code</mat-label>
-                    <input matInput placeholder="enter ifsc code">
+                    <input matInput placeholder="enter ifsc code" formControlName="ifscCode">
                     <mat-error *ngIf="taxForm.controls['ifscCode'].errors?.['required']">ifsc code is
                         required</mat-error>
                     <mat-error *ngIf="taxForm.controls['ifscCode'].errors?.['pattern']">enter valid ifsc
@@ -221,6 +221,9 @@
     </mat-dialog-content>
     <mat-dialog-actions>
         <button class="dialog-close-btn" (click)="closeImageDialog()">Close</button>
-        <button class="dialog-submit-btn" (click)="submitImage()" [disabled]="!selectedFile?.size">Submit</button>
+        <button class="dialog-submit-btn" (click)="submitImage()" [disabled]="!selectedFile.size">Submit</button>
     </mat-dialog-actions>
 </ng-template>
+
+  
+  

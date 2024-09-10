@@ -30,7 +30,7 @@
                     <span matListItemTitle *ngIf="!collapse()"
                         [ngStyle]="{'color':rla.isActive ? '#224F34':'#1E1E1E'}">{{item.label}}</span>
                 </a>
-                <a mat-list-item class="log-out-btn" (click)="logout()"><mat-icon matListItemIcon>exit_to_app</mat-icon>Logout</a>
+                <a mat-list-item class="log-out-btn" (click)="onLogout()"><mat-icon matListItemIcon>exit_to_app</mat-icon>Logout</a>
             </mat-nav-list>
 
         </mat-sidenav>

@@ -12,17 +12,17 @@ import { AddProductComponent } from './seller/components/add-product/add-product
 
 export const routes: Routes = [
   { path: 'auth/register/seller', component: SellerRegistrationComponent },
+  { path: 'auth/login/seller', component: SellerLoginComponent },
   {
     path: 'seller/documents',
     component: SellerDocumentsComponent,
-    canActivate: [],
+    canActivate: [sellerAuthGuard],
   },
-  { path: 'auth/login/seller', component: SellerLoginComponent },
   //defining route for the seller dashboard component.
   {
     path: 'seller/dashboard',
     component: SellerDashboardComponent,
-    canActivate: [],
+    canActivate: [sellerAuthGuard],
     children: [
       //child route to be displayed in the seller dashboard component.
       { path: 'products', component: ProductManagementComponent },

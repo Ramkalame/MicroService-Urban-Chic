@@ -3,9 +3,6 @@
     --primary-color: #224F34 !important;
 }
 
-.content {
-    padding: 24px;
-}
 .nav-title{
     color: #224F34;
     font-size: 24px;
@@ -29,7 +26,7 @@ mat-sidenav-content {
 
 mat-sidenav {
     background-color: #C2F0D4;
-    padding: 5px;
+    padding: 2px;
     border-radius: 2px;
 }
 
@@ -71,3 +68,10 @@ mat-sidnav-content{
     padding: 10px !important;
     margin-bottom: 10px !important;
 }
+.content {
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: auto; /* Enable scrolling when content overflows */
+  }

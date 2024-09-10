@@ -55,7 +55,7 @@ export class SellerRegistrationComponent {
   otpError = signal('');
 
   //other properties
-  isNumberVerified: boolean = false;
+  isNumberVerified: boolean = true;
   isEmailVerified: boolean = false;
   isDialogOpen: boolean = false;
   otpContactType: string = '';

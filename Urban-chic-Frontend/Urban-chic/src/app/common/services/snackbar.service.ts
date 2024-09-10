@@ -28,4 +28,12 @@ export class SnackbarService {
     const errorResponse = error.error as ApiResponse<null>;
     this.snackBar.open(errorResponse.message, 'Close',config);
   }
+
+  openNonApiFailedSnackBar(error: HttpErrorResponse) {
+    const config: MatSnackBarConfig = {
+      duration: 3000,
+      panelClass: ['failed-snackbar'],
+    };
+    this.snackBar.open(error.message, 'Close',config);
+  }
 }

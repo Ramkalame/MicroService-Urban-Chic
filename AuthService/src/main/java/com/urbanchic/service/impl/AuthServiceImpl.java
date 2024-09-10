@@ -9,23 +9,23 @@ import com.urbanchic.dto.seller.SellerRegistrationDto;
 import com.urbanchic.dto.UserDto;
 import com.urbanchic.entity.User;
 import com.urbanchic.entity.sellerEnum.SellerStatus;
-import com.urbanchic.even.SellerProfileCreatedEvent;
+import com.urbanchic.event.SellerProfileCreatedEvent;
 import com.urbanchic.exception.IncorrectPasswordException;
 import com.urbanchic.external.SellerDto;
 import com.urbanchic.service.AuthService;
 import com.urbanchic.service.UserService;
 import com.urbanchic.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class AuthServiceImpl implements AuthService {
@@ -47,7 +47,7 @@ public class AuthServiceImpl implements AuthService {
                 .userAccountStatus(SellerStatus.CONTACT_DETAILS_VERIFIED.name())
                 .build();
         User savedUser = userService.createSellerUser(newUser);
-
+        log.info("user is registred");
         SellerDto newSellerDto = SellerDto.builder()
                 .sellerId(savedUser.getId())
                 .sellerFullName(sellerRegistrationDto.getSellerFullName())
@@ -55,15 +55,11 @@ public class AuthServiceImpl implements AuthService {
                 .sellerPrimaryMoNumber(sellerRegistrationDto.getSellerPrimaryMoNumber())
                 .build();
         eventPublisher.publishEvent(new SellerProfileCreatedEvent(this,newSellerDto));
+        log.info("event is published");
         return savedUser;
     }
 
 
-    @Async
-    @EventListener
-    private void sellerProfileCreatedEventListener(SellerProfileCreatedEvent sellerProfileCreatedEvent) {
-        sellerServiceClient.createSeller(sellerProfileCreatedEvent.getSellerDto());
-    }
 
     @Override
     public LoginResponseDto sellerLogin(SellerLoginRequestDto sellerLoginRequestDto) {
@@ -91,4 +87,11 @@ public class AuthServiceImpl implements AuthService {
             throw new BadCredentialsException("Bad Credentials");
         }
     }
+
+
+    @Override
+    public User updateSellerAccountStatus(String sellerId) {
+        return userService.updateSellerAccountStatus(sellerId);
+    }
+
 }

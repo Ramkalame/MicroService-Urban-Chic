@@ -15,6 +15,7 @@ import com.urbanchic.service.SmsService;
 import com.urbanchic.config.TwillioConfig;
 import com.urbanchic.util.DateUtil;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
@@ -24,7 +25,7 @@ import java.text.DecimalFormat;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Random;
-
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class SmsServiceImpl implements SmsService {
@@ -45,7 +46,10 @@ public class SmsServiceImpl implements SmsService {
         PhoneNumber from = new PhoneNumber(twillioConfig.getPhoneNumber());
         try {
             Message message = Message.creator(to, from, otpMessage).create();
+            log.info("sms has been sent");
         } catch (Exception e) {
+            log.info("sms has not been sent");
+            log.error(String.valueOf(e));
             throw new SmsNotSentException("Sms sent failed.Please try again");
         }
 

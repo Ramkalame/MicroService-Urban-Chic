@@ -21,15 +21,3 @@ mat-grid-tile{
     justify-content: center;
     align-items: center;
 }
-.add-form{
-    width: 600px;
-    padding: 10px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    background-color: lightblue;
-}
-mat-form-field{
-    width: 400px;
-}

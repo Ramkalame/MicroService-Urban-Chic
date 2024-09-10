@@ -13,6 +13,7 @@ import { AuthServiceService } from '../../../auth/services/auth.service';
 import { JwtDecoderService } from '../../../core/services/jwt-decoder.service';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDividerModule } from '@angular/material/divider';
+import { SellerAuthService } from '../../../core/services/seller-auth.service';
 
 export type MenuItem = {
   icon: string;
@@ -37,8 +38,8 @@ export type MenuItem = {
 })
 export class SellerDashboardComponent {
 
-  authService = inject(AuthServiceService);
   jwtDecoder = inject(JwtDecoderService);
+  sellerAuthService = inject(SellerAuthService);
   snackBar = inject(SnackbarService);
   router = inject(Router);
   collapse = signal(false);
@@ -62,8 +63,8 @@ export class SellerDashboardComponent {
   constructor() { }
 
   //logout method
-  logout() {
-    localStorage.removeItem('token');
+  onLogout() {
+    this.sellerAuthService.logout();
     this.snackBar.openSuccessSnackBar('Logged out successfully')
     this.router.navigate(['/auth/login/seller'])
   }
