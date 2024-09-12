@@ -1,0 +1,217 @@
+.container{
+    padding: 10px;
+    width: 98.5%;
+    background-color: whitesmoke;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
+    margin-bottom: 50px;
+}
+.heading-div{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    margin-bottom: 20px;
+    background-color: #C2F0D4;
+}
+.title {
+    font-size: 24px;
+    font-weight: bold;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+.sub-title {
+    color: #224F34;
+    font-size: 18px;
+    font-weight: bold;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    margin-bottom: 3px;
+}
+.mat-form{
+    width: 755px;
+}
+.mat-divider {
+    width: 755px !important;
+    height: 2px !important;
+    margin-bottom: 5px !important;
+    border-top-width: 3px !important;
+    border-radius: 8px !important;
+    border-color: #1e1e1e;
+}
+.sub-form{
+    width: 755px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.attribute-selector{
+    width: 420px;
+}
+.attribute-value{
+    width: 755px;
+    margin-left: 3px;
+}
+.attribute-btn{
+    background-color: #4681F4;
+    color: white;
+    font-size: 16px;
+    border: 2px solid #4681F4;
+    border-radius: 8px;
+    width: 300px;
+    height: 50px;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+.variant-btn{
+    margin-bottom: 20px;
+    background-color: #224F34;
+    color: white;
+    font-size: 16px;
+    border: 2px solid #224F34;
+    border-radius: 8px;
+    width: 200px;
+    height: 50px;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+mat-icon{
+    font-size: 25px;
+    height: 25px;
+    width: 25px;
+}
+.close-icon{
+    font-size: 25px;
+    height: 25px;
+    width: 25px;
+}
+.close-btn{
+    width: 50px;
+    height: 30px;
+    margin: 5px;
+    border: 1px solid whitesmoke;
+    background-color: whitesmoke;
+    cursor: pointer;
+}
+input[type="file"] {
+    display: none;
+}
+
+.file-input-lable {
+    width: 675px;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    justify-content: baseline;
+    text-transform: uppercase;
+    color: white;
+    background-color: #373737;
+    text-align: center;
+    padding: 15px 40px;
+    font-size: 18px;
+    letter-spacing: 1.5px;
+    user-select: none;
+    cursor: pointer;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
+.upload-icon {
+    font-size: 35px;
+    height: 35px;
+    width: 35px;
+}
+.img-preive-box{
+    width: 730px;
+    background-color: yellowgreen;
+    border-radius: 8px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    margin: 10px;
+
+}
+.img-name{
+    width: 100%;
+    height: 30px;
+    display: flex;
+    background-color: whitesmoke;
+    border-radius: 8px 8px 0px 0px;
+    margin: auto;
+    justify-content: right;
+}
+.img-preview{
+    background-color: whitesmoke;
+    object-fit: contain;
+    margin: auto;
+    border-radius: 0px 0px 8px 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.produt-img-preview{
+    margin-bottom: 25px;
+    width: 50%;
+    object-fit: contain;
+    object-fit: cover;
+}
+.action-btn{
+    display: flex;
+    justify-content: space-between;
+    margin: 20px;
+    width: 755px;
+}
+.submit-btn{
+    width: 150px;
+    height: 50px;
+    font-size: 18px;
+    font-weight: bold;
+    background-color: #224F34;
+    border : 1px solid #224F34;
+    border-radius: 8px;
+    color: white;
+    cursor: pointer;
+}
+.cancel-btn{
+    width: 150px;
+    height: 50px;
+    font-size: 18px;
+    font-weight: bold;
+    background-color: #c0392b;
+    border : 1px solid #c0392b;
+    border-radius: 8px;
+    color: white;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    cursor: pointer;
+}
+.delete-icon{
+    font-size: 30px;
+    height: 30px;
+    width: 30px;
+}
+.delete-btn{
+    margin-right: 5px;
+    color: #c0392b !important;
+    box-shadow: none;
+    background-color: whitesmoke;
+}
+.btn-div{
+    display: flex;
+    justify-content: end;
+    margin-bottom: 10px;
+}
+.variant-header{
+    display: flex;
+    justify-content: space-between;
+}

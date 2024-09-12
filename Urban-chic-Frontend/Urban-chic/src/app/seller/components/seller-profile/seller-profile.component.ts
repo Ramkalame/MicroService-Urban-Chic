@@ -29,7 +29,7 @@ import { SpinnerComponent } from "../../../common/components/spinner/spinner.com
     MatGridTileFooterCssMatStyler,
     MatCardModule, MatButtonModule, MatIconModule,
     MatDividerModule, MatDialogModule,
-    MatInputModule, MatFormFieldModule, CommonModule, ReactiveFormsModule, SpinnerComponent],
+    MatInputModule, MatFormFieldModule, CommonModule, ReactiveFormsModule,   SpinnerComponent],
   templateUrl: './seller-profile.component.html',
   styleUrl: './seller-profile.component.css'
 })
