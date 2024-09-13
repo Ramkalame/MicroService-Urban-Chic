@@ -49,10 +49,10 @@
     align-items: center;
 }
 .attribute-selector{
-    width: 420px;
+    width: 50%;
 }
 .attribute-value{
-    width: 755px;
+    width: 50%;
     margin-left: 3px;
 }
 .attribute-btn{

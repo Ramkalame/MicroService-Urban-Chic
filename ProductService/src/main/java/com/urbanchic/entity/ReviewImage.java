@@ -11,7 +11,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Document(collection = "review_image_collections")
 public class ReviewImage {
 
     @Id

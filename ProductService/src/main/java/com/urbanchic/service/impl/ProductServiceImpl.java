@@ -1,9 +1,14 @@
 package com.urbanchic.service.impl;
 
-import com.urbanchic.dto.ProductDto;
+import com.urbanchic.dto.*;
 import com.urbanchic.entity.Product;
+import com.urbanchic.entity.ProductImage;
+import com.urbanchic.entity.helper.Attribute;
+import com.urbanchic.entity.helper.Variant;
+import com.urbanchic.entity.helper.VariantAttribute;
 import com.urbanchic.event.DeleteAllPrductImagesEvent;
 import com.urbanchic.event.DeleteAllReviewsOfProductEvent;
+import com.urbanchic.event.UploadProductImageEvent;
 import com.urbanchic.exception.EntityNotFoundException;
 import com.urbanchic.repository.CustomProductRepository;
 import com.urbanchic.repository.ProductRepository;
@@ -12,7 +17,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -28,20 +35,67 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Product addProduct(ProductDto addProductDto) {
 
-        Product newProduct = Product.builder()
-                .productName(addProductDto.getProductName())
-                .productPrice(addProductDto.getProductPrice())
-                .productDescription(addProductDto.getProductDescription())
-                .productQuantity(addProductDto.getProductQuantity())
-                .productBrand(addProductDto.getProductBrand())
-                .productCategory(addProductDto.getProductCategory())
-                .productSubCategory(addProductDto.getProductSubCategory())
-                .productType(addProductDto.getProductType())
-                .sellerId(addProductDto.getSellerId())
-                .attributes(addProductDto.getAttributes())
-                .variants(addProductDto.getVariants())
-                .build();
-        return productRepository.save(newProduct);
+        Product newProduct = new Product();
+        //product basic details
+        newProduct.setProductName(addProductDto.getProductName());
+        newProduct.setProductDescription(addProductDto.getProductDescription());
+        newProduct.setProductBrand(addProductDto.getProductBrand());
+        newProduct.setProductCategory(addProductDto.getProductCategory());
+        newProduct.setProductSubCategory(addProductDto.getProductSubCategory());
+        newProduct.setProductType(addProductDto.getProductType());
+        newProduct.setSellerId(addProductDto.getSellerId());
+
+        //product attribute
+        List<Attribute> newAttributeList = new ArrayList<>();
+        for (AttributeDto attributeDto: addProductDto.getAttributeDtoList()){
+            Attribute newAttribute = Attribute.builder()
+                    .attributeName(attributeDto.getAttributeName())
+                    .attributeValue(attributeDto.getAttributeValue())
+                    .build();
+            newAttributeList.add(newAttribute);
+        }
+        newProduct.setAttributeList(newAttributeList);
+
+        //variant
+        List<Variant> newVariantList = new ArrayList<>();
+        for (VariantDto variantDto: addProductDto.getVariantDtoList()){
+            Variant newVariant = Variant.builder()
+                    .variantPrice(variantDto.getVariantPrice())
+                    .variantQuantity(variantDto.getVariantQuantity())
+                    .build();
+            //variant attribute list
+            List<VariantAttribute> newVariantAttributeList = new ArrayList<>();
+            for (VariantAttributeDto variantAttributeDto:variantDto.getVariantAttributeDtoList()){
+                VariantAttribute newVariantAttribute = VariantAttribute.builder()
+                        .variantAttributeName(variantAttributeDto.getVariantAttributeName())
+                        .variantAttributeValue(variantAttributeDto.getVariantAttributeValue())
+                        .build();
+                newVariantAttributeList.add(newVariantAttribute);
+            }
+            newVariant.setVariantAttributes(newVariantAttributeList);
+            newVariantList.add(newVariant);
+        }
+        newProduct.setVariantList(newVariantList);
+
+        Product savedProduct = productRepository.save(newProduct);
+        return savedProduct;
+    }
+
+    @Override
+    public void addProductImage(String productId,List<ProductImageDto> productImageDtoList) {
+        Product existingProduct = productRepository.findById(productId).orElseThrow(() ->
+                new EntityNotFoundException("Product Does Not Exist"));
+        productRepository.deleteById(productId);
+        List<ProductImage> newProductImageList = new ArrayList<>();
+        for (ProductImageDto productImageDto:productImageDtoList){
+            ProductImage newProductImage= ProductImage.builder()
+                    .publicId(productImageDto.getPublicId())
+                    .publicImageUrl(productImageDto.getPublicImageUrl())
+                    .build();
+            newProductImageList.add(newProductImage);
+        }
+        existingProduct.setProductImageList(newProductImageList);
+        productRepository.save(existingProduct);
     }
 
     @Override
@@ -76,21 +130,7 @@ public class ProductServiceImpl implements ProductService {
         Product existingProduct = productRepository.findById(productId).orElseThrow(() ->
                 new EntityNotFoundException("Product Does Not Exists"));
 
-        existingProduct.setProductName(updateProductDto.getProductName());
-        existingProduct.setProductPrice(updateProductDto.getProductPrice());
-        existingProduct.setProductDescription(updateProductDto.getProductDescription());
-        existingProduct.setProductQuantity(updateProductDto.getProductQuantity());
-        existingProduct.setProductBrand(updateProductDto.getProductBrand());
-        existingProduct.setProductCategory(updateProductDto.getProductCategory());
-        existingProduct.setProductSubCategory(updateProductDto.getProductSubCategory());
-        existingProduct.setProductType(updateProductDto.getProductType());
-        existingProduct.setAttributes(updateProductDto.getAttributes());
-        existingProduct.setVariants(updateProductDto.getVariants());
-        existingProduct.setOneStarCount(updateProductDto.getOneStarCount());
-        existingProduct.setTwoStarCount(updateProductDto.getTwoStarCount());
-        existingProduct.setThreeStarCount(updateProductDto.getThreeStarCount());
-        existingProduct.setFourStarCount(updateProductDto.getFourStarCount());
-        existingProduct.setFiveStarCount(updateProductDto.getFiveStarCount());
+
         return productRepository.save(existingProduct);
     }
 

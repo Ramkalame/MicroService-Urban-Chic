@@ -17,7 +17,8 @@
             <p>
                 <mat-form-field appearance="outline" class="mat-form">
                     <mat-label>Product Description</mat-label>
-                    <textarea matInput placeholder="enter product description" formControlName="productDescription"></textarea>
+                    <textarea matInput placeholder="enter product description"
+                        formControlName="productDescription"></textarea>
                 </mat-form-field>
             </p>
 
@@ -32,9 +33,9 @@
                 <mat-form-field appearance="outline" class="mat-form">
                     <mat-label>Product Category</mat-label>
                     <mat-select placeholder="select product category" formControlName="productCategory">
-                        <mat-option value="Electronics">Electronics</mat-option>
-                        <mat-option value="Clothing">Clothing</mat-option>
-                        <mat-option value="Home Appliances">Home Appliances</mat-option>
+                        @for (cat of categories; track $index) {
+                        <mat-option [value]="cat.categoryName">{{cat.categoryName}}</mat-option>
+                        }
                     </mat-select>
                 </mat-form-field>
             </p>
@@ -43,9 +44,9 @@
                 <mat-form-field appearance="outline" class="mat-form">
                     <mat-label>Product Sub-Category</mat-label>
                     <mat-select placeholder="select product sub-category" formControlName="productSubcategory">
-                        <mat-option value="Mobile Phones">Mobile Phones</mat-option>
-                        <mat-option value="Men’s Apparel">Men’s Apparel</mat-option>
-                        <mat-option value="Kitchen Appliances">Kitchen Appliances</mat-option>
+                        @for (subCat of subcategories; track $index) {
+                            <mat-option [value]="subCat">{{subCat}}</mat-option>
+                            }
                     </mat-select>
                 </mat-form-field>
             </p>
@@ -54,12 +55,13 @@
                 <mat-form-field appearance="outline" class="mat-form">
                     <mat-label>Product Type</mat-label>
                     <mat-select placeholder="select product type" formControlName="productType">
-                        <mat-option value="T-Shirt">T-Shirt</mat-option>
-                        <mat-option value="Blender">Blender</mat-option>
-                        <mat-option value="Vacuum Cleaner">Vacuum Cleaner</mat-option>
+                        @for (type of types; track $index) {
+                            <mat-option [value]="type">{{type}}</mat-option>
+                            }
                     </mat-select>
                 </mat-form-field>
             </p>
+
 
             <!-- ------------------------------------------------------------------Product Attributes ---------------------------------------------------------->
 
@@ -73,11 +75,7 @@
                 <div class="sub-form" [formGroupName]="productAttributeIndex">
                     <mat-form-field appearance="outline" class="attribute-selector">
                         <mat-label>Product Attribute</mat-label>
-                        <mat-select placeholder="select product type" formControlName="attributeName">
-                            <mat-option value="T-Shirt">T-Shirt</mat-option>
-                            <mat-option value="Blender">Blender</mat-option>
-                            <mat-option value="Vacuum Cleaner">Vacuum Cleaner</mat-option>
-                        </mat-select>
+                        <input matInput placeholder="enter attribute name" formControlName="attributeName">
                     </mat-form-field>
 
                     <mat-form-field appearance="outline" class="attribute-value">
@@ -116,38 +114,37 @@
                     <div class="variant-header">
                         <h4 class="sub-title">Enter Product Variants {{variantIndex+1}}</h4>
                         @if (variantIndex !=0) {
-                            <button mat-mini-fab class="delete-btn" (click)="removeProductVariants(variantIndex)">
-                                <mat-icon class="delete-icon" >delete</mat-icon>
-                            </button>
+                        <button mat-mini-fab class="delete-btn" (click)="removeProductVariants(variantIndex)">
+                            <mat-icon class="delete-icon">delete</mat-icon>
+                        </button>
                         }
                     </div>
                     <mat-divider></mat-divider>
 
                     <div formArrayName="variantAttributes">
-                        @for (variantAttribute of productForm.controls.productVariants.controls.at(variantIndex)?.controls?.variantAttributes?.controls;
-                         track variantAttributeIndex; let variantAttributeIndex=$index) {
-                            <div class="sub-form" [formGroupName]="variantAttributeIndex">
-                                <mat-form-field appearance="outline" class="attribute-selector">
-                                    <mat-label>Select Variants Name</mat-label>
-                                    <mat-select placeholder="select product type" formControlName="variantAttributeName">
-                                        <mat-option value="Color">Color</mat-option>
-                                        <mat-option value="Size">Size</mat-option>
-                                        <mat-option value="Type">Type</mat-option>
-                                    </mat-select>
-                                </mat-form-field>
-    
-                                <mat-form-field appearance="outline" class="attribute-value">
-                                    <mat-label>Variant Attribute Value</mat-label>
-                                    <input matInput placeholder="enter attribute value" formControlName="variantAttributeValue">
-                                    @if (variantAttributeIndex !=0) {
-                                        <span matIconSuffix>
-                                            <button mat-mini-fab class="delete-btn" (click)="removeVariantAttributes(variantIndex,variantAttributeIndex)">
-                                                <mat-icon class="delete-icon">delete</mat-icon>
-                                            </button>
-                                        </span>
-                                    }
-                                </mat-form-field>
-                            </div>
+                        @for (variantAttribute of
+                        productForm.controls.productVariants.controls.at(variantIndex)?.controls?.variantAttributes?.controls;
+                        track variantAttributeIndex; let variantAttributeIndex=$index) {
+                        <div class="sub-form" [formGroupName]="variantAttributeIndex">
+                            <mat-form-field appearance="outline" class="attribute-selector">
+                                <mat-label>Select Variants Name</mat-label>
+                                <input matInput placeholder="enter variant attribute name " formControlName="variantAttributeName">
+                            </mat-form-field>
+
+                            <mat-form-field appearance="outline" class="attribute-value">
+                                <mat-label>Variant Attribute Value</mat-label>
+                                <input matInput placeholder="enter attribute value"
+                                    formControlName="variantAttributeValue">
+                                @if (variantAttributeIndex !=0) {
+                                <span matIconSuffix>
+                                    <button mat-mini-fab class="delete-btn"
+                                        (click)="removeVariantAttributes(variantIndex,variantAttributeIndex)">
+                                        <mat-icon class="delete-icon">delete</mat-icon>
+                                    </button>
+                                </span>
+                                }
+                            </mat-form-field>
+                        </div>
                         }
                     </div>
 
@@ -161,7 +158,7 @@
                     <p>
                         <mat-form-field appearance="outline" class="mat-form">
                             <mat-label>Variant Price</mat-label>
-                            <input matInput placeholder="enter product variant price" formControlName="variantPrice" >
+                            <input matInput placeholder="enter product variant price" formControlName="variantPrice">
                             <span matTextSuffix>&#8377;</span>
                         </mat-form-field>
                     </p>
@@ -169,7 +166,8 @@
                     <p>
                         <mat-form-field appearance="outline" class="mat-form">
                             <mat-label>Variant Quantity (SKU)</mat-label>
-                            <input matInput placeholder="enter product variant quantity" formControlName="variantQuantity">
+                            <input matInput placeholder="enter product variant quantity"
+                                formControlName="variantQuantity">
                         </mat-form-field>
                     </p>
                 </div>
@@ -195,17 +193,17 @@
             File</label>
     </div>
     @for (url of previewUrls; track $index) {
-        <div class="img-preive-box">
-            <div class="img-details">
-                <div class="img-name">
-                    <button class="close-btn" (click)="removeProductImage($index)"><mat-icon class="close-icon">close</mat-icon></button>
-                </div>
-                <div class="img-preview">
-                    <img class="produt-img-preview"
-                        [src]="url" alt="product image">
-                </div>
+    <div class="img-preive-box">
+        <div class="img-details">
+            <div class="img-name">
+                <button class="close-btn" (click)="removeProductImage($index)"><mat-icon
+                        class="close-icon">close</mat-icon></button>
+            </div>
+            <div class="img-preview">
+                <img class="produt-img-preview" [src]="url" alt="product image">
             </div>
         </div>
+    </div>
     }
     <div class="action-btn">
         <button class="cancel-btn">Cancel</button>

@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Map;
@@ -20,17 +21,8 @@ public class ProductDto {
     @NotBlank(message = "Product name is mandatory")
     private String productName;
 
-    @NotNull(message = "Product price is mandatory")
-    private Double productPrice;
-
     @NotBlank(message = "Product description is mandatory")
     private String productDescription;
-
-    @NotBlank(message = "Product image URL is mandatory")
-    private List<String> productImageUrls;
-
-    @NotNull(message = "Product quantity is mandatory")
-    private Integer productQuantity;
 
     @NotBlank(message = "Product brand is mandatory")
     private String productBrand;
@@ -47,13 +39,10 @@ public class ProductDto {
     @NotBlank(message = "Seller ID is mandatory")
     private String sellerId;
 
-    private Map<String, Object> attributes;
+    @NotNull(message = "Attribute List is mandatory")
+    private List<AttributeDto> attributeDtoList;
 
-    private Map<String, Object>[] variants;
+    @NotNull(message = "Variant List is mandatory")
+    private List<VariantDto> variantDtoList;
 
-    private int oneStarCount;
-    private int twoStarCount;
-    private int threeStarCount;
-    private int fourStarCount;
-    private int fiveStarCount;
 }

@@ -5,7 +5,7 @@
 
 .nav-title{
     color: #224F34;
-    font-size: 24px;
+    font-size: 22px;
     font-weight: bold;
 }
 
@@ -16,7 +16,7 @@ mat-toolbar {
 }
 
 mat-sidenav-container {
-    height: calc(100vh - 64px);
+    height:100% !important;
 }
 
 mat-sidenav,
@@ -27,7 +27,7 @@ mat-sidenav-content {
 mat-sidenav {
     background-color: #C2F0D4;
     padding: 2px;
-    border-radius: 2px;
+    border-radius: 1px;
 }
 
 mat-nav-list a {
@@ -46,7 +46,7 @@ mat-nav-list a {
 }
 .nav-spacer{
     flex: 1 1 auto;
-}
+} 
 .name{
     font-size: 18px;
     color: #224F34;   

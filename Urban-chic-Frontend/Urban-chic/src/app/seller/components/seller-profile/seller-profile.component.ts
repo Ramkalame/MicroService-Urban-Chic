@@ -211,7 +211,6 @@ export class SellerProfileComponent implements OnInit  {
   fetchContactData() {
     this.sellerService.getSellersDetails(this.userId).subscribe({
       next: (res:ApiResponse<Seller>) => {
-        console.log('Data:', res.data);
         //using patchValue to update the form wiht the data
         this.contactForm.patchValue({
           fullName: res.data.sellerFullName,
@@ -227,7 +226,6 @@ export class SellerProfileComponent implements OnInit  {
   fetchTaxData() {
     this.sellerService.getSellerDocuments(this.userId).subscribe({
       next: (res:ApiResponse<SellerDocument>) => {
-        console.log('Data:', res.data);
         //using patchValue to update the form wiht the data
        this.taxForm.patchValue({
          companyName: res.data.companyName,
@@ -247,7 +245,6 @@ export class SellerProfileComponent implements OnInit  {
   fetchAddressData() {
     this.sellerService.getSellersAddress(this.userId).subscribe({
       next:(res:ApiResponse<SellerAddress>) =>{
-          console.log('Data',res.data);
           this.addressForm.patchValue({
             street: res.data.street,
             city: res.data.city,
