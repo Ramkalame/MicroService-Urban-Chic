@@ -59,6 +59,13 @@ spring:
           filters:
             - name: AuthFilter
 
+        #Product-Service
+        - id: product-service
+          uri: lb://PRODUCTSERVICE
+          predicates:
+            - Path=/api/v1/products/**
+          filters:
+            - name: AuthFilter
   main:
       allow-circular-references: true
 

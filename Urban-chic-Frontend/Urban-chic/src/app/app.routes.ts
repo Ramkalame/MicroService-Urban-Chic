@@ -22,7 +22,7 @@ export const routes: Routes = [
   {
     path: 'seller/dashboard',
     component: SellerDashboardComponent,
-    // canActivate: [sellerAuthGuard],
+    canActivate: [sellerAuthGuard],
     children: [
       //child route to be displayed in the seller dashboard component.
       { path: 'products', component: ProductManagementComponent },

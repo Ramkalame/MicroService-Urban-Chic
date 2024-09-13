@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -20,7 +21,7 @@ public class ProductController {
 
     private final ProductService productService;
 
-    @PostMapping("/add")
+    @PostMapping("/seller/add")
     public ResponseEntity<?> addProduct(@RequestBody @Valid ProductDto productDto) {
         Product responseData = productService.addProduct(productDto);
 

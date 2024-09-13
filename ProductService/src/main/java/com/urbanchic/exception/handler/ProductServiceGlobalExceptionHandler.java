@@ -1,6 +1,7 @@
 package com.urbanchic.exception.handler;
 
 import com.urbanchic.exception.EntityNotFoundException;
+import com.urbanchic.exception.ImageUploadFailedException;
 import com.urbanchic.util.ApiResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -48,6 +49,19 @@ public class ProductServiceGlobalExceptionHandler {
                 .success(false)
                 .build();
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(apiResponse);
+    }
+
+    @ExceptionHandler(ImageUploadFailedException.class)
+    public ResponseEntity<?> handleImageUploadFailedException(ImageUploadFailedException e){
+        ApiResponse<Object> apiResponse = ApiResponse.builder()
+                .data(null)
+                .message(e.getMessage())
+                .timestamp(LocalDateTime.now())
+                .statusCode(HttpStatus.INTERNAL_SERVER_ERROR.value())
+                .success(false)
+                .build();
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(apiResponse);
+
     }
 
 

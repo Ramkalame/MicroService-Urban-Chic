@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.List;
+
 @Data
 @Builder
 @AllArgsConstructor
@@ -19,5 +21,6 @@ public class Review {
     private String reviewDescription;
     private int rating;
     private String productId;
+    private List<ReviewImage> reviewImages;
     private String userId;
 }
