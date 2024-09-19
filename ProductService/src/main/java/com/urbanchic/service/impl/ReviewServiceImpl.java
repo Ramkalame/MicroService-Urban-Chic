@@ -139,16 +139,14 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    @EventListener
-    @Async
-    public void deleteAllReviewByProductId(DeleteAllReviewsOfProductEvent deleteAllReviewsOfProductEvent) {
-        List<Review> reviewList = reviewRepository.findAllByProductId(deleteAllReviewsOfProductEvent.getProductId());
+    public void deleteAllReviewByProductId(String productId) {
+        List<Review> reviewList = reviewRepository.findAllByProductId(productId);
         if (!reviewList.isEmpty()){
-            for (Review review:reviewList){
-                eventPublisher.publishEvent(new DeleteAllReviewImagesOfReviewEvent(this,review
-                        .getReviewId()));
-            }
             reviewRepository.deleteAll(reviewList);
         }
     }
+
+
+
+
 }

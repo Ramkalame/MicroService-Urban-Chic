@@ -6,9 +6,8 @@ import com.urbanchic.entity.ProductImage;
 import com.urbanchic.entity.helper.Attribute;
 import com.urbanchic.entity.helper.Variant;
 import com.urbanchic.entity.helper.VariantAttribute;
-import com.urbanchic.event.DeleteAllPrductImagesEvent;
+import com.urbanchic.event.DeleteAllProductImagesEvent;
 import com.urbanchic.event.DeleteAllReviewsOfProductEvent;
-import com.urbanchic.event.UploadProductImageEvent;
 import com.urbanchic.exception.EntityNotFoundException;
 import com.urbanchic.repository.CustomProductRepository;
 import com.urbanchic.repository.ProductRepository;
@@ -16,8 +15,9 @@ import com.urbanchic.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,6 +44,9 @@ public class ProductServiceImpl implements ProductService {
         newProduct.setProductSubCategory(addProductDto.getProductSubCategory());
         newProduct.setProductType(addProductDto.getProductType());
         newProduct.setSellerId(addProductDto.getSellerId());
+        newProduct.setActive(true);
+
+
 
         //product attribute
         List<Attribute> newAttributeList = new ArrayList<>();
@@ -99,20 +102,21 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public String deleteProduct(String productId) {
-        Product existingProduct = productRepository.findById(productId).orElseThrow(() ->
+    public String deleteProduct(String sellerId, String productId) {
+        Product existingProduct = productRepository.findByProductIdAndSellerId(productId,sellerId).orElseThrow(() ->
                 new EntityNotFoundException("Product Does Not Exist"));
-        productRepository.deleteById(productId);
 
-        //reviewService.deleteAllReviewByProductId(productId); Instead of this
         eventPublisher.publishEvent(new DeleteAllReviewsOfProductEvent(this,productId));
-        eventPublisher.publishEvent(new DeleteAllPrductImagesEvent(this,productId));
+        if (!existingProduct.getProductImageList().isEmpty()){
+            eventPublisher.publishEvent(new DeleteAllProductImagesEvent(this,existingProduct.getProductImageList()));
+        }
+        productRepository.deleteById(productId);
         return "Product Deleted ID :" + productId;
     }
 
     @Override
-    public List<Product> getAllProductsBySellerId(String sellerId) {
-        List<Product> productList = productRepository.findProductBySellerId(sellerId);
+    public Page<Product> getAllProductsBySellerId(String sellerId, Pageable pageable) {
+        Page<Product> productList = productRepository.findProductBySellerId(sellerId,pageable);
         if (productList.isEmpty()) {
             throw new EntityNotFoundException("Product Does Not Exist");
         }
@@ -188,4 +192,20 @@ public class ProductServiceImpl implements ProductService {
         }
         return productList;
     }
+
+    @Override
+    public void changeProductActiveStatus(boolean status, String productId) {
+        Product existingProduct = productRepository.findById(productId).orElseThrow(() -> {
+            log.error("Product with ID: {} not found",productId);
+            return new EntityNotFoundException("Product Does Not Exists");
+        });
+
+        existingProduct.setActive(status);
+        productRepository.save(existingProduct);
+    }
+
+
+
+
+
 }

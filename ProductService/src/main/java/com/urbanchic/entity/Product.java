@@ -31,6 +31,7 @@ public class Product {
     private List<Attribute> attributeList;
     private List<Variant> variantList;
     private List<ProductImage> productImageList;
+    private boolean active;
     private int oneStarCount;
     private int twoStarCount;
     private int threeStarCount;

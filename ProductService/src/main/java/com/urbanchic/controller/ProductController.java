@@ -6,6 +6,9 @@ import com.urbanchic.service.ProductService;
 import com.urbanchic.util.ApiResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,7 +24,7 @@ public class ProductController {
 
     private final ProductService productService;
 
-    @PostMapping("/seller/add")
+    @PostMapping("/sellers/add")
     public ResponseEntity<?> addProduct(@RequestBody @Valid ProductDto productDto) {
         Product responseData = productService.addProduct(productDto);
 
@@ -36,9 +39,9 @@ public class ProductController {
         return ResponseEntity.status(HttpStatus.CREATED).body(apiResponse);
     }
 
-    @DeleteMapping("/{productId}")
-    public ResponseEntity<?> deleteProductById(@PathVariable("productId") String productId) {
-        String responseData = productService.deleteProduct(productId);
+    @DeleteMapping("/sellers/{sellerId}/{productId}")
+    public ResponseEntity<?> deleteProductById(@PathVariable("sellerId") String sellerId,@PathVariable("productId") String productId) {
+        String responseData = productService.deleteProduct(sellerId,productId);
 
         ApiResponse<String> apiResponse = ApiResponse.<String>builder()
                 .data(responseData)
@@ -51,11 +54,15 @@ public class ProductController {
         return ResponseEntity.status(HttpStatus.OK).body(apiResponse);
     }
 
-    @GetMapping("/sellers/{sellerId}")
-    public ResponseEntity<?> getAllProductsBySeller(@PathVariable("sellerId") String sellerId) {
-        List<Product> responseData = productService.getAllProductsBySellerId(sellerId);
 
-        ApiResponse<List<Product>> apiResponse = ApiResponse.<List<Product>>builder()
+    @GetMapping("/sellers/{sellerId}")
+    public ResponseEntity<?> getAllProductsBySeller(@PathVariable("sellerId") String sellerId,
+                                                    @RequestParam(defaultValue = "0") int page,
+                                                    @RequestParam(defaultValue = "10") int size) {
+        Pageable pageable = PageRequest.of(page,size);
+        Page<Product> responseData = productService.getAllProductsBySellerId(sellerId,pageable);
+
+        ApiResponse<Page<Product>> apiResponse = ApiResponse.<Page<Product>>builder()
                 .data(responseData)
                 .message("All Products of Seller : " + sellerId)
                 .timestamp(LocalDateTime.now())
@@ -64,8 +71,8 @@ public class ProductController {
                 .build();
 
         return ResponseEntity.status(HttpStatus.OK).body(apiResponse);
-
     }
+
 
     @GetMapping
     public ResponseEntity<?> getAllProducts() {
@@ -190,6 +197,21 @@ public class ProductController {
 
         return ResponseEntity.status(HttpStatus.OK).body(apiResponse);
 
+    }
+
+    @PostMapping("/seller/change-status/{productId}/{status}")
+    public ResponseEntity<?> changeProductActiveStatus(@PathVariable("productId") String productId,@PathVariable("status") boolean status){
+         productService.changeProductActiveStatus(status,productId);
+
+        ApiResponse<String> apiResponse = ApiResponse.<String >builder()
+                .data(null)
+                .message("Product Status is Updated")
+                .timestamp(LocalDateTime.now())
+                .success(true)
+                .statusCode(HttpStatus.OK.value())
+                .build();
+
+        return ResponseEntity.status(HttpStatus.OK).body(apiResponse);
     }
 
 }

@@ -8,6 +8,6 @@ import java.util.List;
 public interface CloudinaryImageService {
 
     List<ProductImageDto> uploadIImage(String productId,List<MultipartFile> files);
-    String deleteImage(String publicId);
-//    ImageUploadResponseDto  updateImage(String sellerId,MultipartFile file);
+    String deleteProductImage(String publicId);
+
 }

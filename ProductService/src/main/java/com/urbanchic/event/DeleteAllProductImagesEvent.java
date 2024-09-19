@@ -1,18 +1,21 @@
 package com.urbanchic.event;
 
+import com.urbanchic.entity.ProductImage;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.context.ApplicationEvent;
 
+import java.util.List;
+
 
 @Getter
 @Setter
-public class DeleteAllPrductImagesEvent extends ApplicationEvent {
+public class DeleteAllProductImagesEvent extends ApplicationEvent {
 
-    private String productId;
+    private List<ProductImage> productImageList;
 
-    public DeleteAllPrductImagesEvent(Object source,String productId) {
+    public DeleteAllProductImagesEvent(Object source, List<ProductImage> productImageList) {
         super(source);
-        this.productId = productId;
+        this.productImageList = productImageList;
     }
 }
