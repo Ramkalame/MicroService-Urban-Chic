@@ -1,12 +1,19 @@
 <div class="top-bar">
-    <mat-grid-list cols="4" rowHeight="70px">
+    <mat-grid-list cols="4" rowHeight="65px">
         <mat-grid-tile>
             <div class="search-bar">
-                <input type="text" placeholder="Search products..." class="search-inp" [(ngModel)]="text" (keyup)="applyFilter($event)" #input>
-                <button mat-icon-button class="serach-btn" (click)="search()"><mat-icon>search</mat-icon></button>
+                <input type="text" placeholder="Search products..." class="search-inp" (keyup)="applyFilter($event)"
+                    #input>
+                <button mat-icon-button class="serach-btn"
+                    (click)="applyFilter($event)"><mat-icon>search</mat-icon></button>
             </div>
         </mat-grid-tile>
-        <mat-grid-tile>2</mat-grid-tile>
+        <mat-grid-tile>
+            <button class="filter-btn">
+                <mat-icon>filter_list</mat-icon>
+            </button>
+            <span class="filter-name">Filter Name</span>
+        </mat-grid-tile>
         <mat-grid-tile>3</mat-grid-tile>
         <mat-grid-tile>4</mat-grid-tile>
     </mat-grid-list>
@@ -14,41 +21,226 @@
 
 <div class="product-listing">
 
-        <table mat-table [dataSource]="dataSource" matSort>
+    <table mat-table matSort [dataSource]="dataSource">
 
-            <!-- ID Column -->
-            <ng-container matColumnDef="id">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> ID </th>
-                <td mat-cell *matCellDef="let row"> {{row.id}} </td>
-            </ng-container>
+        <!-- SN Column -->
+        <ng-container matColumnDef="productId">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="mat-row"> Product ID</th>
+            <td mat-cell *matCellDef="let row"> {{row.productId}} </td>
+        </ng-container>
 
-            <!-- Progress Column -->
-            <ng-container matColumnDef="progress">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> Progress </th>
-                <td mat-cell *matCellDef="let row"> {{row.progress}}% </td>
-            </ng-container>
+        <!-- product name Column -->
+        <ng-container matColumnDef="productName">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="mat-row"> Product Name</th>
+            <td mat-cell *matCellDef="let row"> {{row.productName}} </td>
+        </ng-container>
 
-            <!-- Name Column -->
-            <ng-container matColumnDef="name">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
-                <td mat-cell *matCellDef="let row"> {{row.name}} </td>
-            </ng-container>
+        <!-- product category Column -->
+        <ng-container matColumnDef="productCategory">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="mat-row"> Category</th>
+            <td mat-cell *matCellDef="let row"> {{row.productCategory}} </td>
+        </ng-container>
 
-            <!-- Fruit Column -->
-            <ng-container matColumnDef="fruit">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> Fruit </th>
-                <td mat-cell *matCellDef="let row"> {{row.fruit}} </td>
-            </ng-container>
+        <!-- Total Stock Column -->
+        <ng-container matColumnDef="totalStock">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="mat-row">Total Stock</th>
+            <td mat-cell *matCellDef="let row"> 100 </td>
+        </ng-container>
 
-            <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky:true"></tr>
-            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        <!-- Total Stock Column -->
+        <ng-container matColumnDef="rating">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="mat-row">Rating</th>
+            <td mat-cell *matCellDef="let row">
+                <div class="star-div">3.5<mat-icon class="star-icon">star</mat-icon></div>
+            </td>
+        </ng-container>
 
-            <!-- Row shown when there is no matching data. -->
-            <tr class="mat-row" *matNoDataRow>
-                <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+        <!-- status Column -->
+        <ng-container matColumnDef="status">
+            <th mat-header-cell *matHeaderCellDef class="mat-row"> Status</th>
+            <td mat-cell *matCellDef="let row"> 
+                <div class="status-active" *ngIf="row.active" >active</div>
+                <div class="status-not-active" *ngIf="!row.active" >not active</div>
+            </td>
+        </ng-container>
+
+        <!-- actions Column -->
+        <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef class="mat-row"> Actions</th>
+            <td mat-cell *matCellDef="let row">
+                <div class="action-div">
+                    <button mat-icon-button color="accent" class="action-btn" (click)="openProductDialog(row.productId)"><mat-icon
+                            class="view-action-icon">visibility</mat-icon></button>
+                    <button mat-icon-button color="primary" class="action-btn"
+                        (click)="openProductUpdateDialog()"><mat-icon class="edit-action-icon">edit</mat-icon></button>
+                    <button mat-icon-button color="warn" class="action-btn"
+                        (click)="openProductDeleteDialog()"><mat-icon
+                            class="delete-action-icon">delete</mat-icon></button>
+                </div>
+            </td>
+        </ng-container>
+
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky:true"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+        <!-- Row shown when there is no matching data. -->
+        <tr *matNoDataRow>
+            <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+        </tr>
+    </table>
+</div>
+
+<mat-paginator class="paginator-div" [pageSizeOptions]="[10, 15, 25, 100]"
+    aria-label="Select page of users"></mat-paginator>
+
+
+
+
+<!-- Dialog for view product -->
+<ng-template #productDialogTemplate>
+    <h2 mat-dialog-title class="mat-dialog-title">Prodct Details</h2>
+    <mat-dialog-content>
+        <h4>{{viewProduct.productName}}</h4>
+        <div class="product-image-div">
+            @for (img of viewProduct.productImageList; track $index) {
+                <img [src]="img.publicImageUrl" alt="product images">
+            }
+        </div>
+        <h6 class="divider-heading">Basic Details</h6>
+        <!-- <mat-divider></mat-divider> -->
+        <table class="info-table">
+            <tr class="table-row">
+                <th class="table-details">Name</th>
+                <th class="table-details">Value</th>
+            </tr>
+            <tr class="table-row">
+                <th class="table-details">Product Id</th>
+                <td class="table-details">{{viewProduct.productId}}</td>
+            </tr>
+            <tr class="table-row">
+                <th class="table-details">Category</th>
+                <td class="table-details">{{viewProduct.productCategory}}</td>
+            </tr>
+            <tr class="table-row">
+                <th class="table-details">Sub-Category</th>
+                <td class="table-details">{{viewProduct.productSubCategory}}</td>
+            </tr>
+            <tr class="table-row">
+                <th class="table-details">Type</th>
+                <td class="table-details">{{viewProduct.productType}}</td>
             </tr>
         </table>
+        <h6 class="divider-heading">Description</h6>
+        <!-- <mat-divider></mat-divider> -->
+         <div class="product-description">
+            <p>{{viewProduct.productDescription}}</p>
+         </div>
+        <h6 class="divider-heading">Attribute Details</h6>
+        <!-- <mat-divider></mat-divider> -->
+        <table class="info-table">
+            <tr class="table-row">
+                <th class="table-details">Attribute Name</th>
+                <th class="table-details">Attribute Value</th>
+            </tr>
+            @for (attribute of viewProduct.attributeList; track $index) {
+                <tr class="table-row">
+                    <th class="table-details">{{attribute.attributeName}}</th>
+                    <td class="table-details">{{attribute.attributeValue}}</td>
+                </tr>
+            }
+        </table>
+        <mat-divider></mat-divider>
+        @for (variant of viewProduct.variantList; track $index) {
+            <h6 class="divider-heading">Variant {{1+$index}} Details</h6>
+        <table class="info-table">
+            <tr class="table-row">
+                <th class="table-details">Variant Attribute Name</th>
+                <th class="table-details">Variant Attribute Value</th>
+            </tr>
+            @for (variantAttribute of variant.variantAttributes; track $index) {
+                <tr class="table-row">
+                    <th class="table-details">{{variantAttribute.variantAttributeName}}</th>
+                    <td class="table-details">{{variantAttribute.variantAttributeValue}}</td>
+                </tr>
+            }
+            <tr class="table-row">
+                <th class="table-details">Variant Price</th>
+                <td class="table-details">{{variant.variantPrice}}&#8377;</td>
+            </tr>
+            <tr class="table-row">
+                <th class="table-details">Variant Quantity</th>
+                <td class="table-details">{{variant.variantQuantity}}</td>
+            </tr>
+        </table>
+        }
+        <h6 class="divider-heading">Rating Details</h6>
+        <mat-divider></mat-divider>
+        <table class="info-table">
+            <tr class="table-row">
+                <th class="table-details">Rating Name</th>
+                <th class="table-details">Rating Value</th>
+            </tr>
+            <tr class="table-row">
+                <th class="table-details">
+                    <div class="star-div">1<mat-icon class="star-icon">star</mat-icon></div>
+                </th>
+                <td class="table-details">{{viewProduct.oneStarCount}}</td>
+            </tr>
+            <tr class="table-row">
+                <th class="table-details">
+                    <div class="star-div">2<mat-icon class="star-icon">star</mat-icon></div>
+                </th>
+                <td class="table-details">{{viewProduct.twoStarCount}}</td>
+            </tr>
+            <tr class="table-row">
+                <th class="table-details">
+                    <div class="star-div">3<mat-icon class="star-icon">star</mat-icon></div>
+                </th>
+                <td class="table-details">{{viewProduct.threeStarCount}}</td>
+            </tr>
+            <tr class="table-row">
+                <th class="table-details">
+                    <div class="star-div">4<mat-icon class="star-icon">star</mat-icon></div>
+                </th>
+                <td class="table-details">{{viewProduct.fiveStarCount}}</td>
+            </tr>
+            <tr class="table-row">
+                <th class="table-details">
+                    <div class="star-div">5<mat-icon class="star-icon">star</mat-icon></div>
+                </th>
+                <td class="table-details">{{viewProduct.fiveStarCount}}</td>
+            </tr>
+        </table>
+    </mat-dialog-content>
+    <mat-dialog-actions>
+        <button mat-button (click)="closeProductDialog()" class="dialog-close-btn">Close</button>
+    </mat-dialog-actions>
+</ng-template>
 
-        <mat-paginator [pageSizeOptions]="[10, 15, 25, 100]" aria-label="Select page of users"></mat-paginator>
 
-</div>
+<!-- Dialog for update product -->
+<ng-template #productUpdateDialogTemplate>
+    <h2 mat-dialog-title class="mat-dialog-title">Update Product Details</h2>
+    <mat-dialog-content>
+        <app-add-product [heading]="'Update Product Details'"
+        [showSubmitBtn]="false"
+        [showCancelBtn]="false"
+        ></app-add-product>
+    </mat-dialog-content>
+    <mat-dialog-actions>
+        <button mat-button (click)="closeProductUpdateDialog()" class="dialog-close-btn">Close</button>
+        <button mat-button class="btn">Submit</button>
+    </mat-dialog-actions>
+</ng-template>
+
+<!-- Dialog for update product -->
+<ng-template #productDeleteDialogTemplate>
+    <mat-dialog-content>
+        <p>Please confirm that do you really want to delete the product?</p>
+    </mat-dialog-content>
+    <mat-dialog-actions>
+        <button mat-button (click)="closeProductDeleteDialog()" class="dialog-close-btn">Close</button>
+        <button mat-button class="btn">Confirm Delete</button>
+    </mat-dialog-actions>
+</ng-template>

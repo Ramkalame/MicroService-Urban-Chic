@@ -1,6 +1,6 @@
 <div class="container">
     <div class="heading-div">
-        <h5 class="title">Add New Product</h5>
+        <h5 class="title">{{heading}}</h5>
     </div>
     <form [formGroup]="productForm">
         <div class="form-div">
@@ -206,7 +206,7 @@
     </div>
     }
     <div class="action-btn">
-        <button class="cancel-btn">Cancel</button>
-        <button class="submit-btn" (click)="submitProductForm()">Submit</button>
+        <button class="cancel-btn" *ngIf="showCancelBtn">Cancel</button>
+        <button class="submit-btn" (click)="submitProductForm()" *ngIf="showSubmitBtn" [disabled]="productForm.invalid">Submit</button>
     </div>
 </div>

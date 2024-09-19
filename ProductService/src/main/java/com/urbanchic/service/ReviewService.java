@@ -17,5 +17,5 @@ public interface ReviewService {
 
     String deleteReviewById(String reviewId);
 
-    void deleteAllReviewByProductId(DeleteAllReviewsOfProductEvent deleteAllReviewsOfProductEvent);
+    void deleteAllReviewByProductId(String sellerId);
 }

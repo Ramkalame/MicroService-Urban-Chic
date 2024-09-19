@@ -15,6 +15,6 @@ public class ReviewImage {
 
     @Id
     private String reviewImageId;
+    private String reviewImageUrl;
     private String reviewId;
-    private String imageUrl;
 }

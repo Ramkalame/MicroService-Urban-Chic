@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, Input, OnInit } from '@angular/core';
 import { Form, FormArray, FormBuilder, FormControl, FormGroup, NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
@@ -29,8 +29,8 @@ type VariantsAttribute = FormGroup<{
 
 type ProductVariants = FormGroup<{
   variantAttributes: FormArray<VariantsAttribute>,
-  variantPrice: FormControl<number>,
-  variantQuantity: FormControl<number>
+  variantPrice: FormControl<number | null>,
+  variantQuantity: FormControl<number | null>
 }>;
 
 @Component({
@@ -43,6 +43,10 @@ type ProductVariants = FormGroup<{
 })
 export class AddProductComponent implements OnInit {
 
+  @Input() heading = 'Add New Product';
+  @Input() showSubmitBtn = true;
+  @Input() showCancelBtn = true;
+
   productService = inject(ProductService);
   sellerAuthService = inject(SellerAuthService);
   fb = inject(NonNullableFormBuilder);
@@ -53,12 +57,12 @@ export class AddProductComponent implements OnInit {
   selectedFiles: File[] = [];  // Holds the selected files
 
   productForm = this.fb.group({
-    productName: new FormControl<string>(''),
-    productDescription: new FormControl<string>(''),
-    productBrand: new FormControl<string>(''),
-    productCategory: new FormControl<string>(''),
-    productSubcategory: new FormControl<string>(''),
-    productType: new FormControl<string>(''),
+    productName: new FormControl<string>('',Validators.required),
+    productDescription: new FormControl<string>('',Validators.required),
+    productBrand: new FormControl<string>('',Validators.required),
+    productCategory: new FormControl<string>('',Validators.required),
+    productSubcategory: new FormControl<string>('',Validators.required),
+    productType: new FormControl<string>('',Validators.required),
     productAttributes: this.fb.array<ProductAttribute>([this.generateProductAttribute()]),
     productVariants: this.fb.array<ProductVariants>([this.generateProductVariants()])
   })
@@ -101,23 +105,23 @@ export class AddProductComponent implements OnInit {
 
   generateProductAttribute(): ProductAttribute {
     return this.fb.group({
-      attributeName: '',
-      attributeValue: ''
+      attributeName: ['',Validators.required],
+      attributeValue: ['',Validators.required]
     })
   }
 
-  generateProductVariants(): ProductVariants {
+  generateProductVariants(): FormGroup {
     return this.fb.group({
       variantAttributes: this.fb.array<VariantsAttribute>([this.generateVariantsAttribute()]),
-      variantPrice: new FormControl(),
-      variantQuantity: new FormControl()
+      variantPrice: [null,Validators.required],
+      variantQuantity: [null,Validators.required]
     })
   }
 
   generateVariantsAttribute(): VariantsAttribute {
     return this.fb.group({
-      variantAttributeName: '',
-      variantAttributeValue: ''
+      variantAttributeName: ['',Validators.required],
+      variantAttributeValue: ['',Validators.required]
     })
   }
 

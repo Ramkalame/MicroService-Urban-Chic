@@ -46,7 +46,7 @@ public class CloudinaryImageServiceImpl implements CloudinaryImageService {
 
 
     @Override
-    public String deleteImage(String publicId) {
+    public String deleteProductImage(String publicId) {
         try {
             Map res = cloudinary.uploader().destroy(publicId,ObjectUtils.emptyMap());
            if ("ok".equals(res.get("result"))){
@@ -58,6 +58,7 @@ public class CloudinaryImageServiceImpl implements CloudinaryImageService {
             throw new EntityNotFoundException("Image Deletion Failed!! Try Again");
         }
     }
+
 
 //    @Override
 //    public ImageUploadResponseDto updateImage(String sellerId, MultipartFile file) {

@@ -20,7 +20,8 @@ public class Review {
     private String reviewId;
     private String reviewDescription;
     private int rating;
-    private String productId;
     private List<ReviewImage> reviewImages;
+    private String productId;
     private String userId;
+
 }
