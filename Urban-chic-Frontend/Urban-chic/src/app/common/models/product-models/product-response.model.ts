@@ -10,6 +10,7 @@ export interface Product{
     attributeList:Attribute[];
     variantList:Variant[];
     productImageList:ProductImage[];
+    active:boolean;
     oneStarCount:number;
     twoStarCount:number;
     threeStarCount:number;
