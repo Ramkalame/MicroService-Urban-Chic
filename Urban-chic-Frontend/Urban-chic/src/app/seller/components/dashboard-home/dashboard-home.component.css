@@ -1,0 +1,30 @@
+.container{
+    padding: 10px;
+}
+.dashboard-widgets{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px,.5fr));  
+    gap: 16px;
+}
+.header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+.first-widget {
+    grid-column: 1 / -1; /* Make it span across all columns */
+    grid-row: 1; /* Place it in the first row */
+}
+
+.chart-widget {
+    grid-column: 1/-1; /* Make it span across all columns */
+    grid-row: auto; /* Place it in the first row */
+}
+
+.dashboard-widgets app-widgets:not(.first-widget,.chart-widget) {
+    grid-row: auto; /* Let other widgets flow naturally */
+}
+.add-btn{
+    --mdc-protected-button-label-text-color:#224F34;
+}

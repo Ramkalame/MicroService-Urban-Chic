@@ -1,1 +1,18 @@
-<p>dashboard-home works!</p>
+<div class="container">
+  <div class="header">
+    <h6>Seller Dashboard</h6>
+    <button mat-raised-button [mat-menu-trigger-for]="widgetMenu" class="add-btn"><mat-icon>add_circle</mat-icon> Add widget</button>
+    <mat-menu #widgetMenu="matMenu">
+      @for (w of dashboard.widgetsToAdd(); track w.id) {
+          <button mat-menu-item (click)="dashboard.addWidget(w)">{{w.label}}</button> 
+      }@empty {
+          <button mat-menu-item>No widgets to add</button> 
+      }
+    </mat-menu>
+  </div>
+  <div class="dashboard-widgets">
+    @for (w of dashboard.addedWidgets(); track w.id) {
+    <app-widgets [data]="w" [ngClass]="{'first-widget': w.id === 1,'chart-widget': w.id === 9 || w.id === 10}"/>
+    }
+  </div>
+</div>

@@ -3,13 +3,16 @@
     --primary-color: #224F34 !important;
 }
 
-.nav-title{
+.nav-title {
     color: #224F34;
     font-size: 22px;
     font-weight: bold;
 }
-.container{
-    height: 670px;
+
+.container {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
 mat-toolbar {
@@ -18,8 +21,18 @@ mat-toolbar {
     background-color: #C2F0D4;
 }
 
-mat-sidenav-container {
-    height:100% !important;
+.sidenav-container {
+    flex: 1;
+    display: flex;
+}
+
+.sidenav-fixed {
+    position: fixed;
+    height: calc(100% - 64px);
+    /* Change: Adjusted height to account for the toolbar */
+    background-color: #C2F0D4;
+    top: 64px;
+    /* Change: Start below the toolbar */
 }
 
 mat-sidenav,
@@ -47,36 +60,45 @@ mat-nav-list a {
 .selected-menu-item {
     border-left-color: #224F34 !important;
 }
-.nav-spacer{
+
+.nav-spacer {
     flex: 1 1 auto;
-} 
-.name{
+}
+
+.name {
     font-size: 18px;
-    color: #224F34;   
+    color: #224F34;
 }
-.log-out-btn{
-    padding: 5px;
-    border-radius: 5px !important;
+
+.log-out-btn {
+    --mdc-protected-button-label-text-color: #1E1E1E;
 }
-.mat-divider{
+
+.mat-divider {
     margin: 5px !important;
     border-top-width: 3px !important;
     border-radius: 8px;
     border-color: #1e1e1e !important;
 }
-.bottom-nav-list{
+
+.bottom-nav-list {
     margin-top: 130px !important;
 }
-mat-sidnav-content{
-    padding: 10px !important;
-    margin-bottom: 10px !important;
+
+mat-sidenav-content {
+    margin-left: auto;
+    overflow-y: auto;
+    padding: 10px;
+    flex-grow: 1;
+    height: calc(100vh - 64px);
+    box-sizing: border-box;
 }
+
 .content {
-    padding: 24px;
+    padding: 20px;
     display: flex;
     flex-direction: column;
     flex-grow: 1;
     height: 100%;
-    overflow: auto; /* Enable scrolling when content overflows */
-  }
-
+    overflow-y: auto;
+}
