@@ -1,0 +1,47 @@
+.container{
+    /* border: 2px solid red; */
+    display: flex;
+    justify-content: space-between;
+}
+.sub-container{
+    padding: 5px;
+    margin: 2px;
+    /* border: 2px solid black; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.data{
+    font-size: 18px;
+    font-weight: 500;
+}
+mat-icon{
+    color: #224F34;
+    font-size: 25px;
+}
+.icon-div{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #C2F0D4;
+    padding: 5px;
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+}
+.info-div{
+    padding: 2px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.text{
+    margin: 0;
+    padding: 0;
+    line-height: normal;
+}
+.heading{
+    font-size: 16px;
+    font-weight: 400;
+}

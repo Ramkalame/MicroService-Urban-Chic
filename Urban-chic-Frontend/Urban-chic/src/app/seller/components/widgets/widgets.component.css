@@ -1,0 +1,43 @@
+:host {
+    display: block;
+    border-radius: 16px;
+}
+
+.container {
+    position: relative;
+    height: 100%;
+    width: 100%;
+    padding: 15px;
+    box-sizing: border-box;
+    border-radius: inherit;
+    overflow: hidden;
+    background-color: whitesmoke;
+    color: black;
+    /* #224F34 */
+}
+
+.widget-title {
+    font-size: 18px;
+    font-weight: 405;
+    margin-bottom: 0;
+    margin-left: 5px;
+    color: #1e1e1e;
+}
+
+.close-btn {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+}
+.close-icon{
+    color: #D11A2A;
+}
+.heading{
+    display: flex;
+    align-items: center;
+    /* border: 2px solid red; */
+}
+.heading-icon{
+    color: #1e1e1e;
+}
+

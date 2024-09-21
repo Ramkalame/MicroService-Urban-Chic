@@ -1,0 +1,10 @@
+<div class="container mat-elevation-z3">
+    <div class="heading">
+        <mat-icon class="heading-icon">{{data().icon}}</mat-icon>
+        <h5 class="widget-title">{{data().label}}</h5>
+    </div>
+    @if (data().id != 1) {
+        <button mat-icon-button class="close-btn" (click)="dashboard.removeWidget(data().id)"><mat-icon class="close-icon">delete</mat-icon></button>
+    }
+    <ng-container [ngComponentOutlet]="data().content"></ng-container>
+</div>
