@@ -58,6 +58,7 @@ export class SellerDashboardComponent {
   menuItems2 = signal<MenuItem[]>([
     { icon: 'account_circle', label: 'Profile', route: 'profile' },
     { icon: 'help', label: 'Help', route: 'seller/dashboard/products' },
+    { icon: 'settings', label: 'Settings', route: 'seller/dashboard/products' },
   ]);
 
   constructor() { }

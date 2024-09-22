@@ -9,6 +9,11 @@ import { SellerRegistrationComponent } from './auth/components/register/seller-r
 import { SellerLoginComponent } from './auth/components/login/seller-login/seller-login.component';
 import { sellerAuthGuard } from './core/guard/seller-auth.guard';
 import { AddProductComponent } from './seller/components/add-product/add-product.component';
+import { HomeComponent } from './buyer/components/home/home.component';
+import { BuyerProfileComponent } from './buyer/components/buyer-profile/buyer-profile.component';
+import { ShowProductComponent } from './buyer/components/show-product/show-product.component';
+import { CartComponent } from './buyer/components/cart/cart.component';
+import { FavouriteComponent } from './buyer/components/favourite/favourite.component';
 
 export const routes: Routes = [
   { path: 'auth/register/seller', component: SellerRegistrationComponent },
@@ -29,7 +34,17 @@ export const routes: Routes = [
       { path: 'orders', component: OrderManagementComponent },
       { path: 'home', component: DashboardHomeComponent },
       { path: 'profile', component: SellerProfileComponent },
-      {path:'add-product',component:AddProductComponent}
+      { path: 'add-product', component: AddProductComponent }
     ],
   },
+
+
+  //buyer routing
+  {path: '', component: HomeComponent},
+  { path: '', component: ShowProductComponent },
+  { path: 'profile', component: BuyerProfileComponent },
+  { path: 'viewCart', component: CartComponent },
+  { path: 'favorites', component: FavouriteComponent }
+
+
 ];

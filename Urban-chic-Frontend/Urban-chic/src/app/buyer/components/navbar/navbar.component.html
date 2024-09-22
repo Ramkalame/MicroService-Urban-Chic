@@ -1,0 +1,28 @@
+<mat-toolbar class="navbar">
+    <a [routerLink]="''"><img class="logo"
+            src="https://res.cloudinary.com/dziu7iyz1/image/upload/v1726982679/urbanchic-logo_p0knbr.png"
+            alt="logo"></a>
+    <span class="nav-spacer"></span>
+    <div class="search-bar">
+        <input type="text" placeholder="Search..." class="search-inp">
+        <button mat-icon-button class="search-btn"><mat-icon>search</mat-icon></button>
+    </div>
+    <span class="nav-spacer"></span>
+    <div class="nav-btn-div">
+        <button mat-raised-button [routerLink]="'auth/register/seller'"><mat-icon>local_mall</mat-icon>Become a
+            seller</button>
+        <button mat-icon-button class="nav-btn" [routerLink]="['/viewCart']" *ngIf="showCartButton"><mat-icon class="nav-btn-icon">local_grocery_store</mat-icon></button>
+        <button mat-icon-button class="nav-btn" [routerLink]="['/favorites']" *ngIf="showFavoriteButton"><mat-icon class="nav-btn-icon">favorite</mat-icon></button>
+        <button mat-icon-button class="nav-btn" [routerLink]="['/profile']" *ngIf="showProfileButton"><mat-icon class="nav-btn-icon">account_circle</mat-icon></button>
+    </div>
+    <button mat-icon-button class="nav-btn menu-btn" [matMenuTriggerFor]="menu"><mat-icon>menu</mat-icon></button>
+</mat-toolbar>
+
+
+
+<mat-menu #menu="matMenu" class="menu-div">
+    <button mat-menu-item [routerLink]="['/viewCart']" *ngIf="showCartButton"><mat-icon class="nav-btn-icon">local_grocery_store</mat-icon> Cart</button>
+    <button mat-menu-item [routerLink]="['/favorites']" *ngIf="showFavoriteButton"><mat-icon class="nav-btn-icon">favorite</mat-icon> Favourite</button>
+    <button mat-menu-item [routerLink]="['/profile']" *ngIf="showProfileButton"><mat-icon class="nav-btn-icon">account_circle</mat-icon>Profile</button>
+    <button mat-menu-item [routerLink]="['/auth/register/seller']"><mat-icon class="nav-btn-icon">local_mall</mat-icon>Become a seller</button>
+</mat-menu>
