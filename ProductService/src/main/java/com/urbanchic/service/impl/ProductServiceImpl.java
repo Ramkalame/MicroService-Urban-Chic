@@ -204,8 +204,10 @@ public class ProductServiceImpl implements ProductService {
         productRepository.save(existingProduct);
     }
 
-
-
+    @Override
+    public int getProductCountBySellerId(String sellerId) {
+        return productRepository.countBySellerId(sellerId);
+    }
 
 
 }

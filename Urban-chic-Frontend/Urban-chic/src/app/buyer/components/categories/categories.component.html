@@ -1,0 +1,160 @@
+<div class="container">
+    <button mat-button class="cat-btn" >All Categories</button>
+    <button mat-button class="cat-btn">Best Seller</button>
+    <button mat-button class="cat-btn" [matMenuTriggerFor]="mobileMenu">Mobiles</button>
+    <button mat-button class="cat-btn" [matMenuTriggerFor]="electronicsMenu">Electronics</button>
+    <button mat-button class="cat-btn" [matMenuTriggerFor]="fashionMenu">Fashion</button>
+    <button mat-button class="cat-btn" [matMenuTriggerFor]="homeAndKitchenMenu">Home & Kitchen</button>
+    <button mat-button class="cat-btn" [matMenuTriggerFor]="sportsAndOutdoorMenu">Sports & Outdoors</button>
+    <button mat-button class="cat-btn" [matMenuTriggerFor]="booksMenu">Books</button>
+    <button mat-button class="cat-btn" [matMenuTriggerFor]="toysMenu">Toys</button>
+    <button mat-button class="cat-btn" [matMenuTriggerFor]="petCareMenu">Pet Care</button>
+    <button mat-button class="cat-btn">Others</button>
+</div>
+
+<!-- Mobile Menu -->
+ <mat-menu #mobileMenu>
+    @for (item of mobiles; track $index) {
+        <button mat-menu-item>{{item}}</button>
+    }
+ </mat-menu>
+
+ <!-- Electronics Menu -->
+ <mat-menu #electronicsMenu>
+        <button mat-menu-item [matMenuTriggerFor]="laptopAndComputerMenu">Laptops & Computers</button>
+        <button mat-menu-item [matMenuTriggerFor]="cameraMenu">Cameras</button>
+        <button mat-menu-item [matMenuTriggerFor]="audioMenu">Audio Devices</button>
+        <button mat-menu-item [matMenuTriggerFor]="wearableMenu">Wearable Devices</button>
+        <button mat-menu-item [matMenuTriggerFor]="computerAccessoriesMenu">Computer Accessories</button>
+        <button mat-menu-item [matMenuTriggerFor]="televisionMenu">Televisions & Video</button>
+        <button mat-menu-item [matMenuTriggerFor]="gamingMenu">Gaming</button>
+        <button mat-menu-item [matMenuTriggerFor]="smartHomeMenu">Smart Home Devices</button>
+ </mat-menu>
+
+ <mat-menu #laptopAndComputerMenu>
+    @for (item of laptopAndComputer; track $index) {
+        <button mat-menu-item>{{item}}</button>
+    }
+ </mat-menu>
+ <mat-menu #cameraMenu>
+    @for (item of cameras; track $index) {
+        <button mat-menu-item>{{item}}</button>
+    }
+ </mat-menu>
+ <mat-menu #audioMenu>
+    @for (item of audioDevices; track $index) {
+        <button mat-menu-item>{{item}}</button>
+    }
+ </mat-menu>
+ <mat-menu #wearableMenu>
+    @for (item of wearableDevices; track $index) {
+        <button mat-menu-item>{{item}}</button>
+    }
+ </mat-menu>
+ <mat-menu #computerAccessoriesMenu>
+    @for (item of computerAccessories ; track $index) {
+        <button mat-menu-item>{{item}}</button>
+    }
+ </mat-menu>
+ <mat-menu #televisionMenu>
+    @for (item of televisionsAndVideo; track $index) {
+        <button mat-menu-item>{{item}}</button>
+    }
+ </mat-menu>
+ <mat-menu #gamingMenu>
+    @for (item of gaming; track $index) {
+        <button mat-menu-item>{{item}}</button>
+    }
+ </mat-menu>
+ <mat-menu #smartHomeMenu>
+    @for (item of smartHomeDevices; track $index) {
+        <button mat-menu-item>{{item}}</button>
+    }
+ </mat-menu>
+
+ <!-- Electronics -->
+
+
+
+  <!-- Fashion Menu -->
+  <mat-menu #fashionMenu>
+        <button mat-menu-item [matMenuTriggerFor]="womensClothingMenu">Women's Clothing</button>
+        <button mat-menu-item [matMenuTriggerFor]="mensClothingMenu">Men's Clothing</button>
+        <button mat-menu-item [matMenuTriggerFor]="kidsClothingMenu">Kids' Clothing</button>
+        <button mat-menu-item [matMenuTriggerFor]="footwearMenu">Footwear</button>
+        <button mat-menu-item [matMenuTriggerFor]="sportsAndOutdoorMenu">Sportswear</button>
+        <button mat-menu-item [matMenuTriggerFor]="innerwearAndSleepwearMenu">Innerwear & Sleepwear</button>
+        <button mat-menu-item [matMenuTriggerFor]="accessoriesMenu">Accessories</button>
+ </mat-menu>
+
+ <mat-menu #womensClothingMenu>
+    @for (item of womenClothing; track $index) {
+        <button mat-menu-item>{{item}}</button>
+    }
+ </mat-menu>
+ <mat-menu #mensClothingMenu>
+    @for (item of menClothing; track $index) {
+        <button mat-menu-item>{{item}}</button>
+    }
+ </mat-menu>
+ <mat-menu #kidsClothingMenu>
+    @for (item of kidsClothing; track $index) {
+        <button mat-menu-item>{{item}}</button>
+    }
+ </mat-menu>
+ <mat-menu #footwearMenu>
+    @for (item of footwear; track $index) {
+        <button mat-menu-item>{{item}}</button>
+    }
+ </mat-menu>
+ <mat-menu #sportswearMenu>
+    @for (item of sportswear; track $index) {
+        <button mat-menu-item>{{item}}</button>
+    }
+ </mat-menu>
+ <mat-menu #innerwearAndSleepwearMenu>
+    @for (item of innerwearAndSleepwear; track $index) {
+        <button mat-menu-item>{{item}}</button>
+    }
+ </mat-menu>
+ <mat-menu #accessoriesMenu>
+    @for (item of accessories; track $index) {
+        <button mat-menu-item>{{item}}</button>
+    }
+ </mat-menu>
+ <!-- Fashion -->
+
+  <!-- Home and Kitchen Menu -->
+  <mat-menu #homeAndKitchenMenu>
+    @for (item of homeAndKitchen; track $index) {
+        <button mat-menu-item>{{item}}</button>
+    }
+ </mat-menu>
+
+  <!-- Sports & Outdoor Menu -->
+  <mat-menu #sportsAndOutdoorMenu>
+    @for (item of sportsAndOutdoors; track $index) {
+        <button mat-menu-item>{{item}}</button>
+    }
+ </mat-menu>
+
+  <!-- Books Menu -->
+  <mat-menu #booksMenu>
+    @for (item of books; track $index) {
+        <button mat-menu-item>{{item}}</button>
+    }
+ </mat-menu>
+
+  <!-- Toys Menu -->
+  <mat-menu #toysMenu>
+    @for (item of toys; track $index) {
+        <button mat-menu-item>{{item}}</button>
+    }
+ </mat-menu>
+
+  <!-- Pet Care Menu -->
+  <mat-menu #petCareMenu>
+    @for (item of petCare; track $index) {
+        <button mat-menu-item>{{item}}</button>
+    }
+ </mat-menu>

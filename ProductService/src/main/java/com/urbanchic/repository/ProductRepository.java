@@ -23,5 +23,6 @@ public interface ProductRepository extends MongoRepository<Product,String> {
 
     //other methods
     Optional<Product> findByProductIdAndSellerId(String productId,String sellerId);
+    int countBySellerId(String sellerId);
 
 }

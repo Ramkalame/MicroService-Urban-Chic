@@ -214,4 +214,19 @@ public class ProductController {
         return ResponseEntity.status(HttpStatus.OK).body(apiResponse);
     }
 
+    @GetMapping("/seller/product-count/{sellerId}")
+    public ResponseEntity<?> getProductCountBySellerId(@PathVariable("sellerId") String sellerId){
+        int responseData = productService.getProductCountBySellerId(sellerId);
+
+        ApiResponse<Integer> apiResponse = ApiResponse.<Integer >builder()
+                .data(responseData)
+                .message("Product Count Fetched Successfully.")
+                .timestamp(LocalDateTime.now())
+                .success(true)
+                .statusCode(HttpStatus.OK.value())
+                .build();
+
+        return ResponseEntity.status(HttpStatus.OK).body(apiResponse);
+    }
+
 }

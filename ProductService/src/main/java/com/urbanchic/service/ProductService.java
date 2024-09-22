@@ -25,5 +25,6 @@ public interface ProductService {
     List<Product> getAllProductsByProductSubCategory(String productSubCategory);
     List<Product> getAllProductsByProductType(String productType);
     void changeProductActiveStatus(boolean status,String productId);
+    int getProductCountBySellerId(String sellerId);
 
 }
