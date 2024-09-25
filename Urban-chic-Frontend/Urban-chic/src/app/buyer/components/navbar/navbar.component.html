@@ -5,9 +5,13 @@
     <span class="nav-spacer"></span>
     <div class="search-bar">
         <input type="text" placeholder="Search..." class="search-inp">
-        <button mat-icon-button class="search-btn"><mat-icon>search</mat-icon></button>
+        <button mat-icon-button class="search-btn"><mat-icon class="search-icon">search</mat-icon></button>
     </div>
     <span class="nav-spacer"></span>
+    <div class="mobile-search-bar">
+        <input type="text" placeholder="search..." class="mobile-search-inp">
+        <button mat-icon-button class="mobile-search-btn"><mat-icon class="mobile-search-icon">search</mat-icon></button>
+</div>
     <div class="nav-btn-div">
         <button mat-raised-button [routerLink]="'auth/register/seller'"><mat-icon>local_mall</mat-icon>Become a
             seller</button>

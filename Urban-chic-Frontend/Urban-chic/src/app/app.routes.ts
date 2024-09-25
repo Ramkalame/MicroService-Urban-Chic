@@ -14,6 +14,13 @@ import { BuyerProfileComponent } from './buyer/components/buyer-profile/buyer-pr
 import { ShowProductComponent } from './buyer/components/show-product/show-product.component';
 import { CartComponent } from './buyer/components/cart/cart.component';
 import { FavouriteComponent } from './buyer/components/favourite/favourite.component';
+import { MyProfileComponent } from './buyer/components/profile-pages/my-profile/my-profile.component';
+import { MyOrdersComponent } from './buyer/components/profile-pages/my-orders/my-orders.component';
+import { ManageAddressComponent } from './buyer/components/profile-pages/manage-address/manage-address.component';
+import { OrderHistoryComponent } from './buyer/components/profile-pages/order-history/order-history.component';
+import { ReviewHistoryComponent } from './buyer/components/profile-pages/review-history/review-history.component';
+import { ShowOrderComponent } from './buyer/components/profile-pages/show-order/show-order.component';
+import { ViewProductComponent } from './buyer/components/view-product/view-product.component';
 
 export const routes: Routes = [
   { path: 'auth/register/seller', component: SellerRegistrationComponent },
@@ -42,9 +49,19 @@ export const routes: Routes = [
   //buyer routing
   {path: '', component: HomeComponent},
   { path: '', component: ShowProductComponent },
-  { path: 'profile', component: BuyerProfileComponent },
+  { path: 'profile', component: BuyerProfileComponent,children:[
+    {path:'',redirectTo:'my-profile',pathMatch:'full'},
+    {path:'my-profile',component:MyProfileComponent},
+    {path:'my-orders',component:MyOrdersComponent},
+    {path:'address',component:ManageAddressComponent},
+    {path:'order-history',component:OrderHistoryComponent},
+    {path:'review-rating-history',component:ReviewHistoryComponent},
+    {path:'order',component:ShowOrderComponent}
+  ] },
   { path: 'viewCart', component: CartComponent },
-  { path: 'favorites', component: FavouriteComponent }
+  { path: 'favorites', component: FavouriteComponent },
+  {path:'product',component:ViewProductComponent}
+
 
 
 ];

@@ -1,0 +1,46 @@
+<div class="mobile-container">
+    <div class="search-bar mat-elevation-z3">
+        <input type="text" placeholder="Search..." class="search-inp">
+        <button mat-button class="search-btn"><mat-icon class="search-icon">search</mat-icon></button>
+    </div>
+    <div class="filter-action">
+        <h6 class="heading">Order History</h6>
+        <button mat-button class="filter-btn" [matMenuTriggerFor]="filterMenu"><mat-icon>filter_list</mat-icon>Filter</button>
+    </div>
+    <!-- Order Card -->
+    <div class="order-card mat-elevation-z3">
+        <div class="img-div ">
+            <p>Image</p>
+        </div>
+        <div class="order-info-div">
+            <h6 class="product-name">Red Tap Casusal Sneaker Shoes</h6>
+            <h6 class="product-info">Color: White,Black  Size: 7</h6>
+            <h6 class="product-info">Price: ₹1,235 <span class="badge">on the way</span></h6>
+            <div class="order-action-div">
+                <button mat-button class="cancle-btn mat-elevation-z3" (click)="openOrderHIstoryDeleteDialog()">Delete</button>
+                <button mat-button class="view-btn mat-elevation-z3 " [routerLink]="['/profile/order']">View</button>
+            </div>
+        </div>
+    </div>
+    <!-- Order Card Ends Here -->
+
+</div>
+
+
+<mat-menu #filterMenu>
+    <button mat-menu-item>Delivered</button>
+    <button mat-menu-item>On the way</button>
+    <button mat-menu-item>Returned</button>
+    <button mat-menu-item>Cancelled</button>
+</mat-menu>
+
+<ng-template #deleteOrderHistoryTemplate >
+    <mat-dialog-content>
+        <p>Do you really want to delete the order history?.</p>
+    </mat-dialog-content>
+    <mat-dialog-actions>
+        <button mat-button (click)="closeOrderHistoryDeleteDialog()">Cancel</button>
+        <button mat-button >Confirm Delete</button>
+    </mat-dialog-actions>
+</ng-template>
+

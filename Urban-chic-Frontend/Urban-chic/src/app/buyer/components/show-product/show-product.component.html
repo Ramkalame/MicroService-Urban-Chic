@@ -1,4 +1,32 @@
 <app-navbar></app-navbar>
 <app-categories></app-categories>
-<h5>Listing of Products</h5>
+<div class="sort-filter-div">
+    <button mat-button class="btn" [matMenuTriggerFor]="sortMenu"><mat-icon>sort</mat-icon>Filter</button>
+    <button mat-button class="btn" [matMenuTriggerFor]="filterMenu"><mat-icon>filter_list</mat-icon>Filter</button>
+</div>
+<app-product></app-product>
 <app-footer></app-footer>
+
+
+<mat-menu #sortMenu>
+    <button mat-menu-item>Popularity</button>
+    <button mat-menu-item>Price -- Low to High</button>
+    <button mat-menu-item>Price -- High to Low</button>
+    <button mat-menu-item>New Arrivals</button>
+</mat-menu>
+
+<mat-menu #filterMenu>
+    <button mat-menu-item [matMenuTriggerFor]="priceSubMenu">Price</button>
+    <button mat-menu-item>Discount</button>
+    <button mat-menu-item>Color</button>
+    <button mat-menu-item>Size</button>
+    <button mat-menu-item>Brand</button>
+    <button mat-menu-item>Rating</button> 
+</mat-menu>
+
+<mat-menu #priceSubMenu>
+    <button mat-menu-item>Under ₹1000</button>
+    <button mat-menu-item>Under ₹5000</button>
+    <button mat-menu-item>Under ₹10,000</button>
+    <button mat-menu-item>Under ₹15,000</button>
+</mat-menu>

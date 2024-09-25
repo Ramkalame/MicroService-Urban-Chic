@@ -1,0 +1,106 @@
+
+/* Mobile CSS */
+.mobile-container{
+    /* border: 2px solid red; */
+    padding: 10px;
+}
+.filter-action{
+    margin: 5px 0 5px 0;
+    padding: 5px;
+    /* border: 2px solid red; */
+    height: 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.heart-icon{
+    color: #224F34;
+    position: absolute;
+    left: 115px;
+}
+.heading{
+    font-size: 15px;
+    font-weight: 500;
+}
+.filter-btn{
+    color: #1e1e1e !important;
+}
+.product-card{
+    /* border: 2px solid black; */
+    display: flex;
+    padding: 5px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
+.img-div{
+    width: 90px;
+    height: 110px;
+    border-radius: 8px;
+}
+.img-div img{
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+.product-info-div{
+    margin-left: 10px;
+    padding: 5px;
+    width: 80%;
+}
+.product-name{
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 0;
+    line-height: 20px;
+}
+.product-info{
+    font-size: 12px;
+    color: #494646;
+    margin-bottom: 0;
+    line-height: 18px;
+}
+.price{
+    font-size: 12px;
+    font-weight: 500;
+    margin-bottom: 0;
+    line-height: 20px;
+}
+.action-div{
+    width: 30px ;
+    display: flex;
+    align-items: start;
+    justify-content: center;
+}
+.remove-btn{
+    color: #C0392B;
+}
+/* Mobile CSS Ends Here*/
+
+
+
+
+/* Media query */
+/* Extra small devices (phones) */
+@media (max-width: 767.98px) {
+    /* CSS for small screens (both portrait and landscape) */
+
+}
+
+/* Medium devices (tablets) */
+@media (min-width: 768px) and (max-width: 1199.98px) {
+
+    /* CSS for medium screens (both portrait and landscape) */
+    /* .mobile-container {
+        display: none;
+    } */
+}
+
+/* Large devices (desktops) */
+@media (min-width: 1200px) {
+
+    /* CSS for large screens */
+    .mobile-container {
+        display: none;
+    }
+}

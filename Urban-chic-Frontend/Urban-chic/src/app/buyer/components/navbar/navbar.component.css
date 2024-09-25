@@ -1,5 +1,8 @@
 .navbar{
     background-color: #C2EFD4;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
 }
 .logo{
     object-fit: contain;
@@ -76,10 +79,47 @@
 
 /* Media Queries */
 
-@media screen and (max-width: 730px) {
+@media screen and (max-width: 767.98px) {
+    .logo{
+        width: 100px;
+        height: 40px;
+    }
     .search-bar{
         display: none;
     }
+
+    /* Mobile Search Bar */
+    .mobile-search-bar{
+        /* border: 2px solid red; */
+        height: 25px;
+        display: flex;
+        cursor: pointer;
+        padding: 2px;
+        background-color: transparent;
+        border-radius: 30px;
+        align-items: center;
+    }
+    .mobile-search-bar:hover .mobile-search-inp{
+        width: 160px;
+    }
+    .mobile-search-bar:hover{
+        background-color: #fff;
+        padding: 5px;
+    }
+    .mobile-search-inp{
+        width: 0;
+        outline: none;
+        border: none;
+        transition: 0.3s;
+        background: transparent;
+    }
+    .mobile-search-icon{
+        font-size: 20px;
+        width: 20px;
+        height: 20px;
+    }
+    /* Mobile Search Bar Ends Here */
+
     .nav-btn-div{
         display: none;
     }
@@ -100,5 +140,8 @@
 @media (min-width:729px) {
     ::ng-deep .menu-div{
         display: none !important;
+    }
+    .mobile-search-bar{
+        display: none;
     }
 }
