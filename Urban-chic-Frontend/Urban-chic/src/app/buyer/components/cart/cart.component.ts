@@ -1,14 +1,28 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { NavbarComponent } from "../navbar/navbar.component";
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-cart',
   standalone: true,
-  imports: [CommonModule, NavbarComponent],
+  imports: [CommonModule, NavbarComponent,MatIconModule,MatButtonModule,],
   templateUrl: './cart.component.html',
   styleUrl: './cart.component.css'
 })
 export class CartComponent {
 
+  quantity:number = 1;
+
+  constructor(){}
+
+  increaseQuantity(){
+    this.quantity++;
+  }
+
+  decreaseQuantity(){
+    if(this.quantity > 1) this.quantity--;
+  }
+  
 }

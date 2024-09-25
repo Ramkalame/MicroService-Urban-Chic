@@ -1,0 +1,10 @@
+.sort-filter-div{
+    /* border: 2px solid red; */
+    margin: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.btn{
+    color: #1e1e1e !important;
+}

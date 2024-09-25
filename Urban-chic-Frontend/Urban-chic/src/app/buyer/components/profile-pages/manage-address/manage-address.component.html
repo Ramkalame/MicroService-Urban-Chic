@@ -1,0 +1,139 @@
+<div class="mobile-container">
+    <button mat-button class="add-btn mat-elevation-z3" (click)="showAddNewAddressDiv()"><mat-icon>add</mat-icon>Add New Address</button>
+
+    <!-- Add New Address -->
+    <div class="edit-address-div" *ngIf="showAddNewAddress">
+        <form [formGroup]="addressForm">
+            <h6 class="edit-heading">Add New Address</h6>
+            <mat-form-field appearance="outline" class="form-field">
+                <mat-label>Street</mat-label>
+                <input matInput placeholder="Street" formControlName="street" />
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="form-field">
+                <mat-label>City</mat-label>
+                <input matInput placeholder="City" formControlName="city" />
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="form-field">
+                <mat-label>State</mat-label>
+                <input matInput placeholder="State" formControlName="state" />
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="form-field">
+                <mat-label>Country</mat-label>
+                <input matInput placeholder="Country" formControlName="country" />
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="form-field">
+                <mat-label>Pincode</mat-label>
+                <input matInput placeholder="Pincode" formControlName="pincode" />
+            </mat-form-field>
+            <mat-label class="type-label">Address Type</mat-label>
+            <div class="radio-container">
+                <div class="radio-wrapper">
+                    <label class="radio-button">
+                        <input id="option1" name="radio-group" type="radio" checked>
+                        <span class="radio-checkmark"></span>
+                        <span class="radio-label">Home</span>
+                    </label>
+                </div>
+
+                <div class="radio-wrapper">
+                    <label class="radio-button">
+                        <input id="option2" name="radio-group" type="radio">
+                        <span class="radio-checkmark"></span>
+                        <span class="radio-label">Work</span>
+                    </label>
+                </div>
+            </div>
+            <div class="edit-action-div">
+                <button mat-button class="cancle-btn mat-elevation-z3" (click)="closeAddNewAddressDiv()">Cancel</button>
+                <button mat-button class="save-btn mat-elevation-z3">Save</button>
+            </div>
+        </form>
+    </div>
+    <!-- Add New Address Ends Here -->
+
+
+    <!-- Show Address Div -->
+    <div class="address-div mat-elevation-z3" *ngIf="!showEditAddress">
+        <div class="address-action">
+            <span class="badge">Work</span>
+            <button mat-icon-button [matMenuTriggerFor]="actionMenu"><mat-icon>more_vert</mat-icon></button>
+        </div>
+        <div class="personal-info-div">
+            <h6 class="personal-info">123 Main St, </h6>
+        </div>
+        <div class="address-info-div">
+            <h6 class="address-info"> Raipur,</h6>
+            <h6 class="address-info">Chhattisgarh,</h6>
+            <h6 class="address-info">India</h6>
+            <h6 class="personal-info">- 492015</h6>
+        </div>
+    </div>
+    <!-- Show Address Div Ends Here -->
+
+    <!-- Edit Address Div -->
+    <div class="edit-address-div" *ngIf="showEditAddress">
+        <form [formGroup]="addressForm">
+            <h6 class="edit-heading">Edit Address</h6>
+            <mat-form-field appearance="outline" class="form-field">
+                <mat-label>Street</mat-label>
+                <input matInput placeholder="Street" formControlName="street" />
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="form-field">
+                <mat-label>City</mat-label>
+                <input matInput placeholder="City" formControlName="city" />
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="form-field">
+                <mat-label>State</mat-label>
+                <input matInput placeholder="State" formControlName="state" />
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="form-field">
+                <mat-label>Country</mat-label>
+                <input matInput placeholder="Country" formControlName="country" />
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="form-field">
+                <mat-label>Pincode</mat-label>
+                <input matInput placeholder="Pincode" formControlName="pincode" />
+            </mat-form-field>
+            <mat-label class="type-label">Address Type</mat-label>
+            <div class="radio-container">
+                <div class="radio-wrapper">
+                    <label class="radio-button">
+                        <input id="option1" name="radio-group" type="radio" checked>
+                        <span class="radio-checkmark"></span>
+                        <span class="radio-label">Home</span>
+                    </label>
+                </div>
+
+                <div class="radio-wrapper">
+                    <label class="radio-button">
+                        <input id="option2" name="radio-group" type="radio">
+                        <span class="radio-checkmark"></span>
+                        <span class="radio-label">Work</span>
+                    </label>
+                </div>
+            </div>
+            <div class="edit-action-div">
+                <button mat-button class="cancle-btn mat-elevation-z3" (click)="cancelEditAddress()">Cancel</button>
+                <button mat-button class="save-btn mat-elevation-z3">Save</button>
+            </div>
+        </form>
+    </div>
+    <!-- Edit Address Div Ends Here -->
+
+</div>
+
+
+<mat-menu #actionMenu>
+    <button mat-menu-item (click)="showEditAddressDiv()">Edit</button>
+    <button mat-menu-item (click)="openDeleteDialog()">Delete</button>
+</mat-menu>
+
+<ng-template #deleteDialog>
+    <mat-dialog-content>
+        <p>Are you sure you want to delete this address.</p>
+    </mat-dialog-content>
+    <mat-dialog-actions>
+        <button mat-button (click)="closeDeleteDialog()">Cancel</button>
+        <button mat-button class="btn" (click)="deleteAddress()">Delete</button>
+    </mat-dialog-actions>
+</ng-template>

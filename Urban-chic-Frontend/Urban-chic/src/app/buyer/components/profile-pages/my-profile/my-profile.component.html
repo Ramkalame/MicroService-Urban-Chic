@@ -1,0 +1,100 @@
+<div [formGroup]="myForm">
+    <div class="mobile-container mat-elevation-z3">
+        <!-- ---------- -->
+        <div class="label-div">
+            <mat-label>Full Name</mat-label>
+            <div class="btn-group">
+                <button mat-button (click)="enableFullName()" *ngIf="disableFullName" class="edit-btn">Edit</button>
+                <button mat-button (click)="cancelFullName()" *ngIf="!disableFullName" class="cancle-btn">Cancel</button>
+                <button mat-button *ngIf="!disableFullName" class="save-btn">Save</button>
+            </div>
+        </div>
+        <mat-form-field appearance="outline" class="form-field">
+            <input matInput  [disabled]="disableFullName" class="inp" value="John Doe" />
+        </mat-form-field>
+    
+        <!-- --------------- -->
+        <div class="label-div">
+            <mat-label>Your Gender</mat-label>
+            <div class="btn-group">
+                <button mat-button (click)="enableGender()" *ngIf="disableGender">Edit</button>
+                <button mat-button (click)="cancelGender()" *ngIf="!disableGender" class="cancle-btn">Cancel</button>
+                <button mat-button *ngIf="!disableGender">Save</button>
+            </div>
+        </div>
+        <div class="radio-container">
+            <div class="radio-wrapper">
+                <label class="radio-button">
+                    <input id="option1" name="radio-group" type="radio" checked [disabled]="disableGender">
+                    <span class="radio-checkmark"></span>
+                    <span class="radio-label">Male</span>
+                </label>
+            </div>
+    
+            <div class="radio-wrapper">
+                <label class="radio-button">
+                    <input id="option2" name="radio-group" type="radio" [disabled]="disableGender">
+                    <span class="radio-checkmark"></span>
+                    <span class="radio-label">Female</span>
+                </label>
+            </div>
+    
+            <div class="radio-wrapper">
+                <label class="radio-button">
+                    <input id="option3" name="radio-group" type="radio" [disabled]="disableGender">
+                    <span class="radio-checkmark"></span>
+                    <span class="radio-label">Other</span>
+                </label>
+            </div>
+        </div>
+    
+        <!-- ----------------- -->
+        <div class="label-div">
+            <mat-label>Email Address</mat-label>
+            <div class="btn-group">
+                <button mat-button (click)="enableEmail()" *ngIf="disableEmail" class="edit-btn">Edit</button>
+                <button mat-button (click)="cancelEmail()" *ngIf="!disableEmail" class="cancle-btn">Cancel</button>
+                <button mat-button (click)="saveEmail()" *ngIf="!disableEmail" class="save-btn">Save</button>
+            </div>
+        </div>
+        <mat-form-field appearance="outline" class="form-field">
+            <input matInput  [disabled]="disableEmail" class="inp"
+                value="abhishekpardhiya@gmail.com" />
+        </mat-form-field>
+    
+        <!-- ----------------- -->
+        <div class="label-div">
+            <mat-label>Mobile Number</mat-label>
+            <div class="btn-group">
+                <button mat-button (click)="enableMobileNumber()" *ngIf="disableMobileNumber" class="edit-btn">Edit</button>
+                <button mat-button (click)="cancelMobileNumber()" *ngIf="!disableMobileNumber"
+                    class="cancle-btn">Cancel</button>
+                <button mat-button (click)="saveMobileNumber()" *ngIf="!disableMobileNumber" class="save-btn">Save</button>
+            </div>
+        </div>
+        <mat-form-field appearance="outline" class="form-field">
+            <input matInput [disabled]="disableMobileNumber" class="inp" value="+918319348293" />
+        </mat-form-field>
+
+        <button mat-button class="log-out-btn"><mat-icon>exit_to_app</mat-icon>Logout</button>
+    </div>
+    
+    
+    
+    <ng-template #otpEmailTemplate>
+        <h6 mat-dialog-title>Enter OTP</h6>
+        <mat-dialog-content>
+                <mat-form-field appearance="outline" [style.width]="'90%'">
+                    <input matInput placeholder="Enter OTP" formControlName="otp">
+                </mat-form-field>
+                <mat-error *ngIf="myForm.controls['otp'].errors?.['minlength']">OTP should be of 4 digits.</mat-error>
+                <mat-error *ngIf="myForm.controls['otp'].errors?.['maxlength']">OTP should be of 4 digits.</mat-error>
+                <mat-error *ngIf="myForm.controls['otp'].errors?.['required']">OTP is required.</mat-error>
+                <mat-error *ngIf="myForm.controls['otp'].errors?.['pattern']">Invalid OTP</mat-error>
+        </mat-dialog-content>
+        <mat-dialog-actions>
+            <button mat-button (click)="closeOtpDialog()" class="cancle-btn">Cancel</button>
+            <button mat-button (click)="submitOtp()" class="save-btn" [disabled]="myForm.controls['otp'].invalid">Submit</button>
+        </mat-dialog-actions>
+    </ng-template>
+</div>

@@ -3,7 +3,7 @@
     display: grid;
     grid-template-columns: repeat(5, 1fr);
     gap: 16px;
-    background-color: #224F34;
+    background-color: #20263E;
     color: whitesmoke;
 }
 

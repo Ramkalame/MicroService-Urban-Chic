@@ -1,0 +1,130 @@
+
+/* Css Mobile */
+.mobile-container{
+    padding: 10px;
+    border-radius: 8px;
+}
+.label-div{
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+.btn-group{
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.cancle-btn{
+    margin-left: auto;
+    color: #A82E2E !important;
+}
+.edit-btn{
+    margin-left: auto;
+}
+.save-btn{
+    margin-left: auto;
+    color: #224F34 !important;
+}
+.form-field{
+    width: 100%;
+}
+
+/* From Uiverse.io by JkHuger */ 
+.radio-container {
+    margin: 0 auto;
+    max-width: 100%;
+    color: #1e1e1e;
+    padding: 0px 0px 10px 0px;
+    /* border: 2px solid red; */
+  }
+  
+  .radio-wrapper {
+    margin-bottom: 10px;
+    margin-left: 10px;
+  }
+  
+  .radio-button {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+  }
+  
+  .radio-button:hover {
+    transform: translateY(-2px);
+  }
+  
+  .radio-button input[type="radio"] {
+    display: none;
+  }
+  
+  .radio-checkmark {
+    display: inline-block;
+    position: relative;
+    width: 14px;
+    height: 14px;
+    margin-right: 10px;
+    border: 2px solid #333;
+    border-radius: 50%;
+  }
+  
+  .radio-checkmark:before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: #333;
+    transition: all 0.2s ease-in-out;
+  }
+  
+  .radio-button input[type="radio"]:checked ~ .radio-checkmark:before {
+    transform: translate(-50%, -50%) scale(1);
+  }
+  
+  .radio-label {
+    font-size: 16px;
+    font-weight: 400;
+  }
+  
+  .log-out-btn{
+    background-color: #A82E2E;
+    width: 100%;
+    font-size: 16px !important;
+    color: white;
+    margin-bottom: 10px;
+    margin-top: 10px;
+  }
+/* Css Mobile Ends Here */
+
+
+
+
+/* Media query */
+/* Extra small devices (phones) */
+@media (max-width: 767.98px) {
+  /* CSS for small screens (both portrait and landscape) */
+
+}
+
+/* Medium devices (tablets) */
+@media (min-width: 768px) and (max-width: 1199.98px) {
+
+  /* CSS for medium screens (both portrait and landscape) */
+  /* .mobile-container {
+      display: none;
+  } */
+}
+
+/* Large devices (desktops) */
+@media (min-width: 1200px) {
+
+  /* CSS for large screens */
+  .mobile-container {
+      display: none;
+  }
+}

@@ -1,2 +1,109 @@
 <app-navbar [showFavoriteButton]="false"></app-navbar>
-<p>favourite works!</p>
+<div class="mobile-container">
+    <div class="filter-action">
+        <h6 class="heading">Your Favorites</h6>
+        <mat-icon class="heart-icon">favorite</mat-icon>
+        <button mat-button class="filter-btn" [matMenuTriggerFor]="filterMenu"><mat-icon>filter_list</mat-icon>Filter</button>
+    </div>
+
+    <!-- Product Card -->
+    <div class="product-card mat-elevation-z3 ">
+        <div class="img-div ">
+            <img src="https://res.cloudinary.com/dziu7iyz1/image/upload/v1726674948/product-image/lkbospkuaq1qcq09ndhs.jpg" alt="Product Image">
+        </div>
+        <div class="product-info-div">
+            <h6 class="product-name">Red Tap Casual Sneaker Shoes</h6>
+            <h6 class="product-info">Color: White, Black  Size: 7</h6>
+            <p class="price">$150.00</p>
+        </div>
+        <div class="action-div">
+            <button mat-icon-button class="remove-btn"><mat-icon>delete</mat-icon></button>
+        </div>
+    </div>
+    <!-- Product Card Ends Here -->
+    <div class="product-card mat-elevation-z3 ">
+        <div class="img-div ">
+            <img src="https://res.cloudinary.com/dziu7iyz1/image/upload/v1726674948/product-image/lkbospkuaq1qcq09ndhs.jpg" alt="Product Image">
+        </div>
+        <div class="product-info-div">
+            <h6 class="product-name">Red Tap Casual Sneaker Shoes</h6>
+            <h6 class="product-info">Color: White, Black  Size: 7</h6>
+            <p class="price">$150.00</p>
+        </div>
+        <div class="action-div">
+            <button mat-icon-button class="remove-btn"><mat-icon>delete</mat-icon></button>
+        </div>
+    </div>
+    <div class="product-card mat-elevation-z3 ">
+        <div class="img-div ">
+            <img src="https://res.cloudinary.com/dziu7iyz1/image/upload/v1726674948/product-image/lkbospkuaq1qcq09ndhs.jpg" alt="Product Image">
+        </div>
+        <div class="product-info-div">
+            <h6 class="product-name">Red Tap Casual Sneaker Shoes</h6>
+            <h6 class="product-info">Color: White, Black  Size: 7</h6>
+            <p class="price">$150.00</p>
+        </div>
+        <div class="action-div">
+            <button mat-icon-button class="remove-btn"><mat-icon>delete</mat-icon></button>
+        </div>
+    </div>
+    <div class="product-card mat-elevation-z3 ">
+        <div class="img-div ">
+            <img src="https://res.cloudinary.com/dziu7iyz1/image/upload/v1726674948/product-image/lkbospkuaq1qcq09ndhs.jpg" alt="Product Image">
+        </div>
+        <div class="product-info-div">
+            <h6 class="product-name">Red Tap Casual Sneaker Shoes</h6>
+            <h6 class="product-info">Color: White, Black  Size: 7</h6>
+            <p class="price">$150.00</p>
+        </div>
+        <div class="action-div">
+            <button mat-icon-button class="remove-btn"><mat-icon>delete</mat-icon></button>
+        </div>
+    </div>
+    <div class="product-card mat-elevation-z3 ">
+        <div class="img-div ">
+            <img src="https://res.cloudinary.com/dziu7iyz1/image/upload/v1726674948/product-image/lkbospkuaq1qcq09ndhs.jpg" alt="Product Image">
+        </div>
+        <div class="product-info-div">
+            <h6 class="product-name">Red Tap Casual Sneaker Shoes</h6>
+            <h6 class="product-info">Color: White, Black  Size: 7</h6>
+            <p class="price">$150.00</p>
+        </div>
+        <div class="action-div">
+            <button mat-icon-button class="remove-btn"><mat-icon>delete</mat-icon></button>
+        </div>
+    </div>
+    <div class="product-card mat-elevation-z3 ">
+        <div class="img-div ">
+            <img src="https://res.cloudinary.com/dziu7iyz1/image/upload/v1726674948/product-image/lkbospkuaq1qcq09ndhs.jpg" alt="Product Image">
+        </div>
+        <div class="product-info-div">
+            <h6 class="product-name">Red Tap Casual Sneaker Shoes</h6>
+            <h6 class="product-info">Color: White, Black  Size: 7</h6>
+            <p class="price">$150.00</p>
+        </div>
+        <div class="action-div">
+            <button mat-icon-button class="remove-btn"><mat-icon>delete</mat-icon></button>
+        </div>
+    </div>
+    <div class="product-card mat-elevation-z3 ">
+        <div class="img-div ">
+            <img src="https://res.cloudinary.com/dziu7iyz1/image/upload/v1726674948/product-image/lkbospkuaq1qcq09ndhs.jpg" alt="Product Image">
+        </div>
+        <div class="product-info-div">
+            <h6 class="product-name">Red Tap Casual Sneaker Shoes</h6>
+            <h6 class="product-info">Color: White, Black  Size: 7</h6>
+            <p class="price">$150.00</p>
+        </div>
+        <div class="action-div">
+            <button mat-icon-button class="remove-btn"><mat-icon>delete</mat-icon></button>
+        </div>
+    </div>
+</div>
+
+<mat-menu #filterMenu>
+    <button mat-menu-item>Delivered</button>
+    <button mat-menu-item>On the way</button>
+    <button mat-menu-item>Returned</button>
+    <button mat-menu-item>Cancelled</button>
+</mat-menu>
