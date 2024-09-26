@@ -1,7 +1,20 @@
 
 /* Css Mobile */
 .mobile-container{
-    border: 2px solid red;
+    /* border: 2px solid red; */
     padding: 10px 5px;
 }
+.top-action-div{
+    /* border: 2px solid brown; */
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    height: 25px;
+}
+.share-btn{
+    color: #1e1e1e !important;
+}
+/* .share-icon{
+
+} */
 /* CSS Mobile Ends Here */
