@@ -1,0 +1,13 @@
+<div *ngIf="images && images.length > 0" class="carousel-container"  (touchstart)="onSwipe($event, 'start')" 
+    (touchend)="onSwipe($event, 'end')">
+    <div class="img-container">
+        <img *ngFor="let image of images; let i=index" [src]="image.imageSrc" alt="Product Image"
+            [ngClass]="{'image-active':selectedIndex === i, 'slide-out':selectedIndex ===i-1, 'slide-in': selectedIndex === i + 1}" />
+    </div>
+
+    <div *ngIf="indicators" class="carousel-dot-container">
+        <span *ngFor="let dot of images; let i=index" class="dot" [ngClass]="{'active':selectedIndex === i}"
+            (click)="selectImage(i)">
+        </span>
+    </div>
+</div>
