@@ -19,9 +19,13 @@ import { RouterModule } from '@angular/router';
 })
 export class NavbarComponent {
 
+  @Input() showLogo: boolean = true;
   @Input() showCartButton: boolean = true;
   @Input() showFavoriteButton: boolean = true;
   @Input() showProfileButton: boolean = true;
+  @Input() showSearchBar: boolean = true;
+  @Input() showBecomeASellerButton: boolean = true;
+  @Input() showMenuButton: boolean = true;
 
 
 

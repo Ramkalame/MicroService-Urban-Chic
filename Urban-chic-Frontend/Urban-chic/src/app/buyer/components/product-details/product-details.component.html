@@ -1,0 +1,32 @@
+<app-navbar 
+    [showSearchBar]="false"
+    [showMenuButton]="false"
+></app-navbar>
+<div class="mobile-container">
+    <div class="action-div">
+        <button mat-button class="back-btn" (click)="goBack()"><mat-icon>arrow_back</mat-icon> Back</button>
+    </div>
+    <mat-tab-group>
+        <mat-tab label="DESCRIPTION">
+            <div class="produc-description">
+                <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Dolores id temporibus quasi laborum sunt ad commodi a, consequuntur numquam ipsa?</p>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere quis rerum, laborum ad tempora, asperiores voluptatum eos dolores doloremque laboriosam velit veniam cumque totam ipsa impedit ratione molestias repudiandae! Vitae.</p>
+            </div>
+        </mat-tab>
+        <mat-tab label="SPECIFICATION">
+            <div class="product-details">
+                <table class="custom-striped-table">
+                   <tbody>
+                      <tr class="row" *ngFor="let product of smartphoneAttributes; let i=index"
+                         [ngClass]="{'even-row':i%2 == 0, 'odd-row':i%2 !=0}"
+                         >
+                         <td class="table-info-name">{{product.attributeName}}</td>
+                         <td class="table-info-value">{{product.attributeValue}}</td>
+                      </tr>
+                   </tbody>
+                </table>
+             </div>
+        </mat-tab>
+        <mat-tab label="MORE"> Content 3 </mat-tab>
+    </mat-tab-group>
+</div>

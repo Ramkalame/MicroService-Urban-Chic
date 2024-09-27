@@ -15,10 +15,11 @@
 }
 
 .address-div {
-    border: 2px solid #1e1e1e;
+    /* border: 2px solid #1e1e1e; */
     margin-bottom: 10px;
     padding: 5px;
     border-radius: 5px;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
 }
 
 .address-action {
@@ -62,6 +63,7 @@
     padding: 5px;
     border-radius: 5px;
     margin-bottom: 10px;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
 }
 .product-info-div{
     /* border: 2px solid brown; */
@@ -136,6 +138,7 @@
     padding: 0px 5px 0px 5px;
     font-size: 14px;
     font-weight: 500;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
 }
 .quantity-input{
     width: 15px;
@@ -182,6 +185,7 @@
     padding: 10px;
     border-radius: 5px;
     margin-bottom: 10px;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
 }
 .price-heading{
     font-size: 16px;
