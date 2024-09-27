@@ -1,20 +1,185 @@
-
 /* Css Mobile */
-.mobile-container{
+.mobile-container {
     /* border: 2px solid red; */
     padding: 10px 5px;
 }
-.top-action-div{
+
+.top-action-div {
     /* border: 2px solid brown; */
     display: flex;
     justify-content: end;
     align-items: center;
-    height: 25px;
+    height: 30px;
+    gap: 5px;
 }
-.share-btn{
+
+.share-btn {
     color: #1e1e1e !important;
 }
-/* .share-icon{
 
-} */
+.product-name-div {
+    /* border: 2px solid green; */
+    text-align: left;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 2px 10px;
+    color: #4A4947;
+}
+
+.product-name {
+    margin-bottom: 0;
+}
+
+.rating-div {
+    /* border: 2px solid blue; */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 140px;
+    height: 20px;
+    text-align: center;
+    padding: 0px 10px;
+}
+
+.star {
+    font-size: 20px;
+    height: 20px;
+    width: 20px;
+    color: #388f3c;
+}
+
+.rating-count {
+    font-size: 12px;
+    color: #494646;
+    font-weight: 400;
+    margin-top: 8px;
+
+}
+
+.price-div {
+    /* border: 2px solid brown; */
+    height: 30px;
+    padding: 0px 10px;
+}
+
+.price {
+    font-size: 20px;
+    font-weight: 500;
+    margin-bottom: 0;
+}
+
+.variant-div {
+    /* border: 2px solid violet; */
+    padding: 5px 10px;
+}
+
+.product-details {
+    /* border: 2px solid brown; */
+    padding: 10px 10px;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+}
+
+.product-sub-heading {
+    font-size: 16px;
+    font-weight: 500;
+    margin-bottom: 5px;
+}
+.custom-striped-table{
+    width: 100%;
+}
+.even-row {
+    background-color: #F5F5F7;
+}
+
+.odd-row {
+    background-color: white;
+}
+
+.table-info-name {
+    color: #4A4947;
+    font-size: 14px;
+    padding: 10px;
+}
+
+.table-info-value {
+    color: #1e1e1e;
+    font-size: 14px;
+    padding: 10px;
+}
+
+.review-rating-div{
+    /* border: 2px solid red; */
+    padding: 10px;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+}
+.review-action-div{
+    /* border: 2px solid black; */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 50px;
+    margin-bottom: 5px;
+}
+.main-rating-div{
+    width: 96.5%;
+    /* border: 2px solid brown; */
+    display: flex;
+    /* justify-content: center;
+    align-items: center; */
+    /* height: 80px; */
+}
+.rating-count-div{
+    /* border: 2px solid green; */
+    width: 40%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 5px 10px;
+}
+.rating-bar-div{
+    /* border: 2px solid blue; */
+    width: 60%;
+    padding: 5px 10px;
+}
+.rating-text{
+    font-size: 14px;
+    font-weight: 500;
+    color: #4A4947;
+    margin-bottom: 0;
+}
+.rating-sub-text{
+    font-size: 12px;
+    font-weight: 500;
+    color: gray;
+    margin-bottom: 0;
+    margin-top: 5px;
+    line-height: 15px;
+}
+.rating-bar-item-div{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+}
+.star-badge{
+    /* border: 2px solid red; */
+    font-size: 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    height: 30px;
+}
+.count{
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 0;
+}
+.mat-mdc-progress-bar {
+    --mdc-linear-progress-active-indicator-color: green;
+    --mdc-linear-progress-track-color: whitesmoke;
+    --mdc-linear-progress-track-shape: 4px;
+}
 /* CSS Mobile Ends Here */

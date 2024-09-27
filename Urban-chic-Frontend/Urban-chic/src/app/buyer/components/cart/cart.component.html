@@ -6,7 +6,7 @@
     </div>
 
     <!-- Address Div -->
-    <div class="address-div mat-elevation-z3">
+    <div class="address-div">
         <div class="address-action">
             <span class="badge">Work</span>
             <button mat-button>Change</button>
@@ -24,7 +24,7 @@
     <!-- Address Div Ends Here -->
 
     <!-- Card Item Div -->
-    <div class="cart-item-div mat-elevation-z3">
+    <div class="cart-item-div">
         <div class="product-info-div">
             <div class="img-div">
                 <img class="product-image"
@@ -46,7 +46,7 @@
             </div>
         </div>
         <div class="order-info-div">
-            <div class="quantity-div mat-elevation-z3">
+            <div class="quantity-div ">
                 <button mat-icon-button  class="action-btn"><mat-icon class="action-icon" (click)="decreaseQuantity()"> remove</mat-icon></button>
                 <input type="number" class="quantity-input" [value]="quantity" disabled>
                 <button mat-icon-button class="action-btn "><mat-icon class="action-icon" (click)="increaseQuantity()" >add</mat-icon></button>
@@ -61,7 +61,7 @@
         </div>
     </div>
 
-    <div class="cart-item-div mat-elevation-z3">
+    <div class="cart-item-div ">
         <div class="product-info-div">
             <div class="img-div">
                 <img class="product-image"
@@ -83,7 +83,7 @@
             </div>
         </div>
         <div class="order-info-div">
-            <div class="quantity-div mat-elevation-z3">
+            <div class="quantity-div">
                 <button mat-icon-button  class="action-btn"><mat-icon class="action-icon" (click)="decreaseQuantity()"> remove</mat-icon></button>
                 <input type="number" class="quantity-input" [value]="quantity" disabled>
                 <button mat-icon-button class="action-btn "><mat-icon class="action-icon" (click)="increaseQuantity()" >add</mat-icon></button>
@@ -100,7 +100,7 @@
     <!-- Card Item Div Ends Here -->
 
     <!-- Price Details Div -->
-    <div class="price-details-div mat-elevation-z3">
+    <div class="price-details-div">
         <h6 class="price-heading">Price Details</h6>
         <div class="price-details">
             <h6 class="price-attribute">Subtotal</h6>
@@ -125,7 +125,7 @@
     <!-- Place Order Div -->
     <div class="place-order-div mat-elevation-z3">
         <h6 class="price-heading">₹12,045</h6>
-        <button mat-button class="place-order-btn">Place Order</button>
+        <button mat-button class="place-order-btn mat-elevation-z3">Place Order</button>
     </div>
     <!-- Place Order Div Ends Here -->
 </div>

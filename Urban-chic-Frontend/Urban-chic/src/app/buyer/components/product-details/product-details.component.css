@@ -1,0 +1,42 @@
+/* Css Mobile  */
+.mobile-container{
+    /* border: 2px solid red; */
+    padding: 5px 5px;
+}
+.action-div{
+    /* border: 2px solid blue; */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 40px;
+}
+.back-btn{
+    color: #1e1e1e !important;
+}
+.product-details {
+    /* border: 2px solid brown; */
+    padding: 10px 10px;
+}
+.custom-striped-table{
+    width: 100%;
+}
+.even-row {
+    background-color: #F5F5F7;
+}
+
+.odd-row {
+    background-color: white;
+}
+
+.table-info-name {
+    color: #4A4947;
+    font-size: 14px;
+    padding: 10px;
+}
+
+.table-info-value {
+    color: #1e1e1e;
+    font-size: 14px;
+    padding: 10px;
+}
+/* Css Mobile Ends Here */

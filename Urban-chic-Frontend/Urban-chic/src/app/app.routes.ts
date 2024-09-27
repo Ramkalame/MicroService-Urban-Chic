@@ -21,6 +21,7 @@ import { OrderHistoryComponent } from './buyer/components/profile-pages/order-hi
 import { ReviewHistoryComponent } from './buyer/components/profile-pages/review-history/review-history.component';
 import { ShowOrderComponent } from './buyer/components/profile-pages/show-order/show-order.component';
 import { ViewProductComponent } from './buyer/components/view-product/view-product.component';
+import { ProductDetailsComponent } from './buyer/components/product-details/product-details.component';
 
 export const routes: Routes = [
   { path: 'auth/register/seller', component: SellerRegistrationComponent },
@@ -60,7 +61,8 @@ export const routes: Routes = [
   ] },
   { path: 'viewCart', component: CartComponent },
   { path: 'favorites', component: FavouriteComponent },
-  {path:'product',component:ViewProductComponent}
+  {path:'product',component:ViewProductComponent},
+  {path:'details',component:ProductDetailsComponent}
 
 
 
