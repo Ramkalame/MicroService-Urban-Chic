@@ -10,6 +10,8 @@ import {
 } from '../../../common/components/custom-carousel/custom-carousel.component';
 import { SnackbarService } from '../../../common/services/snackbar.service';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
+import { FooterComponent } from "../footer/footer.component";
+import { CategoriesComponent } from "../categories/categories.component";
 
 
 
@@ -23,13 +25,16 @@ import {MatProgressBarModule} from '@angular/material/progress-bar';
     MatIconModule,
     MatButtonModule,
     CustomCarouselComponent,
-    MatProgressBarModule
-  ],
+    MatProgressBarModule,
+    FooterComponent,
+    CategoriesComponent
+],
   templateUrl: './view-product.component.html',
   styleUrl: './view-product.component.css',
 })
 export class ViewProductComponent {
   snackBarService = inject(SnackbarService);
+  selectedImageIndex:number = 0;
 
   images: carouselImage[] = [
     {
@@ -39,6 +44,26 @@ export class ViewProductComponent {
     {
       imageSrc:
         'https://res.cloudinary.com/dziu7iyz1/image/upload/v1727379798/f8085f0019df6133fb41ee707f45aa51_s5d2by.png',
+    },
+    {
+      imageSrc:
+        'https://res.cloudinary.com/dziu7iyz1/image/upload/v1727379798/e2566b9853071dbb7fe9306713bbe51f_vhzua9.png',
+    },
+    {
+      imageSrc:
+        'https://res.cloudinary.com/dziu7iyz1/image/upload/v1727379798/3477aec265a0347bae41a8b34182b69b_d4vb7a.png',
+    },
+    {
+      imageSrc:
+        'https://res.cloudinary.com/dziu7iyz1/image/upload/v1727379798/60f7a7c75fce4100a6d8053a9d86a0eb_omhyj0.png',
+    },
+    {
+      imageSrc:
+        'https://res.cloudinary.com/dziu7iyz1/image/upload/v1727289544/taking-photos-3672048_1280_dvk9nd.jpg',
+    },
+    {
+      imageSrc:
+        'https://res.cloudinary.com/dziu7iyz1/image/upload/v1727289544/cellular-4599956_1280_tk8m6x.jpg',
     },
     {
       imageSrc:
@@ -102,4 +127,9 @@ export class ViewProductComponent {
     }
   }
   
+  selectImage(index: number){
+    this.selectedImageIndex = index;
+  }
+
+
 }

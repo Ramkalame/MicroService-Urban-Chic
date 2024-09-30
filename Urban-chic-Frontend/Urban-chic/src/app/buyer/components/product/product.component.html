@@ -1,31 +1,34 @@
 <div class="mobile-container">
 
     <!-- Product Card -->
-   
-        @for (item of loop; track $index) {
-            <div class="product-info-div">
-                <div class="product-img-div">
-                    <img src="https://res.cloudinary.com/dziu7iyz1/image/upload/v1726674948/product-image/lkbospkuaq1qcq09ndhs.jpg" alt="Product Image">
+
+    @for (item of loop; track $index) {
+    <div class="product-info-div">
+        <div class="product-img-div">
+            <img src="https://res.cloudinary.com/dziu7iyz1/image/upload/v1726674948/product-image/lkbospkuaq1qcq09ndhs.jpg"
+                alt="Product Image">
+        </div>
+        <div class="product-details-div">
+            <div>
+                <h6 class="product-name" [routerLink]="['product']">Red Tap Casusal Sneaker Shoes Some Random Name Of
+                    the Product....</h6>
+                <div class="rating-div">
+                    <mat-icon class="star">star</mat-icon>
+                    <mat-icon class="star">star</mat-icon>
+                    <mat-icon class="star">star</mat-icon>
+                    <mat-icon class="star">star</mat-icon>
+                    <mat-icon class="star">star</mat-icon>
+                    <h6 class="rating-count">(1,234)</h6>
                 </div>
-                <div class="product-details-div">
-                    <div>
-                        <h6 class="product-name" [routerLink]="['product']">Red Tap Casusal Sneaker Shoes Some Random Name Of the Product....</h6>
-                        <div class="rating-div">
-                            <mat-icon class="star">star</mat-icon>
-                            <mat-icon class="star">star</mat-icon>
-                            <mat-icon class="star">star</mat-icon>
-                            <mat-icon class="star">star</mat-icon>
-                            <mat-icon class="star">star</mat-icon>
-                            <h6 class="rating-count">(1,234)</h6>
-                        </div>
-                        <h6 class="price">₹1,235</h6>
-                    </div>
-                    <div class="action-div">
-                        <button mat-button  class="add-to-cart-btn"><mat-icon class="cart-icon">add_shopping_cart</mat-icon>Add to cart</button>
-                        <button mat-icon-button ><mat-icon>favorite_border</mat-icon></button>
-                    </div>
-                </div>
+                <h6 class="price">₹1,235</h6>
             </div>
-        }
+            <div class="action-div">
+                <button mat-button class="add-to-cart-btn"><mat-icon class="cart-icon">add_shopping_cart</mat-icon>Add
+                    to cart</button>
+                <button mat-icon-button><mat-icon>favorite_border</mat-icon></button>
+            </div>
+        </div>
+    </div>
+    }
     <!-- Product Card Ends Here -->
 </div>

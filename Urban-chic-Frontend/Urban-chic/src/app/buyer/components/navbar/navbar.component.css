@@ -63,7 +63,8 @@
     color: white;
     background-color: #224F34;
     border-radius: 0px 7px 7px 0px;
-    width: 50px;
+    width: 60px;
+    height: 45px;
 }
 .menu-btn{
     display: none;
@@ -128,7 +129,7 @@
     }
 }
 
-@media (width > 731px) and (width < 1080px) {
+@media (width > 730px) and (width < 1080px) {
     .nav-btn-div{
         display: none;
     }
@@ -137,7 +138,7 @@
     }
 }
 
-@media (min-width:729px) {
+@media (min-width:767px) {
     ::ng-deep .menu-div{
         display: none !important;
     }

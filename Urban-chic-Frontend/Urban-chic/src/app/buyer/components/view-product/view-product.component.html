@@ -1,16 +1,20 @@
 <app-navbar></app-navbar>
 <div class="mobile-container">
    <div class="top-action-div">
-      <button mat-icon-button class="heart-btn "><mat-icon fontSet="material-icons-outlined"
-            class="heart-icon">favorite_border</mat-icon></button>
-      <button mat-icon-button class="share-btn" (click)="share()"><mat-icon fontSet="material-icons-outlined"
-            class="share-icon">share</mat-icon></button>
+      <button mat-icon-button class="heart-btn">
+         <mat-icon fontSet="material-icons-outlined" class="heart-icon">favorite_border</mat-icon>
+      </button>
+      <button mat-icon-button class="share-btn" (click)="share()">
+         <mat-icon fontSet="material-icons-outlined" class="share-icon">share</mat-icon>
+      </button>
    </div>
    <app-custom-carousel [images]="images" [autoSlide]="false"></app-custom-carousel>
    <div class="product-name-div">
-      <p class="product-name">iQOO Z9 5G (Brushed Green, 8GB RAM, 128GB Storage) | Dimensity 7200 5G Processor | Sony
-         IMX882 OIS Camera |
-         120Hz AMOLED with 1800 nits Local Peak Brightness | 44W Charger in The Box</p>
+      <p class="product-name">
+         iQOO Z9 5G (Brushed Green, 8GB RAM, 128GB Storage) | Dimensity 7200 5G
+         Processor | Sony IMX882 OIS Camera | 120Hz AMOLED with 1800 nits Local
+         Peak Brightness | 44W Charger in The Box
+      </p>
    </div>
    <div class="rating-div">
       <mat-icon class="star">star</mat-icon>
@@ -30,10 +34,14 @@
       <h6 class="product-sub-heading">Product Details</h6>
       <table class="custom-striped-table">
          <tbody>
-            <tr class="row" *ngFor="let product of smartphoneAttributes; let i=index"
-               [ngClass]="{'even-row':i%2 == 0, 'odd-row':i%2 !=0}">
-               <td *ngIf="i<6" class="table-info-name">{{product.attributeName}}</td>
-               <td *ngIf="i<6" class="table-info-value">{{product.attributeValue}}</td>
+            <tr class="row" *ngFor="let product of smartphoneAttributes; let i = index"
+               [ngClass]="{ 'even-row': i % 2 == 0, 'odd-row': i % 2 != 0 }">
+               <td *ngIf="i < 6" class="table-info-name">
+                  {{ product.attributeName }}
+               </td>
+               <td *ngIf="i < 6" class="table-info-value">
+                  {{ product.attributeValue }}
+               </td>
             </tr>
          </tbody>
       </table>
@@ -100,5 +108,144 @@
          </div>
       </div>
    </div>
-
 </div>
+
+<div class="container">
+   <div class="div-img">
+      <div class="div-1">
+         <div class="div-sub-img">
+            <div class="sub-img" *ngFor="let img of images; let i = index" [ngStyle]="{
+            'background-color': i == selectedImageIndex ? 'lightgray' : 'white'
+          }">
+               <img class="sub-button-img" [src]="img.imageSrc" alt="Product Image" (click)="selectImage(i)" />
+            </div>
+         </div>
+         <div class="div-main-img">
+            <img class="main-img" [src]="images[selectedImageIndex].imageSrc" alt="Product Image" />
+         </div>
+      </div>
+      <div class="div-2">
+         <button mat-button class="large-add-to-btn">
+            <mat-icon>add_shopping_cart</mat-icon> Add to cart
+         </button>
+         <button mat-button class="buy-now-btn">
+            <mat-icon>flash_on</mat-icon> Buy Now
+         </button>
+      </div>
+   </div>
+   <div class="div-product-info">
+      <div class="product-info">
+         <div class="product-info-action-div">
+            <button mat-icon-button class="heart-btn">
+               <mat-icon fontSet="material-icons-outlined" class="heart-icon">favorite_border</mat-icon>
+            </button>
+            <button mat-icon-button class="share-btn" (click)="share()">
+               <mat-icon fontSet="material-icons-outlined" class="share-icon">share</mat-icon>
+            </button>
+         </div>
+         <div class="product-info-title">
+            <p class="product-name">
+               iQOO Z9 5G (Brushed Green, 8GB RAM, 128GB Storage) | Dimensity 7200 5G
+               Processor | Sony IMX882 OIS Camera | 120Hz AMOLED with 1800 nits Local
+               Peak Brightness | 44W Charger in The Box
+            </p>
+         </div>
+         <div class="large-rating-div">
+            <mat-icon class="star">star</mat-icon>
+            <mat-icon class="star">star</mat-icon>
+            <mat-icon class="star">star</mat-icon>
+            <mat-icon class="star">star</mat-icon>
+            <mat-icon class="star">star</mat-icon>
+            <h6 class="large-rating-count">1,234 Ratings & 123 Reviews</h6>
+         </div>
+         <div class="large-price-div">
+            <h6 class="large-price">₹12,235</h6>
+         </div>
+      </div>
+      <div class="priduct-specifications">
+         <div class="">
+            <h6 class="product-sub-heading">Product Details</h6>
+            <table class="custom-striped-table">
+               <tbody>
+                  <tr class="row" *ngFor="let product of smartphoneAttributes; let i = index"
+                     [ngClass]="{ 'even-row': i % 2 == 0, 'odd-row': i % 2 != 0 }">
+                     <td *ngIf="i < 6" class="table-info-name">
+                        {{ product.attributeName }}
+                     </td>
+                     <td *ngIf="i < 6" class="table-info-value">
+                        {{ product.attributeValue }}
+                     </td>
+                  </tr>
+               </tbody>
+            </table>
+            <button mat-button [routerLink]="['/details']">See All Details</button>
+         </div>
+      </div>
+      <div class="large-review-rating-div">
+         <div class="review-action-div">
+            <h6 class="product-sub-heading">Ratings & Reviews</h6>
+            <button mat-stroked-button>Rate Product</button>
+         </div>
+         <div class="main-rating-div">
+            <div class="rating-count-div">
+               <h6 class="rating-text">Very Good</h6>
+               <div class="rating-div">
+                  <mat-icon class="star">star</mat-icon>
+                  <mat-icon class="star">star</mat-icon>
+                  <mat-icon class="star">star</mat-icon>
+                  <mat-icon class="star">star</mat-icon>
+                  <mat-icon class="star">star</mat-icon>
+               </div>
+               <p class="rating-sub-text">54,345 rating and 2,456 reviews</p>
+            </div>
+            <div class="rating-bar-div">
+               <div class="rating-bar-item-div">
+                  <div class="star-badge">
+                     <h6 class="count">5</h6>
+                     <mat-icon class="star">star</mat-icon>
+                  </div>
+                  <mat-progress-bar mode="determinate" value="80"></mat-progress-bar>
+                  <p class="rating-sub-text">4,567</p>
+               </div>
+               <div class="rating-bar-item-div">
+                  <div class="star-badge">
+                     <h6 class="count">4</h6>
+                     <mat-icon class="star">star</mat-icon>
+                  </div>
+                  <mat-progress-bar mode="determinate" value="60"></mat-progress-bar>
+                  <p class="rating-sub-text">4,567</p>
+               </div>
+               <div class="rating-bar-item-div">
+                  <div class="star-badge">
+                     <h6 class="count">3</h6>
+                     <mat-icon class="star">star</mat-icon>
+                  </div>
+                  <mat-progress-bar mode="determinate" value="50"></mat-progress-bar>
+                  <p class="rating-sub-text">4,567</p>
+               </div>
+               <div class="rating-bar-item-div">
+                  <div class="star-badge">
+                     <h6 class="count">2</h6>
+                     <mat-icon class="star">star</mat-icon>
+                  </div>
+                  <mat-progress-bar mode="determinate" value="40"></mat-progress-bar>
+                  <p class="rating-sub-text">4,567</p>
+               </div>
+               <div class="rating-bar-item-div">
+                  <div class="star-badge">
+                     <h6 class="count">1</h6>
+                     <mat-icon class="star">star</mat-icon>
+                  </div>
+                  <mat-progress-bar mode="determinate" value="30"></mat-progress-bar>
+                  <p class="rating-sub-text">4,567</p>
+               </div>
+            </div>
+         </div>
+         <div class="show-reviews">
+            <h6>Show REview</h6>
+         </div>
+      </div>
+   </div>
+</div>
+
+<app-footer></app-footer>
