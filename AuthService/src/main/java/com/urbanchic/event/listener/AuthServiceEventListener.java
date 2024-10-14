@@ -22,4 +22,7 @@ public class AuthServiceEventListener {
         sellerServiceClient.createSeller(sellerProfileCreatedEvent.getSellerDto());
         log.info("event is completed");
     }
+
+
+
 }

@@ -1,6 +1,7 @@
 package com.urbanchic.entity;
 
 import com.urbanchic.entity.helper.Attribute;
+import com.urbanchic.entity.helper.ProductImage;
 import com.urbanchic.entity.helper.Variant;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,8 +10,8 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Map;
 
 @Data
 @Builder
@@ -37,5 +38,6 @@ public class Product {
     private int threeStarCount;
     private int fourStarCount;
     private int fiveStarCount;
+    private LocalDateTime addedDate;
 
 }

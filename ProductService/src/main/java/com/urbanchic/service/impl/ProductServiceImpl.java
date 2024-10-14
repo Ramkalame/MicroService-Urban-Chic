@@ -2,7 +2,7 @@ package com.urbanchic.service.impl;
 
 import com.urbanchic.dto.*;
 import com.urbanchic.entity.Product;
-import com.urbanchic.entity.ProductImage;
+import com.urbanchic.entity.helper.ProductImage;
 import com.urbanchic.entity.helper.Attribute;
 import com.urbanchic.entity.helper.Variant;
 import com.urbanchic.entity.helper.VariantAttribute;
@@ -19,6 +19,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,6 +46,7 @@ public class ProductServiceImpl implements ProductService {
         newProduct.setProductType(addProductDto.getProductType());
         newProduct.setSellerId(addProductDto.getSellerId());
         newProduct.setActive(true);
+        newProduct.setAddedDate(LocalDateTime.now());
 
 
 

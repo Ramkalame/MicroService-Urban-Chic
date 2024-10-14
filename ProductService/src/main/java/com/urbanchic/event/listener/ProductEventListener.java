@@ -1,8 +1,6 @@
 package com.urbanchic.event.listener;
 
-import com.urbanchic.dto.ProductImageDto;
-import com.urbanchic.entity.Product;
-import com.urbanchic.entity.ProductImage;
+import com.urbanchic.entity.helper.ProductImage;
 import com.urbanchic.event.DeleteAllProductImagesEvent;
 import com.urbanchic.event.DeleteAllReviewsOfProductEvent;
 import com.urbanchic.event.UploadProductImageEvent;
@@ -13,8 +11,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
 
 @Component
 @RequiredArgsConstructor

@@ -12,6 +12,5 @@ public class SellerProfileCreatedEvent extends ApplicationEvent {
     public SellerProfileCreatedEvent(Object source,SellerDto sellerDto) {
         super(source);
         this.sellerDto = sellerDto;
-
     }
 }
