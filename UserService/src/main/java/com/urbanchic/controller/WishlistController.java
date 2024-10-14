@@ -1,7 +1,6 @@
 package com.urbanchic.controller;
 
-import com.urbanchic.dto.WishlistDto;
-import com.urbanchic.dto.WishlistProductDto;
+import com.urbanchic.dto.WishlistItemDto;
 import com.urbanchic.entity.Wishlist;
 import com.urbanchic.service.WishlistService;
 import com.urbanchic.util.ApiResponse;
@@ -12,18 +11,18 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/wishlists")
+@RequestMapping("/api/v1/buyers/wishlists")
 public class WishlistController {
 
     private final WishlistService wishlistService;
 
-    @PostMapping("/add")
-    public ResponseEntity<?> addItemToWishlist(@RequestBody @Valid WishlistDto wishlistDto){
-        Wishlist responseData = wishlistService.addItemToWishlist(wishlistDto);
+    @PostMapping("/{buyerId}/add-item")
+    public ResponseEntity<?> addItemToWishlist(@RequestBody @Valid WishlistItemDto wishlistItemDto,
+                                               @PathVariable("buyerId") String buyerId){
+        Wishlist responseData = wishlistService.addItemToWishlist(wishlistItemDto,buyerId);
 
         ApiResponse<Wishlist> apiResponse = ApiResponse.<Wishlist>builder()
                 .data(responseData)
@@ -36,9 +35,10 @@ public class WishlistController {
         return  ResponseEntity.status(HttpStatus.CREATED).body(apiResponse);
     }
 
-    @DeleteMapping("/delete/{wishlistItemId}")
-    public ResponseEntity<?> removeItemFromWishlist(@PathVariable("wishlistItemId") String wishlistItemId){
-        String responseData = wishlistService.removeItemFromWishlist(wishlistItemId);
+    @DeleteMapping("/{buyerId}/delete-item/{wishlistItemId}")
+    public ResponseEntity<?> removeItemFromWishlist(@PathVariable("wishlistItemId") String wishlistItemId,
+                                                    @PathVariable("buyerId") String buyerId){
+        String responseData = wishlistService.removeItemFromWishlist(wishlistItemId, buyerId);
 
         ApiResponse<String> apiResponse = ApiResponse.<String>builder()
                 .data(responseData)
@@ -51,13 +51,13 @@ public class WishlistController {
         return  ResponseEntity.status(HttpStatus.OK).body(apiResponse);
     }
 
-    @GetMapping("/{mobileNo}")
-    public ResponseEntity<?> getAllWishlistItemOfUser(@PathVariable("mobileNo") String mobileNo){
-        List<WishlistProductDto> responseData = wishlistService.getAllWishlistItemOfUser(mobileNo);
+    @GetMapping("/{buyerId}")
+    public ResponseEntity<?> getBuyerWishlist(@PathVariable("buyerId") String buyerId){
+        Wishlist responseData = wishlistService.getBuyerWishlist(buyerId);
 
-        ApiResponse<List<WishlistProductDto>> apiResponse = ApiResponse.<List<WishlistProductDto>>builder()
+        ApiResponse<Wishlist> apiResponse = ApiResponse.<Wishlist>builder()
                 .data(responseData)
-                .message("Wishlist Item")
+                .message("Wishlist Fetched Successfully")
                 .timestamp(LocalDateTime.now())
                 .success(true)
                 .statusCode(HttpStatus.OK.value())

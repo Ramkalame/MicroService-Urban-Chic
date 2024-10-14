@@ -1,7 +1,7 @@
 package com.urbanchic.controller;
 
-import com.urbanchic.dto.CartDto;
-import com.urbanchic.dto.CartProductDto;
+import com.urbanchic.dto.CartItemDto;
+import com.urbanchic.dto.ChangeCartItemQuantityDto;
 import com.urbanchic.entity.Cart;
 import com.urbanchic.service.CartService;
 import com.urbanchic.util.ApiResponse;
@@ -12,18 +12,17 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/carts")
+@RequestMapping("/api/v1/buyers/carts")
 @RequiredArgsConstructor
 public class CartController {
 
     private final CartService cartService;
 
-    @PostMapping("/add")
-    public ResponseEntity<?> addProductToCart(@RequestBody @Valid CartDto cartDto){
-        Cart responseData = cartService.addProductToCart(cartDto);
+    @PostMapping("/{buyerId}/add-item")
+    public ResponseEntity<?> addProductToCart(@RequestBody @Valid CartItemDto cartItemDto,@PathVariable("buyerId") String buyerId){
+        Cart responseData = cartService.addProductToCart(cartItemDto,buyerId);
 
         ApiResponse<Cart> apiResponse = ApiResponse.<Cart>builder()
                 .data(responseData)
@@ -36,45 +35,43 @@ public class CartController {
         return  ResponseEntity.status(HttpStatus.CREATED).body(apiResponse);
     }
 
-
-    @GetMapping("/show/{mobileNo}")
-    public ResponseEntity<?> getAllCartProducts(@PathVariable("mobileNo") String mobileNo){
-        List<CartProductDto> responseData = cartService.getAllCartProducts(mobileNo);
-
-        ApiResponse<List<CartProductDto>> apiResponse = ApiResponse.<List<CartProductDto>>builder()
-                .data(responseData)
-                .message("Product list of cart in user "+mobileNo)
-                .timestamp(LocalDateTime.now())
-                .success(true)
-                .statusCode(HttpStatus.OK.value())
-                .build();
-
-        return  ResponseEntity.status(HttpStatus.OK).body(apiResponse);
-    }
-
-    @PutMapping("/change-quantity/{cartItemId}/{productQuantity}")
-    public ResponseEntity<?> changeQuantity(@PathVariable("cartItemId") String cartItemId,
-                                            @PathVariable("productQuantity") Integer productQuantity){
-        String responseData = cartService.changeQuantity(cartItemId,productQuantity);
-
-        ApiResponse<String> apiResponse = ApiResponse.<String>builder()
-                .data(responseData)
-                .message("Changed Quantity")
-                .timestamp(LocalDateTime.now())
-                .success(true)
-                .statusCode(HttpStatus.OK.value())
-                .build();
-
-        return  ResponseEntity.status(HttpStatus.OK).body(apiResponse);
-    }
-
-    @DeleteMapping("/delete/{cartItemId}")
-    public ResponseEntity<?> removeCartItem(@PathVariable("cartItemId") String cartItemId){
-        String responseData = cartService.removeProductFromCart(cartItemId);
+    @DeleteMapping("/{buyerId}/items/{cartItemId}")
+    public ResponseEntity<?> removeCartItem(@PathVariable("cartItemId") String cartItemId,@PathVariable("buyerId") String buyerId){
+        String responseData = cartService.removeProductFromCart(cartItemId,buyerId);
 
         ApiResponse<String> apiResponse = ApiResponse.<String>builder()
                 .data(responseData)
                 .message("Item removed from cart")
+                .timestamp(LocalDateTime.now())
+                .success(true)
+                .statusCode(HttpStatus.OK.value())
+                .build();
+
+        return  ResponseEntity.status(HttpStatus.OK).body(apiResponse);
+    }
+
+    @PatchMapping("/item-quantity")
+    public ResponseEntity<?> changeCartItemQuantity(@RequestBody @Valid ChangeCartItemQuantityDto changeCartItemQuantityDto){
+        String responseData = cartService.changeCartItemQuantity(changeCartItemQuantityDto);
+
+        ApiResponse<String> apiResponse = ApiResponse.<String>builder()
+                .data(responseData)
+                .message("Changed Quantity successfully")
+                .timestamp(LocalDateTime.now())
+                .success(true)
+                .statusCode(HttpStatus.OK.value())
+                .build();
+
+        return  ResponseEntity.status(HttpStatus.OK).body(apiResponse);
+    }
+
+    @GetMapping("/{buyerId}")
+    public ResponseEntity<?> getBuyerCart(@PathVariable("buyerId") String buyerId){
+        Cart responseData = cartService.getBuyerCart(buyerId);
+
+        ApiResponse<Cart> apiResponse = ApiResponse.<Cart>builder()
+                .data(responseData)
+                .message("Buyers Cart Fetched Successfully")
                 .timestamp(LocalDateTime.now())
                 .success(true)
                 .statusCode(HttpStatus.OK.value())

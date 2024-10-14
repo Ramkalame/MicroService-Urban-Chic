@@ -1,15 +1,16 @@
 package com.urbanchic.service;
 
-import com.urbanchic.dto.CartDto;
-import com.urbanchic.dto.CartProductDto;
+import com.urbanchic.dto.CartItemDto;
+import com.urbanchic.dto.ChangeCartItemQuantityDto;
 import com.urbanchic.entity.Cart;
-
-import java.util.List;
 
 public interface CartService {
 
-    Cart addProductToCart(CartDto cartDto);
-    String removeProductFromCart(String cartItemId);
-    String changeQuantity(String cartItemId, Integer productQuantity);
-    List<CartProductDto> getAllCartProducts(String userId);
+    void createCart(String buyerId);
+    Cart addProductToCart(CartItemDto cartItemDto,String buyerId);
+    String removeProductFromCart(String cartItemId,String buyerId);
+    String changeCartItemQuantity(ChangeCartItemQuantityDto changeCartItemQuantityDto);
+    Cart getBuyerCart(String buyerId);
+    void deleteBuyerCart(String buyerId);
+
 }

@@ -1,6 +1,5 @@
 package com.urbanchic.dto;
 
-import com.urbanchic.external.Product;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -10,11 +9,12 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class CartProductDto {
+public class BuyerDto {
 
-    private String cartItemId;
-    private Integer productQuantity;
-    private Product product;
-
+    private String firstName;
+    private String lastName;
+    private String email;
+    private String password;
+    private String phoneNumber;
 
 }

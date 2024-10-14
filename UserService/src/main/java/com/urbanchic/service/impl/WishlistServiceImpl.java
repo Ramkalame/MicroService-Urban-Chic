@@ -1,13 +1,9 @@
 package com.urbanchic.service.impl;
 
-import com.urbanchic.client.ProductServiceClient;
-import com.urbanchic.dto.WishlistDto;
-import com.urbanchic.dto.WishlistProductDto;
+import com.urbanchic.dto.WishlistItemDto;
 import com.urbanchic.entity.Wishlist;
-import com.urbanchic.exception.EmptyException;
-import com.urbanchic.exception.ProductAlreadyExistsException;
-import com.urbanchic.exception.ProductNotFoundException;
-import com.urbanchic.external.Product;
+import com.urbanchic.entity.helper.WishlistItem;
+import com.urbanchic.exception.EntityNotFoundException;
 import com.urbanchic.repository.WishlistRepository;
 import com.urbanchic.service.WishlistService;
 import lombok.RequiredArgsConstructor;
@@ -15,61 +11,75 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
+
 
 @Service
 @RequiredArgsConstructor
 public class WishlistServiceImpl implements WishlistService {
 
     private final WishlistRepository wishlistRepository;
-    private final ProductServiceClient productServiceClient;
 
     @Override
-    public Wishlist addItemToWishlist(WishlistDto wishlistDto) {
-        List<Wishlist> wishlistList = wishlistRepository.findAllByMobileNo(wishlistDto.getMobileNo());
-        if (!wishlistList.isEmpty()){
-            boolean ifProductExists = wishlistList.stream().anyMatch(wishlistItem ->
-                    wishlistItem.getProductId().equals(wishlistDto.getProductId()));
-            if (ifProductExists){
-                throw  new ProductAlreadyExistsException("Product is Already Added in Wishlist");
-            }
-            Wishlist newWishlistItem = Wishlist.builder()
-                    .productId(wishlistDto.getProductId())
-                    .mobileNo(wishlistDto.getMobileNo())
-                    .build();
-            return wishlistRepository.save(newWishlistItem);
-        }
-        Wishlist newWishlistItem = Wishlist.builder()
-                .productId(wishlistDto.getProductId())
-                .mobileNo(wishlistDto.getMobileNo())
-                .build();
-        return wishlistRepository.save(newWishlistItem);
+    public void createWishlist(String buyerId) {
+       Wishlist newWishlist = Wishlist.builder()
+               .buyerId(buyerId)
+               .wishlistItemList(null)
+               .build();
+       wishlistRepository.save(newWishlist);
     }
 
     @Override
-    public String removeItemFromWishlist(String wishlistItemId) {
-        Wishlist existingWishlist = wishlistRepository.findById(wishlistItemId).orElseThrow(()->
-                new ProductNotFoundException("Wishlist Item Does Not Exists"));
-        wishlistRepository.delete(existingWishlist);
+    public Wishlist addItemToWishlist(WishlistItemDto wishlistItemDto,String buyerId) {
+        Wishlist existingWishlist = wishlistRepository.findByBuyerId(buyerId).orElseThrow(() ->
+                new EntityNotFoundException("Wishlist Not Found"));
+        if (existingWishlist.getWishlistItemList() == null){
+            List<WishlistItem> newWishlistItemList = new ArrayList<>();
+            WishlistItem newWishlistItem = WishlistItem.builder()
+                    .wishlistItemId(UUID.randomUUID().toString().replaceAll("-","").substring(0,6))
+                    .productId(wishlistItemDto.getProductId())
+                    .productName(wishlistItemDto.getProductName())
+                    .productPrice(wishlistItemDto.getProductPrice())
+                    .productAvgRating(wishlistItemDto.getProductAvgRating())
+                    .productThumbnailUrl(wishlistItemDto.getProductThumbnailUrl())
+                    .build();
+            newWishlistItemList.add(newWishlistItem);
+            existingWishlist.setWishlistItemList(newWishlistItemList);
+        }else {
+            WishlistItem newWishlistItem = WishlistItem.builder()
+                    .wishlistItemId(UUID.randomUUID().toString().replaceAll("-","").substring(0,6))
+                    .productId(wishlistItemDto.getProductId())
+                    .productName(wishlistItemDto.getProductName())
+                    .productPrice(wishlistItemDto.getProductPrice())
+                    .productAvgRating(wishlistItemDto.getProductAvgRating())
+                    .productThumbnailUrl(wishlistItemDto.getProductThumbnailUrl())
+                    .build();
+            existingWishlist.getWishlistItemList().add(newWishlistItem);
+        }
+        return wishlistRepository.save(existingWishlist);
+    }
+
+    @Override
+    public String removeItemFromWishlist(String wishlistItemId,String buyerId) {
+        Wishlist existingWishlist = wishlistRepository.findByBuyerId(buyerId).orElseThrow(() ->
+                new EntityNotFoundException("Wishlist Not Found"));
+        existingWishlist.getWishlistItemList().removeIf(wishlistItem -> wishlistItemId.equals(wishlistItem.getWishlistItemId()));
+        wishlistRepository.save(existingWishlist);
         return "Deleted Wishlist Item Successfully";
     }
 
     @Override
-    public List<WishlistProductDto> getAllWishlistItemOfUser(String mobileNo) {
-        List<Wishlist> wishlistList = wishlistRepository.findAllByMobileNo(mobileNo);
-        if (wishlistList.isEmpty()){
-            throw new EmptyException("Empty Wishlist");
-        }
-        List<WishlistProductDto> wishlistProductDtos = new ArrayList<>();
-        for (Wishlist wishlist:wishlistList){
-            Product product = productServiceClient.getProductById(wishlist.getProductId()).getBody().getData();
-            WishlistProductDto wishlistProductDto = WishlistProductDto.builder()
-                    .wishlistItemId(wishlist.getWishlistItemId())
-                    .product(product)
-                    .build();
-            wishlistProductDtos.add(wishlistProductDto);
-        }
+    public Wishlist getBuyerWishlist(String buyerId) {
+        Wishlist existingWishlist = wishlistRepository.findByBuyerId(buyerId).orElseThrow(() ->
+                new EntityNotFoundException("Wishlist Not Found"));
+        return existingWishlist;
+    }
 
-        return wishlistProductDtos;
+    @Override
+    public void deleteBuyerWishlist(String buyerId) {
+        Wishlist existingWishlist = wishlistRepository.findByBuyerId(buyerId).orElseThrow(() ->
+                new EntityNotFoundException("Wishlist Not Found"));
+        wishlistRepository.delete(existingWishlist);
     }
 
 

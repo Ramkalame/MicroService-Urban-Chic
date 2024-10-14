@@ -1,6 +1,5 @@
 package com.urbanchic.dto;
 
-import com.urbanchic.external.Product;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -10,8 +9,10 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class WishlistProductDto {
+public class ChangeCartItemQuantityDto {
 
-    private String wishlistItemId;
-    private Product product;
+    private String buyerId;
+    private String cartItemId;
+    private int cartItemQuantity;
+
 }

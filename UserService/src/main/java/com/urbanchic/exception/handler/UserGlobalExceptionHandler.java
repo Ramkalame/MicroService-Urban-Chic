@@ -51,8 +51,8 @@ public class UserGlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(apiResponse);
     }
 
-    @ExceptionHandler(UserNotFoundException.class)
-    public ResponseEntity<?> handleUserNotFoundException(UserNotFoundException exception) {
+    @ExceptionHandler(EntityNotFoundException.class)
+    public ResponseEntity<?> handleUserNotFoundException(EntityNotFoundException exception) {
         ApiResponse<?> apiResponse = ApiResponse.builder()
                 .data(null)
                 .message(exception.getMessage())

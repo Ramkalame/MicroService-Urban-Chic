@@ -1,4 +1,4 @@
-package com.urbanchic.entity;
+package com.urbanchic.external.helper;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -10,10 +10,10 @@ import org.springframework.data.annotation.Id;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ProductImage {
+public class Attribute {
 
     @Id
-    private String productImageId;
-    private String publicId;
-    private String publicImageUrl;
+    private String attributeId;
+    private String attributeName;
+    private Object attributeValue;
 }

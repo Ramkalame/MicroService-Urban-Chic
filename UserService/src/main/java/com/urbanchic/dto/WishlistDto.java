@@ -1,10 +1,14 @@
 package com.urbanchic.dto;
 
+import com.urbanchic.entity.helper.WishlistItem;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Data
 @Builder
@@ -12,8 +16,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class WishlistDto {
 
-    @NotBlank(message = "ProductId is mandatory")
-    private String productId;
-    @NotBlank(message = "Mobile No is mandatory")
-    private String mobileNo;
+    @NotBlank(message = "buyer id is mandatory")
+    private String buyerId;
+    private List<WishlistItemDto> wishlistItemList;
 }
