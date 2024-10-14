@@ -18,7 +18,7 @@ export class CartComponent {
   constructor(){}
 
   increaseQuantity(){
-    this.quantity++;
+    if(this.quantity<20) this.quantity++;
   }
 
   decreaseQuantity(){

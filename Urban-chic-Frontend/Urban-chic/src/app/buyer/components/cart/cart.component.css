@@ -207,8 +207,7 @@
     font-weight: 400;
 }
 .dash{
-    margin-bottom: 0;
-    color: gray;
+    border-top: 1px dashed gray;
 }
 .place-order-div{
     /* border: 2px solid blue; */
@@ -227,3 +226,165 @@
     border-radius: 8px;
 }
 /* Css Mobile Ends Here */
+
+
+
+/* Large Screen CSS */
+.container{
+    /* border: 2px solid red; */
+    padding: 10px;
+    display: flex;
+    width: 90%;
+    margin: auto;
+    gap: 5px;
+}
+.div-1{
+    /* border: 2px solid green; */
+    padding: 10px;
+    width: 70%;
+    display:flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.div-2{
+    /* border: 2px solid blue; */
+    padding: 10px;
+    width: 30%;
+}
+.top-address-div{
+    /* border: 2px solid yellow; */
+    display: flex;
+    padding: 5px 10px;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+}
+.address-text{
+    font-size: 16px;
+    font-weight: 400;
+    color: #494646;
+}
+.large-card-div{
+    /* border: 2px solid brown; */
+    padding: 5px 10px;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+}
+.large-card-top-div{
+    /* border: 2px solid orange; */
+    padding: 10px 10px ;
+}
+.large-card-bottom-div{
+    /* border: 2px solid purple; */
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 10px ;
+}
+
+.product-info-div{
+    /* border: 2px solid brown; */
+    display: flex;
+}
+.img-div{
+    /* border: 2px solid blue; */
+    width: 170px;
+    height: 155px;
+}
+.product-image{
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+.product-details-div{
+    /* border: 2px solid green; */
+    margin-left: 10px;
+    width: 60%;
+}
+.product-name{
+    font-size: 16px;
+    font-weight: 500;
+    margin-bottom: 0;
+    line-height: 25px;
+}
+.product-info{
+    font-size: 14px;
+    color: #494646;
+    margin-bottom: 0;
+    line-height: 30px;
+}
+.rating-div{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 150px;
+    height: 20px;
+    text-align: center;
+}
+.star{
+    font-size: 20px;
+    height:20px ;
+    width: 20px;
+    color: #224F34;
+}
+.rating-count{
+    font-size: 12px;
+    color: #494646;
+    font-weight: 500;
+    margin-top: 8px;
+    
+}
+.price{
+    font-size: 18px;
+    font-weight: 500;
+    margin-bottom: 0;
+}
+
+.quantity{
+    font-size: 18px;
+   /* border: 2px solid red; */
+    padding: 5px 10px;
+    width: 20px;
+}
+.price-heading{
+    font-size: 18px;
+    font-weight: 500;
+    margin-bottom: 10px;
+    color: #494646;
+}
+.price-attribute{
+    font-size: 16px;
+    font-weight: 400;
+}
+.price-value{
+    font-size: 16px;
+    font-weight: 400;
+}
+/* Large Screen Css Ends Here */
+
+
+/* Media query */
+/* Extra small devices (phones) */
+@media (max-width: 767.98px) {
+    /* CSS for small screens (both portrait and landscape) */
+    .container{
+        display: none;
+    }
+
+}
+
+/* Medium devices (tablets) */
+@media (min-width: 768px) and (max-width: 1199.98px) {
+
+    /* CSS for medium screens (both portrait and landscape) */
+    .container{
+        display: none;
+    }
+}
+
+/* Large devices (desktops) */
+@media (min-width: 1200px) {
+
+    /* CSS for large screens */
+    .mobile-container {
+        display: none;
+    }
+}

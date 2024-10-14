@@ -47,9 +47,11 @@
         </div>
         <div class="order-info-div">
             <div class="quantity-div ">
-                <button mat-icon-button  class="action-btn"><mat-icon class="action-icon" (click)="decreaseQuantity()"> remove</mat-icon></button>
+                <button mat-icon-button class="action-btn"><mat-icon class="action-icon" (click)="decreaseQuantity()">
+                        remove</mat-icon></button>
                 <input type="number" class="quantity-input" [value]="quantity" disabled>
-                <button mat-icon-button class="action-btn "><mat-icon class="action-icon" (click)="increaseQuantity()" >add</mat-icon></button>
+                <button mat-icon-button class="action-btn "><mat-icon class="action-icon"
+                        (click)="increaseQuantity()">add</mat-icon></button>
             </div>
             <div class="date-div">
                 <h6 class="date">Delivery by Oct 2, Wed</h6>
@@ -84,9 +86,11 @@
         </div>
         <div class="order-info-div">
             <div class="quantity-div">
-                <button mat-icon-button  class="action-btn"><mat-icon class="action-icon" (click)="decreaseQuantity()"> remove</mat-icon></button>
+                <button mat-icon-button class="action-btn"><mat-icon class="action-icon" (click)="decreaseQuantity()">
+                        remove</mat-icon></button>
                 <input type="number" class="quantity-input" [value]="quantity" disabled>
-                <button mat-icon-button class="action-btn "><mat-icon class="action-icon" (click)="increaseQuantity()" >add</mat-icon></button>
+                <button mat-icon-button class="action-btn "><mat-icon class="action-icon"
+                        (click)="increaseQuantity()">add</mat-icon></button>
             </div>
             <div class="date-div">
                 <h6 class="date">Delivery by Oct 2, Wed</h6>
@@ -114,7 +118,7 @@
             <h6 class="price-attribute">Delivery Charges</h6>
             <h6 class="price-value">₹10</h6>
         </div>
-        <p class="dash">- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - </p>
+        <hr class="dash">
         <div class="price-details">
             <h6 class="price-heading">Delivery Charges</h6>
             <h6 class="price-value">₹12,045</h6>
@@ -128,4 +132,80 @@
         <button mat-button class="place-order-btn mat-elevation-z3">Place Order</button>
     </div>
     <!-- Place Order Div Ends Here -->
+</div>
+
+
+<div class="container">
+    <div class="div-1">
+        <div class="top-address-div">
+            <h6 class="address-text">Deliver to :</h6>
+            <button mat-button>Change</button>
+        </div>
+        <div class="large-card-div">
+            <div class="large-card-top-div">
+                <div class="product-info-div">
+                    <div class="img-div">
+                        <img class="product-image"
+                            src="https://res.cloudinary.com/dziu7iyz1/image/upload/v1726674948/product-image/lkbospkuaq1qcq09ndhs.jpg"
+                            alt="Product Image">
+                    </div>
+                    <div class="product-details-div">
+                        <h6 class="product-name">Red Tap Casusal Sneaker Shoes</h6>
+                        <h6 class="product-info">Color: White,Black Size: 7</h6>
+                        <div class="rating-div">
+                            <mat-icon class="star">star</mat-icon>
+                            <mat-icon class="star">star</mat-icon>
+                            <mat-icon class="star">star</mat-icon>
+                            <mat-icon class="star">star</mat-icon>
+                            <mat-icon class="star">star</mat-icon>
+                            <h6 class="rating-count">(1,234)</h6>
+                        </div>
+                        <h6 class="price">₹1,235</h6>
+                    </div>
+                    <div class="date-div">
+                        <h6 class="date">Delivery by Oct 2, Wed</h6>
+                    </div>
+                </div>
+            </div>
+            <div class="large-card-bottom-div">
+                <div class="quantity-div">
+                    <button mat-icon-button class="action-btn"><mat-icon class="action-icon"
+                            (click)="decreaseQuantity()"> remove</mat-icon></button>
+                    <div class="quantity">{{quantity}}</div>
+                    <button mat-icon-button class="action-btn "><mat-icon class="action-icon"
+                            (click)="increaseQuantity()">add</mat-icon></button>
+                </div>
+                <button mat-button class="update-btn"> <mat-icon>archive</mat-icon> Save for later</button>
+                <button mat-button class="remove-btn"> <mat-icon>delete_outline</mat-icon>Remove</button>
+            </div>
+        </div>
+        <div class="place-order-div mat-elevation-z3">
+            <h6 class="price-heading">₹12,045</h6>
+            <button mat-button class="place-order-btn mat-elevation-z3">Place Order</button>
+        </div>
+    </div>
+    <div class="div-2">
+         <!-- Price Details Div -->
+    <div class="price-details-div">
+        <h6 class="price-heading">Price Details</h6>
+        <div class="price-details">
+            <h6 class="price-attribute">Subtotal</h6>
+            <h6 class="price-value">₹41,235</h6>
+        </div>
+        <div class="price-details">
+            <h6 class="price-attribute">Discount</h6>
+            <h6 class="price-value">- ₹8,235</h6>
+        </div>
+        <div class="price-details">
+            <h6 class="price-attribute">Delivery Charges</h6>
+            <h6 class="price-value">₹10</h6>
+        </div>
+        <hr class="dash">
+        <div class="price-details">
+            <h6 class="price-heading">Delivery Charges</h6>
+            <h6 class="price-value">₹12,045</h6>
+        </div>
+    </div>
+    <!-- Price Details Dive Ends Here -->
+    </div>
 </div>

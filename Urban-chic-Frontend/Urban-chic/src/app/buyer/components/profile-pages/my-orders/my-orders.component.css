@@ -162,6 +162,6 @@
 
     /* CSS for large screens */
     .mobile-container {
-        display: none;
+        width: 800px;
     }
 }

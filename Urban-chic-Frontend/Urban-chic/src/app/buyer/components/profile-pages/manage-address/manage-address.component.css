@@ -175,6 +175,8 @@
 
     /* CSS for large screens */
     .mobile-container {
-        display: none;
+      background-color: whitesmoke;
+      padding: 10px;
+       width: 800px;
     }
 }

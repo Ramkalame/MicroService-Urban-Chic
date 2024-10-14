@@ -1,45 +1,4 @@
 <app-navbar [showProfileButton]="false"></app-navbar>
-<div class="container">
-    <div class="left-div">
-        <div class="top-div mat-elevation-z3">
-            <div class="profile-div">
-                <mat-icon class="profile-icon">account_circle</mat-icon>
-            </div>
-            <p class="hello">Hello,</p>
-            <h6 class="user-name">John Doe</h6>
-        </div>
-        <div class="middle-div mat-elevation-z3">
-            <mat-list>
-                <mat-list-item>
-                    <button mat-button class="left-btn" [routerLink]="'profile'">My Profile</button>
-                </mat-list-item>
-                <mat-list-item>
-                    <button mat-button class="left-btn" [routerLink]="'address'">Manage Address</button>
-                </mat-list-item>
-                <mat-list-item>
-                    <button mat-button class="left-btn" [routerLink]="'my-orders'">My Order</button>
-                </mat-list-item>
-                <mat-list-item>
-                    <button mat-button class="left-btn" [routerLink]="'order-history'">Order History</button>
-                </mat-list-item>
-                <mat-list-item>
-                    <button mat-button class="left-btn" [routerLink]="'review-rating-history'">Reviews &
-                        Ratings</button>
-                </mat-list-item>
-                <mat-list-item>
-                    <button mat-button class="left-btn">Help</button>
-                </mat-list-item>
-            </mat-list>
-        </div>
-        <div class="bottom-div mat-elevation-z3">
-            <button mat-button color="primary" class="log-out-btn"> <mat-icon>exit_to_app</mat-icon>Logout</button>
-        </div>
-    </div>
-    <div class="right-div mat-elevation-z3">
-        <router-outlet />
-    </div>
-</div>
-
 
 <div class="container-mobile">
     <div class="mobile-menu-div mat-elevation-z3">
@@ -50,12 +9,6 @@
         <button mat-button class="mobile-menu-btn" [routerLink]="'review-rating-history'">Reviews &
             Ratings</button>
     </div>
-    <!-- <div class="account-div"> -->
-        <!-- <mat-icon class="mobile-profile-icon">account_circle</mat-icon> -->
-        <!-- <p class="hello-mobile">Hello,</p>
-        <h6 class="mobile-user-name">John Doe</h6>
-    </div> -->
-
     <div class="mobile-account-content">
         <router-outlet />
     </div>

@@ -3,6 +3,7 @@
 .mobile-container{
     padding: 10px;
     border-radius: 8px;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
 }
 .label-div{
     width: 100%;
@@ -124,7 +125,10 @@
 @media (min-width: 1200px) {
 
   /* CSS for large screens */
-  .mobile-container {
-      display: none;
+  .mobile-container{
+    background-color: whitesmoke;
+    padding: 10px;
+    width: 800px;
   }
+  
 }
