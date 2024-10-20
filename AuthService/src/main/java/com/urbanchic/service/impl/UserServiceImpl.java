@@ -49,5 +49,20 @@ public class UserServiceImpl implements com.urbanchic.service.UserService {
        return userRepository.save(existingUser);
     }
 
+    @Override
+    public User createBuyerUser(UserDto userDto) {
+        User existingUser = userRepository.findByUserName(userDto.getUserName()).orElse(null);
+        if (existingUser != null){
+            throw new EntityAlreadyExistsException("Phone Number is already registered");
+        }
+        User newUser = User.builder()
+                .userName(userDto.getUserName())
+                .phoneNumber(userDto.getUserName())
+                .role(Role.ROLE_BUYER.name())
+                .build();
+        User savedUser = userRepository.save(newUser);
+        return savedUser;
+    }
+
 
 }

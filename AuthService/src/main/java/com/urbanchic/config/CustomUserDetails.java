@@ -8,22 +8,19 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.Collections;
-import java.util.List;
 
 public class CustomUserDetails implements UserDetails {
 
-     @Getter
-     private String userId;
-     private String userName;
-     private String password;
-     private String role;
+    @Getter
+    private String userId;
+    private String userName;
+    private String role;
 
-     public CustomUserDetails(String userId,String userName,String password,String role){
-         this.userId = userId;
-         this.userName = userName;
-         this.password = password;
-         this.role = role;
-     }
+    public CustomUserDetails(String userId, String userName, String role) {
+        this.userId = userId;
+        this.userName = userName;
+        this.role = role;
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -33,8 +30,9 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public String getPassword() {
-        return password;
+        return "";
     }
+
 
     @Override
     public String getUsername() {

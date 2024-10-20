@@ -1,6 +1,7 @@
 package com.urbanchic.util;
 
 import com.urbanchic.config.CustomUserDetails;
+import com.urbanchic.entity.Role;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Component;
 import java.security.Key;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 
@@ -25,7 +27,7 @@ public class JwtUtil {
     private final String SECRETE_KEY = "gq4p9AA5M7V152IWFBuHCk1eUYsyFUFqiiDetlqoCxpXgCBLx2B8bkGLk3UJmIWKgOanTF72P/nEswX21boioDr/d0jakqrmEYE9LSCoLmisDT9VM3vUvOOwcta9YBJa4mzurpFrvYy8X+AD63wQhdyExEMboRt8LH478imFnotL6m4Xz3ZrqomwOdHQzX8Et6SnHTUNehgzIKpL+9S30xS7Xzet0JbXb0Z5F6rH2Lz3HslMsgKedAsf6Ztp64Z/N5yJaaKaF6kS4kJh//L8eQSOdmxFTK7K8W4r+rzn/mUG8iZFx2QLV1ReBzX+YtOAN1/BRpHDXrXP8Tmv/P8aUM3T1bggzPgrXp7rejQckf0=";
 
     // extract user-name from token
-    public String getUsernameFromToken(String token) {
+    public String getSubjectFromToken(String token) {
         return getClaimsFromToken(token, Claims::getSubject);
     }
 
@@ -35,11 +37,11 @@ public class JwtUtil {
     }
 
     // Extract role from token
-//    public Role getRoleFromToken(String token) {
-//        Claims claims = getAllClaims(token);
-//        String role = claims.get("role", String.class);
-//        return Role.valueOf(role);
-//    }
+    public String getRoleFromToken(String token) {
+        Claims claims = getAllClaims(token);
+        List<Map<String,String>> roles = (List<Map<String, String>>) claims.get("roles");
+        return roles.get(0).get("authority");
+    }
 
     // To extract the claims in generic way
     private <T> T getClaimsFromToken(String token, Function<Claims, T> claimsResolver) {
@@ -87,15 +89,17 @@ public class JwtUtil {
     }
 
     // To validate the token
-    public Boolean validateToken(String token, UserDetails userDetails) {
-        final String userNameFromToken = getUsernameFromToken(token);
-        return (userNameFromToken.equals(userDetails.getUsername()) && !isTokenExpired(token));
+    public Boolean validateToken(String token, CustomUserDetails userDetails) {
+        final String userIdFromToken = getSubjectFromToken(token);
+        return (userIdFromToken.equals(userDetails.getUserId()) && !isTokenExpired(token));
     }
 
     //take AuthHeader and return the username
     public String getUsernameFromAuthHeader(String authHeader) {
         String jwtToken = authHeader.substring(7);
-        String userName = getUsernameFromToken(jwtToken);
+        String userName = getSubjectFromToken(jwtToken);
         return userName;
     }
+
+
 }

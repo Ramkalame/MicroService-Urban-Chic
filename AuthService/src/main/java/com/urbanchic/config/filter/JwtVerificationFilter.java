@@ -1,8 +1,11 @@
 package com.urbanchic.config.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.urbanchic.config.CustomUserDetails;
+import com.urbanchic.config.PhoneNumberAuthenticationToken;
 import com.urbanchic.util.ApiResponse;
 import com.urbanchic.util.JwtUtil;
+
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.security.SignatureException;
@@ -12,6 +15,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -44,8 +48,17 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
         String jwtToken = extractToken(request);
         if (isValidToken(jwtToken)) {
             try {
-                String username = jwtUtil.getUsernameFromToken(jwtToken);
-                validateAndAuthenticateUser(username, jwtToken, request);
+                String username = jwtUtil.getSubjectFromToken(jwtToken);
+                /**
+                 * >> Here we have condition for role type BUYER and SELLER
+                 *    because seller will authenticate using UsernamePasswordAuthenticationToken and
+                 *    buyer will authenticate using PhoneNumberAuthenticationToken
+                 * */
+                if (jwtUtil.getRoleFromToken(jwtToken).equals("ROLE_BUYER")){
+                    validateAndAuthenticateBuyer(username, jwtToken, request);
+                }else {
+                    validateAndAuthenticateSeller(username, jwtToken, request);
+                }
             } catch (Exception e) {
                 handleJwtException(response, e);
                 return;
@@ -73,9 +86,11 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
         return jwtToken != null && !jwtToken.trim().isEmpty();
     }
 
-    //If all is valid set the authentication object
-    private void validateAndAuthenticateUser(String username, String jwtToken, HttpServletRequest request) {
-        UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+    /**
+     * >> To validate the seller role user
+     */
+    private void validateAndAuthenticateSeller(String username, String jwtToken, HttpServletRequest request) {
+        CustomUserDetails userDetails = (CustomUserDetails) userDetailsService.loadUserByUsername(username);
         if (jwtUtil.validateToken(jwtToken, userDetails)) {
             UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
                     userDetails, null, userDetails.getAuthorities());
@@ -84,6 +99,21 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
             log.debug("User '{}' authenticated with roles: {}", username, userDetails.getAuthorities());
         }
     }
+
+    /**
+     * >> To validate the buyer role user
+     */
+    private void validateAndAuthenticateBuyer(String phoneNumber, String jwtToken, HttpServletRequest request) {
+        CustomUserDetails userDetails = (CustomUserDetails)  userDetailsService.loadUserByUsername(phoneNumber);
+        if (jwtUtil.validateToken(jwtToken, userDetails)) {
+            PhoneNumberAuthenticationToken authentication = new PhoneNumberAuthenticationToken(
+                    userDetails, userDetails.getAuthorities());
+            authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+            log.debug("User '{}' authenticated with roles: {}", phoneNumber, userDetails.getAuthorities());
+        }
+    }
+
 
     //handling the response if any exception occurs
     private void handleJwtException(HttpServletResponse response, Exception exception) throws IOException {
@@ -100,8 +130,8 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
             errorMessage = "Invalid token signature";
             status = HttpStatus.UNAUTHORIZED;
         } else if (exception instanceof IllegalArgumentException) {
-                errorMessage = exception.getMessage();
-                status = HttpStatus.UNAUTHORIZED;
+            errorMessage = exception.getMessage();
+            status = HttpStatus.UNAUTHORIZED;
         } else {
             errorMessage = "Token validation error";
             status = HttpStatus.BAD_REQUEST;
