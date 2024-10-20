@@ -22,10 +22,14 @@ import { ReviewHistoryComponent } from './buyer/components/profile-pages/review-
 import { ShowOrderComponent } from './buyer/components/profile-pages/show-order/show-order.component';
 import { ViewProductComponent } from './buyer/components/view-product/view-product.component';
 import { ProductDetailsComponent } from './buyer/components/product-details/product-details.component';
+import { BuyerLoginComponent } from './auth/components/login/buyer-login/buyer-login.component';
+import { BuyerRegistrationComponent } from './auth/components/register/buyer-registration/buyer-registration.component';
 
 export const routes: Routes = [
   { path: 'auth/register/seller', component: SellerRegistrationComponent },
   { path: 'auth/login/seller', component: SellerLoginComponent },
+  {path: 'auth/register', component:BuyerRegistrationComponent},
+  {path:'auth/login',component:BuyerLoginComponent},
   {
     path: 'seller/documents',
     component: SellerDocumentsComponent,

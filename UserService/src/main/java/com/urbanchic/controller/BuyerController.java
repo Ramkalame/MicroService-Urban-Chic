@@ -25,7 +25,7 @@ public class BuyerController {
     private final BuyerService buyerService;
 
     @PostMapping("/create")
-    public ResponseEntity<ApiResponse<?>> createUser(@RequestBody @Valid BuyerDto buyerDto) {
+    public ResponseEntity<ApiResponse<?>> createBuyer(@RequestBody @Valid BuyerDto buyerDto) {
         Buyer responseData = buyerService.createBuyer(buyerDto);
         ApiResponse<Buyer> apiResponse = ApiResponse.<Buyer>builder()
                 .data(responseData)

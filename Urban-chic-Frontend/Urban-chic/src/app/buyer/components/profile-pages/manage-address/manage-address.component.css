@@ -58,6 +58,7 @@
     border: 2px solid #1e1e1e;
     margin-top: 10px;
     padding: 10px;
+    border-radius: 5px;
 }
 
 .edit-heading {

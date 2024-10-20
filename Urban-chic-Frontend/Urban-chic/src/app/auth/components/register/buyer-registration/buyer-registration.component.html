@@ -1,1 +1,56 @@
-<p>buyer-registration works!</p>
+<form  [formGroup]="myForm">
+<div class="main-div">
+    <div class="form-div mat-elevation-z3">
+        <div class="top-div">
+            <img class="logo" src="https://res.cloudinary.com/dziu7iyz1/image/upload/v1726982679/urbanchic-logo_p0knbr.png" alt="logo">
+        <h6 class="welcome-text">Welcome to Urbanchic Register page</h6>
+        </div>
+        <mat-form-field appearance="outline" class="inp-box">
+            <mat-label>Moblile Number</mat-label>
+            <input type="text" matInput formControlName="phoneNumber">
+            <mat-error *ngIf="myForm.controls['phoneNumber'].hasError('required') && myForm.controls['phoneNumber'].touched">
+                Mobile number is required.
+              </mat-error>
+              <mat-error *ngIf="myForm.controls['phoneNumber'].hasError('pattern') && myForm.controls['phoneNumber'].touched">
+                Invalid phone number
+              </mat-error>
+        </mat-form-field>
+    
+        <button mat-button class="continue-btn" (click)="openOtpDialog()" [disabled]="myForm.controls['phoneNumber'].invalid">Continue</button>
+        <h6 class="or-text"> or</h6>
+
+        <button class="google-btn" mat-button><fa-icon [icon]="faGoogle" class="google-logo"></fa-icon>Sign With Google</button>
+        <p class="terms-text">By continuing, you agree to Urbanchic's <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a></p>
+        <p class="terms-text">Don't have an account? <a [routerLink]="['/auth/login']">Sign Up</a></p>
+    </div>
+</div>
+</form>
+
+<ng-template #otpTemplate>
+    <h6 mat-dialog-title>Enter OTP</h6>
+    <mat-dialog-content>
+      <form [formGroup]="myForm">
+        <mat-form-field appearance="outline" style="width: 90%">
+          <input matInput placeholder="Enter OTP" formControlName="otp">
+          <!-- Displaying errors based on the validity and touch status -->
+          <mat-error *ngIf="isControlInvalid('otp')">
+            <ng-container *ngIf="myForm.controls['otp'].errors?.['required']">
+              OTP is required.
+            </ng-container>
+            <ng-container *ngIf="myForm.controls['otp'].errors?.['minlength'] || myForm.controls['otp'].errors?.['maxlength']">
+              OTP should be 4 digits.
+            </ng-container>
+            <ng-container *ngIf="myForm.controls['otp'].errors?.['pattern']">
+              Invalid OTP. Only digits are allowed.
+            </ng-container>
+          </mat-error>
+        </mat-form-field>
+      </form>
+    </mat-dialog-content>
+    
+    <mat-dialog-actions>
+      <button mat-button (click)="closeOtpDialog()" class="cancle-btn">Cancel</button>
+      <button mat-button (click)="submitOtp()" class="save-btn" [disabled]="myForm.controls['otp'].invalid">Submit</button>
+    </mat-dialog-actions>
+  </ng-template>
+  

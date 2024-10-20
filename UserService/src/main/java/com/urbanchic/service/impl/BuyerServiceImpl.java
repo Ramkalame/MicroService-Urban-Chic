@@ -31,10 +31,10 @@ public class BuyerServiceImpl implements BuyerService {
     @Override
     public Buyer createBuyer(BuyerDto buyerDto) {
         Buyer newBuyer = Buyer.builder()
+                .buyerId(buyerDto.getBuyerId())
                 .firstName(buyerDto.getFirstName())
                 .lastName(buyerDto.getLastName())
                 .email(buyerDto.getEmail())
-                .password(buyerDto.getPassword())
                 .phoneNumber(buyerDto.getPhoneNumber())
                 .role(Role.BUYER.name())
                 .addressList(null)

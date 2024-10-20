@@ -20,10 +20,10 @@ public class Buyer {
 
     @Id
     private String id;
+    private String buyerId;
     private String firstName;
     private String lastName;
     private String email;
-    private String password;
     private String phoneNumber;
     private String role;
     private List<Address> addressList;

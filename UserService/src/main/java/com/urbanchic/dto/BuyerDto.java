@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class BuyerDto {
 
+    private String buyerId;
     private String firstName;
     private String lastName;
     private String email;
