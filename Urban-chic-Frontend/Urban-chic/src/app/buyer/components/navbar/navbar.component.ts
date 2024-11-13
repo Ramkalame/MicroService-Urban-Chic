@@ -27,6 +27,8 @@ export class NavbarComponent {
   @Input() showBecomeASellerButton: boolean = true;
   @Input() showMenuButton: boolean = true;
 
+  isLoggedIn: boolean = true;
+
 
 
   constructor(private dialog:MatDialog){}

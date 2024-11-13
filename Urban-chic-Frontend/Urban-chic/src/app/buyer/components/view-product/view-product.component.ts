@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { NavbarComponent } from '../navbar/navbar.component';
-import { CommonModule } from '@angular/common';
+import { CommonModule, Location } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { RouterModule } from '@angular/router';
@@ -33,6 +33,8 @@ import { CategoriesComponent } from "../categories/categories.component";
   styleUrl: './view-product.component.css',
 })
 export class ViewProductComponent {
+
+  location = inject(Location)
   snackBarService = inject(SnackbarService);
   selectedImageIndex:number = 0;
 
@@ -131,5 +133,14 @@ export class ViewProductComponent {
     this.selectedImageIndex = index;
   }
 
+
+  navigateBack(){
+    this.location.back();
+  };
+
+  openSnackBar(){
+    this.snackBarService.openSuccessSnackBar('Item added to cart')
+  }
+  
 
 }

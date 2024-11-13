@@ -6,26 +6,27 @@
             <div class="btn-group">
                 <button mat-button (click)="enableFullName()" *ngIf="disableFullName" class="edit-btn">Edit</button>
                 <button mat-button (click)="cancelFullName()" *ngIf="!disableFullName" class="cancle-btn">Cancel</button>
-                <button mat-button *ngIf="!disableFullName" class="save-btn">Save</button>
+                <button mat-button *ngIf="!disableFullName" class="save-btn" (click)="updateBuyerName()">Save</button>
             </div>
         </div>
         <mat-form-field appearance="outline" class="form-field">
-            <input matInput  [disabled]="disableFullName" class="inp" value="John Doe" />
+            <input matInput   class="inp"  formControlName="fullName" />
         </mat-form-field>
     
         <!-- --------------- -->
         <div class="label-div">
             <mat-label>Your Gender</mat-label>
-            <div class="btn-group">
-                <button mat-button (click)="enableGender()" *ngIf="disableGender">Edit</button>
-                <button mat-button (click)="cancelGender()" *ngIf="!disableGender" class="cancle-btn">Cancel</button>
-                <button mat-button *ngIf="!disableGender">Save</button>
-            </div>
+                <div class="btn-group">
+                    <button mat-button (click)="enableGender()" *ngIf="disableGender">Edit</button>
+                    <button mat-button (click)="cancelGender()" *ngIf="!disableGender" class="cancle-btn">Cancel</button>
+                    <button mat-button *ngIf="!disableGender" (click)="updateBuyerGender()">Save</button>
+                </div>
         </div>
+        
         <div class="radio-container">
             <div class="radio-wrapper">
                 <label class="radio-button">
-                    <input id="option1" name="radio-group" type="radio" checked [disabled]="disableGender">
+                    <input id="option1" name="gender" type="radio" [value]="gender.MALE"  [checked]="myForm.get('gender')?.value === gender.MALE" formControlName="gender">
                     <span class="radio-checkmark"></span>
                     <span class="radio-label">Male</span>
                 </label>
@@ -33,7 +34,7 @@
     
             <div class="radio-wrapper">
                 <label class="radio-button">
-                    <input id="option2" name="radio-group" type="radio" [disabled]="disableGender">
+                    <input id="option2" name="gender" type="radio" [value]="gender.FEMALE"  [checked]="myForm.get('gender')?.value === gender.FEMALE" formControlName="gender" >
                     <span class="radio-checkmark"></span>
                     <span class="radio-label">Female</span>
                 </label>
@@ -41,7 +42,7 @@
     
             <div class="radio-wrapper">
                 <label class="radio-button">
-                    <input id="option3" name="radio-group" type="radio" [disabled]="disableGender">
+                    <input id="option3" name="gender" type="radio" [value]="gender.OTHER"  [checked]="myForm.get('gender')?.value === gender.OTHER" formControlName="gender" >
                     <span class="radio-checkmark"></span>
                     <span class="radio-label">Other</span>
                 </label>
@@ -54,12 +55,11 @@
             <div class="btn-group">
                 <button mat-button (click)="enableEmail()" *ngIf="disableEmail" class="edit-btn">Edit</button>
                 <button mat-button (click)="cancelEmail()" *ngIf="!disableEmail" class="cancle-btn">Cancel</button>
-                <button mat-button (click)="saveEmail()" *ngIf="!disableEmail" class="save-btn">Save</button>
+                <button mat-button (click)="updateBuyerEmail()" *ngIf="!disableEmail" class="save-btn">Save</button>
             </div>
         </div>
         <mat-form-field appearance="outline" class="form-field">
-            <input matInput  [disabled]="disableEmail" class="inp"
-                value="abhishekpardhiya@gmail.com" />
+            <input matInput  class="inp" formControlName="email"/>
         </mat-form-field>
     
         <!-- ----------------- -->
@@ -73,10 +73,10 @@
             </div>
         </div>
         <mat-form-field appearance="outline" class="form-field">
-            <input matInput [disabled]="disableMobileNumber" class="inp" value="+918319348293" />
+            <input matInput  class="inp" formControlName="mobileNumber"/>
         </mat-form-field>
 
-        <button mat-button class="log-out-btn"><mat-icon>exit_to_app</mat-icon>Logout</button>
+        <button mat-button class="log-out-btn" (click)="buyerLogout()"><mat-icon>exit_to_app</mat-icon>Logout</button>
     </div>
     
     

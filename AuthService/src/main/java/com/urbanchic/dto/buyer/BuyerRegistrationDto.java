@@ -14,14 +14,14 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class BuyerRegistrationDto {
 
-    @NotBlank(message = "first name is required")
-    private String firstName;
-    @NotBlank(message = "last name is required")
-    private String lastName;
-    @Email
-    @NotBlank(message = "email is required")
-    private String email;
-    @NotBlank(message = "phone number is required")
+//    @NotBlank(message = "first name is required")
+//    private String firstName;
+//    @NotBlank(message = "last name is required")
+//    private String lastName;
+//    @Email
+//    @NotBlank(message = "email is required")
+//    private String email;
+//    @NotBlank(message = "phone number is required")
     @Size(min = 10,max = 10)
     private String phoneNumber;
 

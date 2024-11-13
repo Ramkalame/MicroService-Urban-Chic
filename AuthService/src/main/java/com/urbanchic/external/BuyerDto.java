@@ -12,8 +12,8 @@ import lombok.NoArgsConstructor;
 public class BuyerDto {
 
     private String buyerId;
-    private String firstName;
-    private String lastName;
+    private String name;
+    private String gender;
     private String email;
     private String password;
     private String phoneNumber;

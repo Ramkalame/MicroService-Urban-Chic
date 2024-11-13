@@ -15,15 +15,18 @@
                 class="mobile-search-icon">search</mat-icon></button>
     </div>
     <div class="nav-btn-div">
-        <button mat-raised-button [routerLink]="'auth/register/seller'"
+        <button mat-raised-button [routerLink]="'/auth/login'" *ngIf="!isLoggedIn"><mat-icon>login</mat-icon>Login</button>
+        <button mat-button [routerLink]="'auth/register/seller'"
             *ngIf="showBecomeASellerButton"><mat-icon>local_mall</mat-icon>Become a
             seller</button>
-        <button mat-icon-button class="nav-btn" [routerLink]="['/viewCart']" *ngIf="showCartButton"><mat-icon
+      <div *ngIf="isLoggedIn">
+        <button mat-icon-button class="nav-btn" [routerLink]="['/viewcart']" *ngIf="showCartButton"><mat-icon
                 class="nav-btn-icon">local_grocery_store</mat-icon></button>
         <button mat-icon-button class="nav-btn" [routerLink]="['/favorites']" *ngIf="showFavoriteButton"><mat-icon
                 class="nav-btn-icon">favorite</mat-icon></button>
         <button mat-icon-button class="nav-btn" [routerLink]="['/profile']" *ngIf="showProfileButton"><mat-icon
                 class="nav-btn-icon">account_circle</mat-icon></button>
+      </div>
     </div>
     <button mat-icon-button class="nav-btn menu-btn" *ngIf="showMenuButton" [matMenuTriggerFor]="menu"><mat-icon>menu</mat-icon></button>
 </mat-toolbar>
@@ -31,12 +34,15 @@
 
 
 <mat-menu #menu="matMenu" class="menu-div">
-    <button mat-menu-item [routerLink]="['/viewCart']" *ngIf="showCartButton"><mat-icon
-            class="nav-btn-icon">local_grocery_store</mat-icon> Cart</button>
-    <button mat-menu-item [routerLink]="['/favorites']" *ngIf="showFavoriteButton"><mat-icon
-            class="nav-btn-icon">favorite</mat-icon> Favourite</button>
-    <button mat-menu-item [routerLink]="['/profile']" *ngIf="showProfileButton"><mat-icon
-            class="nav-btn-icon">account_circle</mat-icon>Profile</button>
-    <button mat-menu-item [routerLink]="['/auth/register/seller']" *ngIf="showBecomeASellerButton"><mat-icon
-            class="nav-btn-icon">local_mall</mat-icon>Become a seller</button>
+    <button *ngIf="!isLoggedIn" class="login-btn" mat-menu-item [routerLink]="'/auth/login'">Login</button>
+   <div *ngIf="isLoggedIn">
+        <button  mat-menu-item [routerLink]="['/viewcart']" *ngIf="showCartButton "><mat-icon
+                class="nav-btn-icon">local_grocery_store</mat-icon> Cart</button>
+        <button mat-menu-item [routerLink]="['/favorites']" *ngIf="showFavoriteButton"><mat-icon
+                class="nav-btn-icon">favorite</mat-icon> Favourite</button>
+        <button mat-menu-item [routerLink]="['/profile']" *ngIf="showProfileButton "><mat-icon
+                class="nav-btn-icon">account_circle</mat-icon>Profile</button>
+        <button mat-menu-item [routerLink]="['/auth/register/seller']" *ngIf="showBecomeASellerButton "><mat-icon
+                class="nav-btn-icon">local_mall</mat-icon>Become a seller</button>
+   </div>
 </mat-menu>

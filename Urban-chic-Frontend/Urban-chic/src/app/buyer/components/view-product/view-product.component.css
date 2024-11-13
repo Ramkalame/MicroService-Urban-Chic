@@ -7,7 +7,7 @@
 .top-action-div {
     /* border: 2px solid brown; */
     display: flex;
-    justify-content: end;
+    justify-content: space-between;
     align-items: center;
     height: 30px;
     gap: 5px;
@@ -15,6 +15,12 @@
 
 .share-btn {
     color: #1e1e1e !important;
+}
+.back-btn{
+    color: #1e1e1e !important;
+    font-size: 24px;
+    width: 24px;
+    height: 24px;
 }
 
 .product-name-div {
@@ -72,7 +78,11 @@
     /* border: 2px solid violet; */
     padding: 5px 10px;
 }
-
+.mobile-btn-div{
+    /* border: 1px solid black; */
+    display: flex;
+    justify-content: space-between;
+}
 .product-details {
     /* border: 2px solid brown; */
     padding: 10px 10px;
@@ -306,19 +316,19 @@
 }
 
 .large-add-to-btn {
-    background-color: #494646;
-    color: white !important;
+    background-color: #ffd814;
+    color: #1e1e1e !important;
     font-size: 14px !important;
     height: 40px;
-    width: 140px;
+    width: 170px;
 }
 
 .buy-now-btn {
-    background-color: #224F34;
-    color: white !important;
+    background-color: #ffa41c;
+    color: #1e1e1e !important;
     font-size: 14px !important;
     height: 40px;
-    width: 140px;
+    width: 170px;
 }
 .product-info-action-div{
     /* border: 2px solid black; */

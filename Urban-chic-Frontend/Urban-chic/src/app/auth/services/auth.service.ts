@@ -6,10 +6,8 @@ import { ApiResponse } from '../../core/models/shared-models/api-response.model'
 import { LoginResponse } from '../models/login-response.model';
 import { SellerLoginRequest } from '../models/seller-login.model';
 import { User } from '../models/user.model';
-import { JwtDecoderService } from '../../core/services/jwt-decoder.service';
-import { SnackbarService } from '../../common/services/snackbar.service';
-import { UserRole } from '../../core/enums/user-roles';
-import { Router } from '@angular/router';
+import { Buyer, BuyerLoginRequest, BuyerRegistrationRequest } from '../models/buyer.model';
+
 
 @Injectable({
   providedIn: 'root'
@@ -35,5 +33,21 @@ export class AuthServiceService {
     const url = `${this.BASE_URL}${endpoint}`;
     return this.http.post<ApiResponse<LoginResponse>>(url, formData);
   }
+
+
+
+  //buyer methods
+  registerBuyer(formData:BuyerRegistrationRequest): Observable<ApiResponse<Buyer>> {
+    const endpoint = `/register/buyer`;
+    const url = `${this.BASE_URL}${endpoint}`;
+    return this.http.post<ApiResponse<Buyer>>(url, formData);
+  }
+
+  buyerLogin(formData:BuyerLoginRequest): Observable<ApiResponse<LoginResponse>>{
+    const endpoint = `/login/buyer`;
+    const url = `${this.BASE_URL}${endpoint} `;
+    return this.http.post<ApiResponse<LoginResponse>>(url, formData);
+  }
+  
 
 }

@@ -4,10 +4,10 @@ import com.urbanchic.dto.AddressDto;
 import com.urbanchic.dto.BuyerDto;
 import com.urbanchic.entity.Buyer;
 import com.urbanchic.entity.helper.Address;
+import com.urbanchic.entity.role.Gender;
 import com.urbanchic.entity.role.Role;
 import com.urbanchic.exception.EntityNotFoundException;
 import com.urbanchic.repository.BuyerRepository;
-import com.urbanchic.repository.CartRepository;
 import com.urbanchic.service.BuyerService;
 import com.urbanchic.service.CartService;
 import com.urbanchic.service.WishlistService;
@@ -32,19 +32,26 @@ public class BuyerServiceImpl implements BuyerService {
     public Buyer createBuyer(BuyerDto buyerDto) {
         Buyer newBuyer = Buyer.builder()
                 .buyerId(buyerDto.getBuyerId())
-                .firstName(buyerDto.getFirstName())
-                .lastName(buyerDto.getLastName())
+                .name(buyerDto.getName())
+                .gender(buyerDto.getGender())
                 .email(buyerDto.getEmail())
                 .phoneNumber(buyerDto.getPhoneNumber())
                 .role(Role.BUYER.name())
                 .addressList(null)
                 .isEmailVerified(false)
-                .isPhoneNumberVerified(false)
+                .isPhoneNumberVerified(true)
                 .build();
         Buyer savedBuyer =  buyerRepository.save(newBuyer);
         cartService.createCart(savedBuyer.getId());
         wishlistService.createWishlist(savedBuyer.getId());
         return savedBuyer;
+    }
+
+    @Override
+    public Buyer getBuyerByBuyerId(String buyerId) {
+        Buyer existingBuyer = buyerRepository.findByBuyerId(buyerId).orElseThrow(() ->
+                new EntityNotFoundException("User Not Found!! Please Register"));
+        return existingBuyer;
     }
 
     @Override
@@ -62,15 +69,41 @@ public class BuyerServiceImpl implements BuyerService {
     }
 
     @Override
-    public Buyer updateBuyerDetails(BuyerDto buyerDto, String buyerId) {
-        Buyer existingBuyer = buyerRepository.findById(buyerId).orElseThrow(() ->
+    public Buyer updateBuyerName(String name, String buyerId) {
+        Buyer existingBuyer = buyerRepository.findByBuyerId(buyerId).orElseThrow(() ->
                 new EntityNotFoundException("User Not Found!! Please Register"));
-        existingBuyer.setFirstName(buyerDto.getFirstName());
-        existingBuyer.setLastName(buyerDto.getLastName());
-        existingBuyer.setEmail(buyerDto.getEmail());
-        existingBuyer.setPhoneNumber(buyerDto.getPhoneNumber());
+        existingBuyer.setName(name);
         return buyerRepository.save(existingBuyer);
     }
+
+    @Override
+    public Buyer updateBuyerGender(String gender, String buyerId) {
+        Buyer existingBuyer = buyerRepository.findByBuyerId(buyerId).orElseThrow(() ->
+                new EntityNotFoundException("User Not Found!! Please Register"));
+        for (Gender genderValue: Gender.values()){
+                if (gender.equals(genderValue.name())){
+                    existingBuyer.setGender(genderValue.name());
+                }
+        }
+        return buyerRepository.save(existingBuyer);
+    }
+
+    @Override
+    public Buyer updateBuyerEmail(String email, String buyerId) {
+        Buyer existingBuyer = buyerRepository.findByBuyerId(buyerId).orElseThrow(() ->
+                new EntityNotFoundException("User Not Found!! Please Register"));
+        existingBuyer.setEmail(email);
+        return buyerRepository.save(existingBuyer);
+    }
+
+    @Override
+    public Buyer updateBuyerPhoneNumber(String phoneNumber, String buyerId) {
+        Buyer existingBuyer = buyerRepository.findByBuyerId(buyerId).orElseThrow(() ->
+                new EntityNotFoundException("User Not Found!! Please Register"));
+        existingBuyer.setPhoneNumber(phoneNumber);
+        return buyerRepository.save(existingBuyer);
+    }
+
 
     @Override
     public void deleteBuyer(String buyerId) {
@@ -83,7 +116,7 @@ public class BuyerServiceImpl implements BuyerService {
 
     @Override
     public List<Address> getBuyerAddresses(String buyerId) {
-        Buyer existingBuyer = buyerRepository.findById(buyerId).orElseThrow(() ->
+        Buyer existingBuyer = buyerRepository.findByBuyerId(buyerId).orElseThrow(() ->
                 new EntityNotFoundException("User Not Found!! Please Register"));
         if (existingBuyer.getAddressList() == null){
             throw new EntityNotFoundException("Address Not Added. Please Add Address");
@@ -93,14 +126,13 @@ public class BuyerServiceImpl implements BuyerService {
 
     @Override
     public Address createAddress(AddressDto addressDto, String buyerId) {
-        Buyer existingBuyer = buyerRepository.findById(buyerId).orElseThrow(() ->
+        Buyer existingBuyer = buyerRepository.findByBuyerId(buyerId).orElseThrow(() ->
                 new EntityNotFoundException("User Not Found!! Please Register"));
         Address newAddress = Address.builder()
                 .id(UUID.randomUUID().toString().replaceAll("-","").substring(0,5))
                 .houseNumber(addressDto.getHouseNumber())
                 .streetName(addressDto.getStreetName())
                 .landmark(addressDto.getLandmark())
-                .locality(addressDto.getLocality())
                 .city(addressDto.getCity())
                 .district(addressDto.getDistrict())
                 .state(addressDto.getState())
@@ -121,15 +153,14 @@ public class BuyerServiceImpl implements BuyerService {
     }
 
     @Override
-    public void updateAddress(AddressDto addressDto, String buyerId,String addressId) {
-        Buyer existingBuyer = buyerRepository.findById(buyerId).orElseThrow(() ->
+    public List<Address>  updateAddress(AddressDto addressDto, String buyerId,String addressId) {
+        Buyer existingBuyer = buyerRepository.findByBuyerId(buyerId).orElseThrow(() ->
                 new EntityNotFoundException("User Not Found!! Please Register"));
         for (Address address :existingBuyer.getAddressList()){
             if (addressId.equals(address.getId())){
                 address.setHouseNumber(addressDto.getHouseNumber());
                 address.setStreetName(addressDto.getStreetName());
                 address.setLandmark(addressDto.getLandmark());
-                address.setLocality(addressDto.getLocality());
                 address.setCity(addressDto.getCity());
                 address.setDistrict(addressDto.getDistrict());
                 address.setState(addressDto.getState());
@@ -138,11 +169,12 @@ public class BuyerServiceImpl implements BuyerService {
             }
         }
         Buyer updatedBuyer = buyerRepository.save(existingBuyer);
+         return updatedBuyer.getAddressList();
     }
 
     @Override
-    public void deleteAddress(String buyerId, String addressId) {
-        Buyer existingBuyer = buyerRepository.findById(buyerId).orElseThrow(() ->
+    public List<Address> deleteAddress(String buyerId, String addressId) {
+        Buyer existingBuyer = buyerRepository.findByBuyerId(buyerId).orElseThrow(() ->
                 new EntityNotFoundException("User Not Found!! Please Register"));
         Iterator<Address> iterator = existingBuyer.getAddressList().iterator();
         while (iterator.hasNext()){
@@ -153,6 +185,7 @@ public class BuyerServiceImpl implements BuyerService {
             }
         }
         Buyer updatedBuyer = buyerRepository.save(existingBuyer);
+        return updatedBuyer.getAddressList();
     }
 
 

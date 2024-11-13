@@ -79,6 +79,7 @@ public class AuthController {
     }
 
 
+    //create a user type of buyer
     @PostMapping("/register/buyer")
     public ResponseEntity<?> createBuyerUser(@RequestBody BuyerRegistrationDto buyerRegistrationDto) {
         User responseData = authService.createBuyerUser(buyerRegistrationDto);

@@ -68,6 +68,8 @@ public class AuthFilter extends AbstractGatewayFilterFactory {
         log.info("USER ROLE ---- {}",role);
         if (uri.contains("seller") && role.equals("ROLE_SELLER")){
             return  true;
+        }else if (uri.contains("buyers") && role.equals("ROLE_BUYER")){
+            return true;
         }
         return false;
     }
