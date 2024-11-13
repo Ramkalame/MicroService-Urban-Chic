@@ -15,7 +15,6 @@ public class Address {
     private String houseNumber;                 // House or flat number
     private String streetName;                  // Street name
     private String landmark;                    // Nearby landmark
-    private String locality;                    // Locality or neighborhood
     private String city;                        // City or town
     private String district;                    // District
     private String state;                       // State

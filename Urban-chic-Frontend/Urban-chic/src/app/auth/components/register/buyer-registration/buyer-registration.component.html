@@ -3,8 +3,9 @@
     <div class="form-div mat-elevation-z3">
         <div class="top-div">
             <img class="logo" src="https://res.cloudinary.com/dziu7iyz1/image/upload/v1726982679/urbanchic-logo_p0knbr.png" alt="logo">
-        <h6 class="welcome-text">Welcome to Urbanchic Register page</h6>
+        <h6 class="welcome-text">Register Here!!</h6>
         </div>
+        <!-- Inp for Phone Number -->
         <mat-form-field appearance="outline" class="inp-box">
             <mat-label>Moblile Number</mat-label>
             <input type="text" matInput formControlName="phoneNumber">
@@ -15,13 +16,10 @@
                 Invalid phone number
               </mat-error>
         </mat-form-field>
-    
-        <button mat-button class="continue-btn" (click)="openOtpDialog()" [disabled]="myForm.controls['phoneNumber'].invalid">Continue</button>
-        <h6 class="or-text"> or</h6>
 
-        <button class="google-btn" mat-button><fa-icon [icon]="faGoogle" class="google-logo"></fa-icon>Sign With Google</button>
+        <button mat-button class="continue-btn" (click)="registerBuyer()" [disabled]="myForm.controls['phoneNumber'].invalid">Register</button>
         <p class="terms-text">By continuing, you agree to Urbanchic's <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a></p>
-        <p class="terms-text">Don't have an account? <a [routerLink]="['/auth/login']">Sign Up</a></p>
+        <p class="terms-text">Already have an account? <a [routerLink]="['/auth/login']">Sign In</a></p>
     </div>
 </div>
 </form>

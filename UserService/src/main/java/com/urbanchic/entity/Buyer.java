@@ -21,8 +21,8 @@ public class Buyer {
     @Id
     private String id;
     private String buyerId;
-    private String firstName;
-    private String lastName;
+    private String name;
+    private String gender;
     private String email;
     private String phoneNumber;
     private String role;

@@ -24,12 +24,14 @@ import { ViewProductComponent } from './buyer/components/view-product/view-produ
 import { ProductDetailsComponent } from './buyer/components/product-details/product-details.component';
 import { BuyerLoginComponent } from './auth/components/login/buyer-login/buyer-login.component';
 import { BuyerRegistrationComponent } from './auth/components/register/buyer-registration/buyer-registration.component';
+import { CheckoutComponent } from './buyer/components/checkout/checkout.component';
+import { buyerAuthGuard } from './core/guard/buyer-auth.guard';
 
 export const routes: Routes = [
   { path: 'auth/register/seller', component: SellerRegistrationComponent },
   { path: 'auth/login/seller', component: SellerLoginComponent },
-  {path: 'auth/register', component:BuyerRegistrationComponent},
-  {path:'auth/login',component:BuyerLoginComponent},
+  { path: 'auth/register', component: BuyerRegistrationComponent },
+  { path: 'auth/login', component: BuyerLoginComponent },
   {
     path: 'seller/documents',
     component: SellerDocumentsComponent,
@@ -39,35 +41,56 @@ export const routes: Routes = [
   {
     path: 'seller/dashboard',
     component: SellerDashboardComponent,
-    // canActivate: [sellerAuthGuard],
+    canActivate: [sellerAuthGuard],
     children: [
       //child route to be displayed in the seller dashboard component.
       { path: 'products', component: ProductManagementComponent },
       { path: 'orders', component: OrderManagementComponent },
       { path: 'home', component: DashboardHomeComponent },
       { path: 'profile', component: SellerProfileComponent },
-      { path: 'add-product', component: AddProductComponent }
+      { path: 'add-product', component: AddProductComponent },
     ],
   },
 
-
   //buyer routing
-  {path: '', component: HomeComponent},
+  { path: '', component: HomeComponent },
   { path: '', component: ShowProductComponent },
-  { path: 'profile', component: BuyerProfileComponent,children:[
-    {path:'',redirectTo:'my-profile',pathMatch:'full'},
-    {path:'my-profile',component:MyProfileComponent},
-    {path:'my-orders',component:MyOrdersComponent},
-    {path:'address',component:ManageAddressComponent},
-    {path:'order-history',component:OrderHistoryComponent},
-    {path:'review-rating-history',component:ReviewHistoryComponent},
-    {path:'order',component:ShowOrderComponent}
-  ] },
-  { path: 'viewCart', component: CartComponent },
-  { path: 'favorites', component: FavouriteComponent },
-  {path:'product',component:ViewProductComponent},
-  {path:'details',component:ProductDetailsComponent}
-
-
-
+  {
+    path: 'profile',
+    component: BuyerProfileComponent,
+    canActivate: [buyerAuthGuard],
+    children: [
+      { path: '', redirectTo: 'my-profile', pathMatch: 'full' },
+      { path: 'my-profile', component: MyProfileComponent },
+      { path: 'my-orders', component: MyOrdersComponent },
+      { path: 'address', component: ManageAddressComponent },
+      { path: 'order-history', component: OrderHistoryComponent },
+      { path: 'review-rating-history', component: ReviewHistoryComponent },
+      { path: 'order', component: ShowOrderComponent },
+    ],
+  },
+  { path: 'viewcart', 
+    component: CartComponent, 
+    canActivate: [buyerAuthGuard] 
+  },
+  {
+    path: 'favorites',
+    component: FavouriteComponent,
+    canActivate: [buyerAuthGuard],
+  },
+  {
+    path: 'product',
+    component: ViewProductComponent,
+    canActivate: [buyerAuthGuard],
+  },
+  {
+    path: 'details',
+    component: ProductDetailsComponent,
+    canActivate: [buyerAuthGuard],
+  },
+  {
+    path: 'checkout',
+    component: CheckoutComponent,
+    canActivate: [buyerAuthGuard],
+  },
 ];

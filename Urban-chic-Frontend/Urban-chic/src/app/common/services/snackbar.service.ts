@@ -13,7 +13,7 @@ export class SnackbarService {
   //success message
   openSuccessSnackBar(message: string) {
     const config: MatSnackBarConfig = {
-      duration: 3000,
+      duration: 1000,
       panelClass: ['success-snackbar'],
     };
     this.snackBar.open(message, 'Close',config);
@@ -35,5 +35,13 @@ export class SnackbarService {
       panelClass: ['failed-snackbar'],
     };
     this.snackBar.open(error.message, 'Close',config);
+  }
+
+  openStringMsgFailedSnackBar(msg:string ) {
+    const config: MatSnackBarConfig = {
+      duration: 3000,
+      panelClass: ['failed-snackbar'],
+    };
+    this.snackBar.open(msg, 'Close',config);
   }
 }

@@ -1,3 +1,4 @@
+
 .sort-filter-div{
     /* border: 2px solid red; */
     margin: 5px;
@@ -8,3 +9,48 @@
 .btn{
     color: #1e1e1e !important;
 }
+
+/* Large Div Css */
+.main-div{
+    display: flex;
+    justify-content: space-between;
+    gap: 5px;
+    padding: 5px 5px;
+}
+.filter-div{
+    border: 2px solid red;
+    background-color: yellow;
+    width: 20%;
+}
+.product-div{
+    /* border: 2px solid red; */
+    /* background-color: yellow; */
+    padding: 5px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit,170px);
+    gap: 10px;
+    justify-content: center;
+}
+
+/* Media query */
+/* Extra small devices (phones) */
+@media (max-width: 767.98px) {
+    /* CSS for small screens (both portrait and landscape) */
+
+}
+
+/* Medium devices (tablets) */
+@media (min-width: 768px) and (max-width: 1199.98px) {
+
+    /* CSS for medium screens (both portrait and landscape) */
+   
+   
+}
+
+/* Large devices (desktops) */
+@media (min-width: 1200px) {
+
+    /* CSS for large screens */
+   
+}
+

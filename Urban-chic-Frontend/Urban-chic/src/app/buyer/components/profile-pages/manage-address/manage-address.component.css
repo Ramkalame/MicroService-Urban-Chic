@@ -1,6 +1,8 @@
 /* Css Mobile */
 .mobile-container {
-    padding: 10px;
+    /* border: 1px solid red; */
+    padding: 5px;
+    width: 310px;
 }
 
 .add-btn {
@@ -148,6 +150,9 @@
     background-color: #224F34;
     color: white;
     border-radius: 8px;
+}
+.cancel-color{
+    color: #A82E2E;
 }
 /*  Css Mobile*/
 

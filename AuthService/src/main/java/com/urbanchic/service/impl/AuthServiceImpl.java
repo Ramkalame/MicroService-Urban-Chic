@@ -11,8 +11,10 @@ import com.urbanchic.dto.seller.SellerRegistrationDto;
 import com.urbanchic.dto.UserDto;
 import com.urbanchic.entity.User;
 import com.urbanchic.entity.sellerEnum.SellerStatus;
+import com.urbanchic.event.BuyerProfileCreatedEvent;
 import com.urbanchic.event.SellerProfileCreatedEvent;
 import com.urbanchic.exception.IncorrectPasswordException;
+import com.urbanchic.external.BuyerDto;
 import com.urbanchic.external.SellerDto;
 import com.urbanchic.service.AuthService;
 import com.urbanchic.service.UserService;
@@ -129,6 +131,11 @@ public class AuthServiceImpl implements AuthService {
         return userService.updateSellerAccountStatus(sellerId);
     }
 
+
+    /**
+     * To Create a Buyer Type User
+     * */
+
     @Override
     public User createBuyerUser(BuyerRegistrationDto buyerRegistrationDto) {
         log.info(">>>>>>>>>>>>> {}",buyerRegistrationDto.getPhoneNumber());
@@ -136,13 +143,14 @@ public class AuthServiceImpl implements AuthService {
                 .userName(buyerRegistrationDto.getPhoneNumber())
                 .build();
         User savedUser = userService.createBuyerUser(newUserDto);
-//        BuyerDto newBuyerDto = BuyerDto.builder()
-//                .buyerId(savedUser.getId())
-//                .firstName(buyerRegistrationDto.getFirstName())
-//                .lastName(buyerRegistrationDto.getLastName())
-//                .email(buyerRegistrationDto.getEmail())
-//                .phoneNumber(savedUser.getUserName())
-//                .build();
+        BuyerDto newBuyerDto = BuyerDto.builder()
+                .buyerId(savedUser.getId())
+                .name(null)
+                .gender(null)
+                .email(null)
+                .phoneNumber(savedUser.getUserName())
+                .build();
+        eventPublisher.publishEvent( new BuyerProfileCreatedEvent(this,newBuyerDto));
         return savedUser;
     }
 

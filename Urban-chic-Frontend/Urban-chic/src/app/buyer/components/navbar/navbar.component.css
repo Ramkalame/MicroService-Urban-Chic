@@ -69,6 +69,11 @@
 .menu-btn{
     display: none;
 }
+.login-btn{
+    color: #224F34;
+    font-size: 14px;
+    border-radius: 3px;
+}
 ::ng-deep .menu-div{
     width: 190px;
     background-color: whitesmoke !important;

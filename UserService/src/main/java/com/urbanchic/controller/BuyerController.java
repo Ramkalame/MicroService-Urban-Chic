@@ -38,6 +38,19 @@ public class BuyerController {
         return ResponseEntity.ok(apiResponse);
     }
 
+    @GetMapping("/buyerId/{buyerId}")
+    public ResponseEntity<ApiResponse<?>> getBuyerByBuyerId(@PathVariable("buyerId") String buyerId){
+        Buyer responseData = buyerService.getBuyerByBuyerId(buyerId);
+        ApiResponse<Buyer> apiResponse = ApiResponse.<Buyer>builder()
+                .data(responseData)
+                .message("User Fetched Successfully")
+                .timestamp(LocalDateTime.now())
+                .statusCode(HttpStatus.CREATED.value())
+                .success(true)
+                .build();
+
+        return ResponseEntity.ok(apiResponse);
+    }
 
     @GetMapping("/phone-number/{phoneNumber}")
     public ResponseEntity<ApiResponse<?>> getBuyerByPhoneNumber(@PathVariable("phoneNumber") String phoneNumber){
@@ -71,10 +84,58 @@ public class BuyerController {
 
 
 
-    @PatchMapping("/{buyerId}")
-    public ResponseEntity<ApiResponse<?>> updateBuyerDetails(@RequestBody BuyerDto buyerDto,
+    @PutMapping("/update-name/{name}/{buyerId}")
+    public ResponseEntity<ApiResponse<?>> updateBuyerName(@PathVariable("name") String name,
                                                              @PathVariable("buyerId") String buyerId){
-        Buyer responseData = buyerService.updateBuyerDetails(buyerDto,buyerId);
+        Buyer responseData = buyerService.updateBuyerName(name,buyerId);
+
+        ApiResponse<Buyer> apiResponse = ApiResponse.<Buyer>builder()
+                .data(responseData)
+                .message("User Details Updated Successfully")
+                .timestamp(LocalDateTime.now())
+                .statusCode(HttpStatus.CREATED.value())
+                .success(true)
+                .build();
+
+        return ResponseEntity.ok(apiResponse);
+    }
+
+    @PutMapping("/update-gender/{gender}/{buyerId}")
+    public ResponseEntity<ApiResponse<?>> updateBuyerGender(@PathVariable("gender") String gender,
+                                                          @PathVariable("buyerId") String buyerId){
+        Buyer responseData = buyerService.updateBuyerGender(gender,buyerId);
+
+        ApiResponse<Buyer> apiResponse = ApiResponse.<Buyer>builder()
+                .data(responseData)
+                .message("User Details Updated Successfully")
+                .timestamp(LocalDateTime.now())
+                .statusCode(HttpStatus.CREATED.value())
+                .success(true)
+                .build();
+
+        return ResponseEntity.ok(apiResponse);
+    }
+
+    @PutMapping("/update-email/{email}/{buyerId}")
+    public ResponseEntity<ApiResponse<?>> updateBuyerEmail(@PathVariable("email") String email,
+                                                          @PathVariable("buyerId") String buyerId){
+        Buyer responseData = buyerService.updateBuyerEmail(email,buyerId);
+
+        ApiResponse<Buyer> apiResponse = ApiResponse.<Buyer>builder()
+                .data(responseData)
+                .message("User Details Updated Successfully")
+                .timestamp(LocalDateTime.now())
+                .statusCode(HttpStatus.CREATED.value())
+                .success(true)
+                .build();
+
+        return ResponseEntity.ok(apiResponse);
+    }
+
+    @PutMapping("/update-phoneNumber/{phoneNumber}/{buyerId}")
+    public ResponseEntity<ApiResponse<?>> updateBuyerPhoneNumber(@PathVariable("phoneNumber") String phoneNumber,
+                                                          @PathVariable("buyerId") String buyerId){
+        Buyer responseData = buyerService.updateBuyerPhoneNumber(phoneNumber,buyerId);
 
         ApiResponse<Buyer> apiResponse = ApiResponse.<Buyer>builder()
                 .data(responseData)
@@ -138,10 +199,10 @@ public class BuyerController {
     public ResponseEntity<?> updateAddress(@RequestBody AddressDto addressDto,
                                            @PathVariable("buyerId") String buyerId,
                                            @PathVariable("addressId") String addressId){
-        buyerService.updateAddress(addressDto,buyerId,addressId);
+        List<Address> responseData =  buyerService.updateAddress(addressDto,buyerId,addressId);
 
-        ApiResponse apiResponse = ApiResponse.builder()
-                .data(null)
+        ApiResponse<List<Address> > apiResponse = ApiResponse.<List<Address> >builder()
+                .data(responseData)
                 .message("address updated successfully")
                 .timestamp(LocalDateTime.now())
                 .statusCode(HttpStatus.OK.value())
@@ -155,10 +216,10 @@ public class BuyerController {
     @DeleteMapping("/{buyerId}/address/{addressId}")
     public ResponseEntity<?> deleteAddress(@PathVariable("buyerId") String buyerId,
                                            @PathVariable("addressId")  String addressId){
-        buyerService.deleteAddress(buyerId,addressId);
+      List<Address> responseData =  buyerService.deleteAddress(buyerId,addressId);
 
-        ApiResponse apiResponse = ApiResponse.builder()
-                .data(null)
+        ApiResponse<List<Address>> apiResponse = ApiResponse.<List<Address>>builder()
+                .data(responseData)
                 .message("address deleted successfully")
                 .timestamp(LocalDateTime.now())
                 .statusCode(HttpStatus.OK.value())

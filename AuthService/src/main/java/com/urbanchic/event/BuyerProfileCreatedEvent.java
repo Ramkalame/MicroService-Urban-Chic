@@ -11,8 +11,9 @@ public class BuyerProfileCreatedEvent extends ApplicationEvent {
 
     private BuyerDto buyerDto;
 
-    public BuyerProfileCreatedEvent(Object source) {
+    public BuyerProfileCreatedEvent(Object source,BuyerDto buyerDto) {
         super(source);
+        this.buyerDto = buyerDto;
     }
 
 }

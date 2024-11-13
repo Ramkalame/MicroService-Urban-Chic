@@ -10,13 +10,18 @@ import java.util.List;
 public interface BuyerService {
 
     Buyer createBuyer(BuyerDto buyerDto);
+    Buyer getBuyerByBuyerId(String buyerId);
     Buyer getBuyerByPhoneNumber(String phoneNumber);
     Buyer getBuyerByEmail(String email);
-    Buyer updateBuyerDetails(BuyerDto buyerDto,String buyerId);
+    Buyer updateBuyerName(String name,String buyerId);
+    Buyer updateBuyerGender(String gender,String buyerId);
+    Buyer updateBuyerEmail(String email,String buyerId);
+    Buyer updateBuyerPhoneNumber(String phoneNumber,String buyerId);
     void  deleteBuyer(String buyerId);
     List<Address> getBuyerAddresses(String buyerId);
     Address createAddress(AddressDto addressDto,String buyerId);
-    void updateAddress(AddressDto addressDto,String buyerId,String addressId);
-    void deleteAddress(String buyerId,String addressId);
+    List<Address>  updateAddress(AddressDto addressDto,String buyerId,String addressId);
+    List<Address> deleteAddress(String buyerId,String addressId);
+
 
 }

@@ -1,14 +1,21 @@
 import { CommonModule } from '@angular/common';
-import { Component, TemplateRef, ViewChild } from '@angular/core';
+import { Component, inject, TemplateRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faGoogle } from '@fortawesome/free-brands-svg-icons';
+import { AuthServiceService } from '../../../services/auth.service';
+import { ApiResponse } from '../../../../core/models/shared-models/api-response.model';
+import { LoginResponse } from '../../../models/login-response.model';
+import { SnackbarService } from '../../../../common/services/snackbar.service';
+import { BuyerLoginRequest } from '../../../models/buyer.model';
+import { LocalStorageService } from '../../../../core/services/local-storage.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-buyer-login',
@@ -30,6 +37,10 @@ import { faGoogle } from '@fortawesome/free-brands-svg-icons';
 })
 export class BuyerLoginComponent {
 
+  authService = inject(AuthServiceService);
+  snackbarService = inject(SnackbarService);
+  localStorageService = inject(LocalStorageService);
+  router = inject(Router);
 
   @ViewChild('otpTemplate') otpTemplate!:TemplateRef<any>;
   otpDialogRef!: MatDialogRef<any>;
@@ -78,4 +89,21 @@ export class BuyerLoginComponent {
   }
 
 
+  buyerLogin(){
+    const formData:BuyerLoginRequest = {
+      phoneNumber: this.myForm.value.phoneNumber
+    }
+    this.authService.buyerLogin(formData).subscribe({
+      next:(res:ApiResponse<LoginResponse>) => {
+        // console.log(res.data.jwtToken);
+        this.localStorageService.setToken(res.data.jwtToken);
+        this.snackbarService.openSuccessSnackBar('Login Successful');
+        this.router.navigate(['/profile']);
+      },
+      error:(res:HttpErrorResponse) => {
+        this.snackbarService.openStringMsgFailedSnackBar(res.error.message);
+      }
+    })                                        
+
+  }
 }
